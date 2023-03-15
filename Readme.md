@@ -1,7 +1,7 @@
 # Личный проект «TaskForce»
 
-* Студент: [Евгений Фаллер](https://up.htmlacademy.ru/nodejs-2/3/user/505933).
-* Наставник: `Неизвестно`.
+- Студент: [Евгений Фаллер](https://up.htmlacademy.ru/nodejs-2/3/user/505933).
+- Наставник: [Алексей Пан](https://htmlacademy.ru/profile/id1437965).
 
 ---
 
