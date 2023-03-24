@@ -1,8 +1,6 @@
 import { User, AvaliableCity, AvaliableRole } from '@project/shared/contracts';
 import { compare, genSalt, hash } from 'bcrypt';
 
-const SALT_ROUNDS = 10;
-
 export class AccountEntity implements User {
   _id: string;
   firstname: string;
@@ -11,14 +9,18 @@ export class AccountEntity implements User {
   city: AvaliableCity;
   role: AvaliableRole;
   avatar?: string;
-  birthDate: Date;
-  registrationDate: Date;
+  birthDate: string;
+  registrationDate: string;
   password: string;
 
   constructor(account: User) {
     this.fillEntity(account);
   }
 
+  /**
+   * Заполнение данными
+   * @param account Объект пользователя
+   */
   fillEntity(account: User) {
     const {
       _id,
@@ -42,16 +44,27 @@ export class AccountEntity implements User {
     this.registrationDate = registrationDate;
   }
 
+  /**
+   * Преобразование данных в объект
+   */
   toObject() {
     return { ...this };
   }
 
+  /**
+   * Генерация и установка хэша пароля
+   * @param password Переданный открытый пароль
+   */
   async setPassword(password: string): Promise<AccountEntity> {
-    const salt = await genSalt(SALT_ROUNDS);
+    const salt = await genSalt(10);
     this.password = await hash(password.toString(), salt);
     return this;
   }
 
+  /**
+   * Сравнение переданного пароля с текущим
+   * @param password Переданный открытый пароль
+   */
   async comparePassword(password: string): Promise<boolean> {
     return compare(password, this.password);
   }

@@ -8,6 +8,6 @@ export interface User {
   city: AvaliableCity;
   role: AvaliableRole;
   avatar?: string;
-  birthDate: Date;
-  registrationDate?: Date;
+  birthDate: string;
+  registrationDate?: string;
 }

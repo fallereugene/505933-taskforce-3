@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@project/services": ["libs/services/src/index.ts"],
       "@project/shared/contracts": ["libs/shared/contracts/src/index.ts"],
       "@project/utils/utils-core": ["libs/utils/utils-core/src/index.ts"]
     }

@@ -1,14 +1,17 @@
-import dayjs from 'dayjs';
 import { Injectable, ConflictException } from '@nestjs/common';
 import { User } from '@project/shared/contracts';
 import { CreateAccountDto } from './dto';
 import { Repository } from './service';
 import { AccountEntity } from './model/account';
 import { EXCEPTION_CONFLICT } from '../constants';
+import { Timezone } from '@project/services';
 
 @Injectable()
 export class AccountService {
-  constructor(private readonly repository: Repository) {}
+  constructor(
+    private readonly repository: Repository,
+    private readonly tz: Timezone
+  ) {}
 
   /**
    * Регистрация нового пользователя
@@ -35,8 +38,8 @@ export class AccountService {
       avatar,
       city,
       role,
-      birthDate: dayjs(birthDate).toDate(),
-      registrationDate: dayjs().toDate(),
+      birthDate: this.tz.getDateTimeLocale(Timezone.UTC_FORMAT, birthDate),
+      registrationDate: this.tz.getDateTimeLocale(Timezone.UTC_FORMAT),
     };
 
     const isUserExists = await this.repository.findByEmail(email);
