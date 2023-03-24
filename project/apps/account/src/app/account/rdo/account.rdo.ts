@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import { AvaliableCity, AvaliableRole } from '@project/shared/contracts';
+import { AvaliableCity, AvaliableRole } from '@project/contracts';
 
 export class AccountRdo {
   @ApiProperty({

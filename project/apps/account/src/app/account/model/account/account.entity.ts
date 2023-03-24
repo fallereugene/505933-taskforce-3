@@ -1,4 +1,4 @@
-import { User, AvaliableCity, AvaliableRole } from '@project/shared/contracts';
+import { User, AvaliableCity, AvaliableRole } from '@project/contracts';
 import { compare, genSalt, hash } from 'bcrypt';
 
 export class AccountEntity implements User {

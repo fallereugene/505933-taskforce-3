@@ -1,5 +1,5 @@
 import { Injectable, ConflictException } from '@nestjs/common';
-import { User } from '@project/shared/contracts';
+import { User } from '@project/contracts';
 import { CreateAccountDto } from './dto';
 import { Repository } from './service';
 import { AccountEntity } from './model/account';

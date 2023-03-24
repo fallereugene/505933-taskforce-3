@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { AvaliableCity, AvaliableRole } from '@project/shared/contracts';
+import { AvaliableCity, AvaliableRole } from '@project/contracts';
 
 export class CreateAccountDto {
   @ApiProperty({

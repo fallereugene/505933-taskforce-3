@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CRUDRepository, User } from '@project/shared/contracts';
+import { CRUDRepository, User } from '@project/contracts';
 import { AccountEntity } from '../model/account';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -19,7 +19,7 @@ export class Repository implements CRUDRepository<AccountEntity, number, User> {
     };
 
     this.repository[record._id] = record;
-    console.log(`this.repository`, this.repository);
+
     return record;
   }
 
