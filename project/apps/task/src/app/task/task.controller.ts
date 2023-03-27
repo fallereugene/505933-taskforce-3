@@ -45,7 +45,7 @@ export class TaskController {
 
   /**
    * Авторизованные пользователи с ролью Исполнитель могут запрашивать список заданий со статусом Новый
-   * @returns Ненормализованный список заданий
+   * @returns Список заданий
    */
   @Get()
   @ApiOperation({ summary: 'Getting tasks list' })

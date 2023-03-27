@@ -1,17 +1,20 @@
 import { Injectable } from '@nestjs/common';
-import { CRUDRepository, Task } from '@project/contracts';
 import { v4 as uuidv4 } from 'uuid';
+import { CRUDRepository, Comment } from '@project/contracts';
+import { CommentEntity } from '../entity';
 
 @Injectable()
-export class Repository implements CRUDRepository<any, string, Task> {
-  private repository: { [key: string]: Task } = {};
+export class Repository
+  implements CRUDRepository<CommentEntity, string, Comment>
+{
+  private repository: { [key: string]: Comment } = {};
 
   /**
    * Сохранение сущности
    * @param payload Объект
    * @returns Сохраненная сущность
    */
-  async create(payload: any): Promise<Task> {
+  async create(payload: any): Promise<Comment> {
     const record = {
       ...payload,
       _id: uuidv4(),
@@ -27,7 +30,7 @@ export class Repository implements CRUDRepository<any, string, Task> {
    * @param id Идентификатор, по которому осуществляется поиск в коллекции
    * @returns Найденная сущность
    */
-  async findById(id: string): Promise<Task | null> {
+  async findById(id: string): Promise<Comment | null> {
     return this.repository[id] ?? null;
   }
 
@@ -37,7 +40,7 @@ export class Repository implements CRUDRepository<any, string, Task> {
    * @param item Обновленные данные
    * @returns Обновленная сущность
    */
-  async update(id: string, item: Task): Promise<Task> {
+  async update(id: string, item: Comment): Promise<Comment> {
     const record = {
       ...this.repository[id],
       ...item,
@@ -50,7 +53,7 @@ export class Repository implements CRUDRepository<any, string, Task> {
    * Получение всей коллекции коллекции
    * @returns
    */
-  async getRepository(): Promise<Task[]> {
+  async getRepository(): Promise<Comment[]> {
     // TODO: в целевой реализации будет поиск по идентификатору авторизованного пользователя
     return Object.values(this.repository);
   }
@@ -61,5 +64,17 @@ export class Repository implements CRUDRepository<any, string, Task> {
    */
   async delete(id: string): Promise<void> {
     delete this.repository[id];
+  }
+
+  /**
+   * Удаления списка комментариев в разрезе фильма
+   * @param taskId Идентификатор задачи
+   */
+  async deleteCommentsList(taskId: string) {
+    Object.entries(this.repository).forEach(([key, item]) => {
+      if (item.task === taskId) {
+        delete this.repository[key];
+      }
+    });
   }
 }

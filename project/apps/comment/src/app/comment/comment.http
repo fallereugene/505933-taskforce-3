@@ -3,7 +3,32 @@
 @apiPrefix = api
 @apiVersion = v1
 @service = comment
-@commentId = 627a6872-29dd-4869-af2e-7df28a82aa6c
+@commentId = 878b5a58-0623-4bb8-91c7-18e7a588d5c2
+@taskId = 627a6872-29dd-4869-af2e-7df28a82aa6c
 
 #####################################################################
 
+### 
+## Создание нового комментария
+POST  http://localhost:{{port}}/{{apiPrefix}}/{{apiVersion}}/{{service}} HTTP/1.1
+content-type: application/json
+
+{
+    "text": "Some comment text",
+    "task": "627a6872-29dd-4869-af2e-7df28a82aa6c"
+}
+
+### 
+## Получение списка комментариев
+GET  http://localhost:{{port}}/{{apiPrefix}}/{{apiVersion}}/{{service}}/{{taskId}} HTTP/1.1
+content-type: application/json
+
+### 
+## Удаление комментария
+DELETE  http://localhost:{{port}}/{{apiPrefix}}/{{apiVersion}}/{{service}}/{{taskId}}/{{commentId}} HTTP/1.1
+content-type: application/json
+
+### 
+## Удаление всех комментариев в разрезе задания
+DELETE  http://localhost:{{port}}/{{apiPrefix}}/{{apiVersion}}/{{service}}/{{taskId}} HTTP/1.1
+content-type: application/json
