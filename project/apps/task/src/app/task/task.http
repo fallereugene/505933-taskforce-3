@@ -2,8 +2,8 @@
 @port = 3333
 @apiPrefix = api
 @apiVersion = v1
-@service = task
-@taskId = 627a6872-29dd-4869-af2e-7df28a82aa6c
+@service = tasks
+@taskId = 4e2d716d-1acc-429a-8b86-498cacc30504
 
 #####################################################################
 

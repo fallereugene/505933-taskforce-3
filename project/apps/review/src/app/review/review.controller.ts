@@ -8,7 +8,7 @@ import { ReviewRdo } from './rdo';
 @ApiTags('Review service')
 @Controller({
   version: '1',
-  path: 'review',
+  path: 'reviews',
 })
 export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}

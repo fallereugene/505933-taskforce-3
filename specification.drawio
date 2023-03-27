@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-03-27T20:29:36.853Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36" etag="XrWyNWUHd8b7m9xpKyIJ" version="21.1.1" type="device">
+<mxfile host="app.diagrams.net" modified="2023-03-27T22:07:27.886Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36" etag="elouI_MOv2ugj8i31br-" version="21.1.1" type="device">
   <diagram name="Page-1" id="74b105a0-9070-1c63-61bc-23e55f88626e">
     <mxGraphModel dx="1562" dy="865" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1.5" pageWidth="1169" pageHeight="826" background="none" math="0" shadow="0">
       <root>
@@ -173,10 +173,10 @@
         <mxCell id="mkWLtosg0KvpGkdHC7VF-79" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="NgM1DkIRtxGgJuV6kC7f-164" vertex="1">
           <mxGeometry x="20" y="60" width="280" height="110" as="geometry" />
         </mxCell>
-        <mxCell id="mkWLtosg0KvpGkdHC7VF-80" value="&lt;b&gt;/task&lt;br&gt;&lt;/b&gt;получение списка задач" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="NgM1DkIRtxGgJuV6kC7f-164" vertex="1">
+        <mxCell id="mkWLtosg0KvpGkdHC7VF-80" value="&lt;b&gt;/tasks&lt;br&gt;&lt;/b&gt;получение списка задач" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="NgM1DkIRtxGgJuV6kC7f-164" vertex="1">
           <mxGeometry x="119.99777777777774" y="65" width="160" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="mkWLtosg0KvpGkdHC7VF-81" value="&lt;b&gt;/task/{taskId}&lt;/b&gt;&lt;br&gt;получение детальной&lt;br&gt;информации о задаче" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="NgM1DkIRtxGgJuV6kC7f-164" vertex="1">
+        <mxCell id="mkWLtosg0KvpGkdHC7VF-81" value="&lt;b&gt;/tasks/{taskId}&lt;/b&gt;&lt;br&gt;получение детальной&lt;br&gt;информации о задаче" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="NgM1DkIRtxGgJuV6kC7f-164" vertex="1">
           <mxGeometry x="119.99777777777774" y="105" width="150" height="60" as="geometry" />
         </mxCell>
         <mxCell id="mkWLtosg0KvpGkdHC7VF-82" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;" parent="NgM1DkIRtxGgJuV6kC7f-164" vertex="1">
@@ -197,7 +197,7 @@
         <mxCell id="mkWLtosg0KvpGkdHC7VF-91" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="NgM1DkIRtxGgJuV6kC7f-97" vertex="1">
           <mxGeometry width="280" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="NgM1DkIRtxGgJuV6kC7f-82" value="&lt;b&gt;/task/{taskId}&lt;/b&gt;&lt;br&gt;изменение задачи" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="NgM1DkIRtxGgJuV6kC7f-97" vertex="1">
+        <mxCell id="NgM1DkIRtxGgJuV6kC7f-82" value="&lt;b&gt;/tasks/{taskId}&lt;/b&gt;&lt;br&gt;изменение задачи" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="NgM1DkIRtxGgJuV6kC7f-97" vertex="1">
           <mxGeometry x="96.77333333333337" y="5" width="130" height="40" as="geometry" />
         </mxCell>
         <mxCell id="NgM1DkIRtxGgJuV6kC7f-83" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;" parent="NgM1DkIRtxGgJuV6kC7f-97" vertex="1">
@@ -212,7 +212,7 @@
         <mxCell id="mkWLtosg0KvpGkdHC7VF-103" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="NgM1DkIRtxGgJuV6kC7f-96" vertex="1">
           <mxGeometry x="0.004444444444484219" width="280" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="mkWLtosg0KvpGkdHC7VF-104" value="&lt;b&gt;/task/{taskId}&lt;/b&gt;&lt;br&gt;удаление задачи" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="NgM1DkIRtxGgJuV6kC7f-96" vertex="1">
+        <mxCell id="mkWLtosg0KvpGkdHC7VF-104" value="&lt;b&gt;/tasks/{taskId}&lt;/b&gt;&lt;br&gt;удаление задачи" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="NgM1DkIRtxGgJuV6kC7f-96" vertex="1">
           <mxGeometry x="96.77777777777776" y="5" width="120" height="40" as="geometry" />
         </mxCell>
         <mxCell id="mkWLtosg0KvpGkdHC7VF-105" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;" parent="NgM1DkIRtxGgJuV6kC7f-96" vertex="1">
@@ -224,7 +224,7 @@
         <mxCell id="mkWLtosg0KvpGkdHC7VF-85" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="NgM1DkIRtxGgJuV6kC7f-164" vertex="1">
           <mxGeometry x="20" y="170" width="280" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="mkWLtosg0KvpGkdHC7VF-86" value="&lt;b&gt;/task&lt;br&gt;&lt;/b&gt;создание задачи" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="NgM1DkIRtxGgJuV6kC7f-164" vertex="1">
+        <mxCell id="mkWLtosg0KvpGkdHC7VF-86" value="&lt;b&gt;/tasks&lt;br&gt;&lt;/b&gt;создание задачи" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="NgM1DkIRtxGgJuV6kC7f-164" vertex="1">
           <mxGeometry x="119.99777777777774" y="175" width="120" height="40" as="geometry" />
         </mxCell>
         <mxCell id="mkWLtosg0KvpGkdHC7VF-89" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;" parent="NgM1DkIRtxGgJuV6kC7f-164" vertex="1">
@@ -248,7 +248,7 @@
         <mxCell id="NgM1DkIRtxGgJuV6kC7f-102" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="NgM1DkIRtxGgJuV6kC7f-165" vertex="1">
           <mxGeometry width="320" height="70" as="geometry" />
         </mxCell>
-        <mxCell id="NgM1DkIRtxGgJuV6kC7f-103" value="&lt;b style=&quot;border-color: var(--border-color);&quot;&gt;/comment/{taskId}&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;/b&gt;получение списка комментариев" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="NgM1DkIRtxGgJuV6kC7f-165" vertex="1">
+        <mxCell id="NgM1DkIRtxGgJuV6kC7f-103" value="&lt;b style=&quot;border-color: var(--border-color);&quot;&gt;/comments/{taskId}&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;/b&gt;получение списка комментариев" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="NgM1DkIRtxGgJuV6kC7f-165" vertex="1">
           <mxGeometry x="109.99777777777774" y="15" width="210" height="40" as="geometry" />
         </mxCell>
         <mxCell id="NgM1DkIRtxGgJuV6kC7f-106" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;" parent="NgM1DkIRtxGgJuV6kC7f-165" vertex="1">
@@ -263,7 +263,7 @@
         <mxCell id="NgM1DkIRtxGgJuV6kC7f-119" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="NgM1DkIRtxGgJuV6kC7f-166" vertex="1">
           <mxGeometry width="320" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="NgM1DkIRtxGgJuV6kC7f-120" value="&lt;b style=&quot;border-color: var(--border-color);&quot;&gt;/comment&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;/b&gt;создание комментария" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="NgM1DkIRtxGgJuV6kC7f-166" vertex="1">
+        <mxCell id="NgM1DkIRtxGgJuV6kC7f-120" value="&lt;b style=&quot;border-color: var(--border-color);&quot;&gt;/comments&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;/b&gt;создание комментария" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="NgM1DkIRtxGgJuV6kC7f-166" vertex="1">
           <mxGeometry x="107.14047619047619" y="5" width="150" height="40" as="geometry" />
         </mxCell>
         <mxCell id="NgM1DkIRtxGgJuV6kC7f-121" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;" parent="NgM1DkIRtxGgJuV6kC7f-166" vertex="1">
@@ -278,22 +278,22 @@
         <mxCell id="NgM1DkIRtxGgJuV6kC7f-118" value="&lt;b&gt;DELETE&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="NgM1DkIRtxGgJuV6kC7f-168" vertex="1">
           <mxGeometry x="20" y="185" width="70" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="qf7opmMXtcf24BurbE0s-1" value="" style="group" vertex="1" connectable="0" parent="NgM1DkIRtxGgJuV6kC7f-168">
-          <mxGeometry x="97.79807678377398" y="185" width="219.99620065193773" height="40" as="geometry" />
+        <mxCell id="qf7opmMXtcf24BurbE0s-1" value="" style="group" parent="NgM1DkIRtxGgJuV6kC7f-168" vertex="1" connectable="0">
+          <mxGeometry x="97.79807678377398" y="185" width="229.99620065193773" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="NgM1DkIRtxGgJuV6kC7f-116" value="&lt;b style=&quot;border-color: var(--border-color);&quot;&gt;/comment/{taskId}/{commentId}&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;/b&gt;удаление комментария" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="qf7opmMXtcf24BurbE0s-1" vertex="1">
-          <mxGeometry x="19.996200651937727" width="200" height="40" as="geometry" />
+        <mxCell id="NgM1DkIRtxGgJuV6kC7f-116" value="&lt;b style=&quot;border-color: var(--border-color);&quot;&gt;/comments/{taskId}/{commentId}&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;/b&gt;удаление комментария" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="qf7opmMXtcf24BurbE0s-1" vertex="1">
+          <mxGeometry x="19.996200651937727" width="210" height="40" as="geometry" />
         </mxCell>
         <mxCell id="NgM1DkIRtxGgJuV6kC7f-117" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;" parent="qf7opmMXtcf24BurbE0s-1" vertex="1">
           <mxGeometry width="20" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="qf7opmMXtcf24BurbE0s-5" value="" style="group" vertex="1" connectable="0" parent="NgM1DkIRtxGgJuV6kC7f-168">
+        <mxCell id="qf7opmMXtcf24BurbE0s-5" value="" style="group" parent="NgM1DkIRtxGgJuV6kC7f-168" vertex="1" connectable="0">
           <mxGeometry x="97.79807678377392" y="225" width="212.2062006519377" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="qf7opmMXtcf24BurbE0s-3" value="&lt;b style=&quot;border-color: var(--border-color);&quot;&gt;/comment/{taskId}&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;/b&gt;удаление всех комментариев,&lt;br&gt;принадлежащих задаче" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="qf7opmMXtcf24BurbE0s-5">
+        <mxCell id="qf7opmMXtcf24BurbE0s-3" value="&lt;b style=&quot;border-color: var(--border-color);&quot;&gt;/comments/{taskId}&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;&lt;/b&gt;удаление всех комментариев,&lt;br&gt;принадлежащих задаче" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="qf7opmMXtcf24BurbE0s-5" vertex="1">
           <mxGeometry x="22.20620065193772" width="190" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="qf7opmMXtcf24BurbE0s-4" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;" vertex="1" parent="qf7opmMXtcf24BurbE0s-5">
+        <mxCell id="qf7opmMXtcf24BurbE0s-4" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;" parent="qf7opmMXtcf24BurbE0s-5" vertex="1">
           <mxGeometry y="5" width="20" height="20" as="geometry" />
         </mxCell>
         <mxCell id="NgM1DkIRtxGgJuV6kC7f-160" value="" style="group" parent="1" vertex="1" connectable="0">
@@ -314,7 +314,7 @@
         <mxCell id="NgM1DkIRtxGgJuV6kC7f-152" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="NgM1DkIRtxGgJuV6kC7f-159" vertex="1">
           <mxGeometry width="280" height="70.58823529411765" as="geometry" />
         </mxCell>
-        <mxCell id="NgM1DkIRtxGgJuV6kC7f-153" value="&lt;b style=&quot;border-color: var(--border-color);&quot;&gt;/review&lt;/b&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;добавление отзыва" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="NgM1DkIRtxGgJuV6kC7f-159" vertex="1">
+        <mxCell id="NgM1DkIRtxGgJuV6kC7f-153" value="&lt;b style=&quot;border-color: var(--border-color);&quot;&gt;/reviews&lt;/b&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;добавление отзыва" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="NgM1DkIRtxGgJuV6kC7f-159" vertex="1">
           <mxGeometry x="109.99777777777774" y="11.764705882352942" width="130" height="40" as="geometry" />
         </mxCell>
         <mxCell id="NgM1DkIRtxGgJuV6kC7f-154" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;" parent="NgM1DkIRtxGgJuV6kC7f-159" vertex="1">

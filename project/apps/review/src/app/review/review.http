@@ -2,7 +2,7 @@
 @port = 3333
 @apiPrefix = api
 @apiVersion = v1
-@service = review
+@service = reviews
 @taskId = 627a6872-29dd-4869-af2e-7df28a82aa6c
 
 #####################################################################

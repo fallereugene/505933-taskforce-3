@@ -4,6 +4,7 @@ import {
   UnauthorizedException,
   NotFoundException,
 } from '@nestjs/common';
+import { Timezone } from '@project/services';
 import { Account } from '@project/contracts';
 import {
   CreateAccountDto,
@@ -14,7 +15,6 @@ import {
 import { Repository } from './service';
 import { AccountEntity } from './entity';
 import { EXCEPTION } from '../constants';
-import { Timezone } from '@project/services';
 
 @Injectable()
 export class AccountService {
@@ -106,8 +106,8 @@ export class AccountService {
   }
 
   /**
-   * Авторизованный пользователь может изменить информацию о себе
-   * @param accountId
+   * Изменение информации профиля
+   * @param accountId Идентификатор аккаунта
    * @param payload Объект DTO
    * @returns Обновленные пользовательские данные
    */
@@ -116,6 +116,7 @@ export class AccountService {
     payload: ChangeProfileDto
   ): Promise<Account> {
     const record = await this.findById(accountId);
+
     return this.repository.update(accountId, { ...record, ...payload });
   }
 }

@@ -6,6 +6,7 @@ import {
   Delete,
   Body,
   Param,
+  HttpCode,
   HttpStatus,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
@@ -17,7 +18,7 @@ import { TaskRdo } from './rdo';
 @ApiTags('Task service')
 @Controller({
   version: '1',
-  path: 'task',
+  path: 'tasks',
 })
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
@@ -112,6 +113,7 @@ export class TaskController {
    * @param taskId Идентификатор задачи
    */
   @Delete(':taskId')
+  @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({ summary: 'Delete existing task' })
   @ApiResponse({
     status: HttpStatus.NO_CONTENT,
@@ -125,8 +127,7 @@ export class TaskController {
     status: HttpStatus.UNAUTHORIZED,
     description: 'Unauthorized',
   })
-  async delete(@Param('taskId') taskId: string): Promise<{}> {
+  async delete(@Param('taskId') taskId: string): Promise<void> {
     await this.taskService.delete(taskId);
-    return {};
   }
 }

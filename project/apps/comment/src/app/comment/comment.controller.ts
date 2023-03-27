@@ -5,18 +5,19 @@ import {
   Body,
   Param,
   Delete,
+  HttpCode,
   HttpStatus,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { fillObject } from '@project/utils/utils-core';
 import { CommentService } from './comment.service';
 import { CreateCommentDto } from './dto';
 import { CommentRdo } from './rdo';
-import { fillObject } from '@project/utils/utils-core';
 
 @ApiTags('Comment service')
 @Controller({
   version: '1',
-  path: 'comment',
+  path: 'comments',
 })
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}
@@ -61,10 +62,10 @@ export class CommentController {
 
   /**
    * Удаление отдельного комментария
-   * @param taskId Идентификатор задачи
    * @param commentId Идентификатор комментария
    */
   @Delete(':taskId/:commentId')
+  @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({ summary: 'Deleting existing comment' })
   @ApiResponse({
     status: HttpStatus.NO_CONTENT,
@@ -87,6 +88,7 @@ export class CommentController {
    * @param taskId Идентификатор задачи
    */
   @Delete(':taskId/')
+  @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({ summary: 'Deleting all comments belonging to the task' })
   @ApiResponse({
     status: HttpStatus.NO_CONTENT,

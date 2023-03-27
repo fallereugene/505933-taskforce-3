@@ -14,6 +14,7 @@ export class ReviewService {
    * @returns Детали созданного комментария
    */
   async create(payload: CreateReviewDto): Promise<Review> {
-    return this.repository.create({ ...payload });
+    const entity = new ReviewEntity(payload);
+    return this.repository.create(entity);
   }
 }
