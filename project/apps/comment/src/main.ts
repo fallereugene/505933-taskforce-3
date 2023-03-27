@@ -31,10 +31,10 @@ async function bootstrap() {
 
 const setupOpenApi = (app: INestApplication) => {
   const config = new DocumentBuilder()
-    .setTitle('Task service')
-    .setDescription('Task service API')
+    .setTitle('Comment service')
+    .setDescription('Comment service API')
     .setVersion('1.0')
-    .addTag('Task service')
+    .addTag('Comment service')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   const specificationPath = join(__dirname, '/spec.json');

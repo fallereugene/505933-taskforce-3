@@ -1,0 +1,9 @@
+### Variables
+@port = 3333
+@apiPrefix = api
+@apiVersion = v1
+@service = comment
+@commentId = 627a6872-29dd-4869-af2e-7df28a82aa6c
+
+#####################################################################
+
