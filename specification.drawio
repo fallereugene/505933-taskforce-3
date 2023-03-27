@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-03-27T17:07:57.582Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36" etag="RoBh4vUBhmPTGIAJAgWY" version="21.1.1" type="device">
+<mxfile host="app.diagrams.net" modified="2023-03-27T20:29:36.853Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36" etag="XrWyNWUHd8b7m9xpKyIJ" version="21.1.1" type="device">
   <diagram name="Page-1" id="74b105a0-9070-1c63-61bc-23e55f88626e">
-    <mxGraphModel dx="1838" dy="1018" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1.5" pageWidth="1169" pageHeight="826" background="none" math="0" shadow="0">
+    <mxGraphModel dx="1562" dy="865" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1.5" pageWidth="1169" pageHeight="826" background="none" math="0" shadow="0">
       <root>
         <mxCell id="0" style=";html=1;" />
         <mxCell id="1" style=";html=1;" parent="0" />
@@ -314,7 +314,7 @@
         <mxCell id="NgM1DkIRtxGgJuV6kC7f-152" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="NgM1DkIRtxGgJuV6kC7f-159" vertex="1">
           <mxGeometry width="280" height="70.58823529411765" as="geometry" />
         </mxCell>
-        <mxCell id="NgM1DkIRtxGgJuV6kC7f-153" value="&lt;b style=&quot;border-color: var(--border-color);&quot;&gt;/review/{userId}&lt;/b&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;добавление отзыва" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="NgM1DkIRtxGgJuV6kC7f-159" vertex="1">
+        <mxCell id="NgM1DkIRtxGgJuV6kC7f-153" value="&lt;b style=&quot;border-color: var(--border-color);&quot;&gt;/review&lt;/b&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;добавление отзыва" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="NgM1DkIRtxGgJuV6kC7f-159" vertex="1">
           <mxGeometry x="109.99777777777774" y="11.764705882352942" width="130" height="40" as="geometry" />
         </mxCell>
         <mxCell id="NgM1DkIRtxGgJuV6kC7f-154" value="" style="shape=waypoint;sketch=0;fillStyle=solid;size=6;pointerEvents=1;points=[];fillColor=none;resizable=0;rotatable=0;perimeter=centerPerimeter;snapToPoint=1;" parent="NgM1DkIRtxGgJuV6kC7f-159" vertex="1">

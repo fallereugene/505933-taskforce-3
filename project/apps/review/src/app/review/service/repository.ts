@@ -1,17 +1,20 @@
-import { Injectable } from '@nestjs/common';
-import { CRUDRepository, Task } from '@project/contracts';
 import { v4 as uuidv4 } from 'uuid';
+import { Injectable } from '@nestjs/common';
+import { CRUDRepository, Review } from '@project/contracts';
+import { ReviewEntity } from '../entity';
 
 @Injectable()
-export class Repository implements CRUDRepository<any, string, Task> {
-  private repository: { [key: string]: Task } = {};
+export class Repository
+  implements CRUDRepository<ReviewEntity, string, Review>
+{
+  private repository: { [key: string]: Review } = {};
 
   /**
    * Сохранение сущности
    * @param payload Объект
    * @returns Сохраненная сущность
    */
-  async create(payload: any): Promise<Task> {
+  async create(payload: any): Promise<Review> {
     const record = {
       ...payload,
       _id: uuidv4(),
@@ -27,7 +30,7 @@ export class Repository implements CRUDRepository<any, string, Task> {
    * @param id Идентификатор, по которому осуществляется поиск в коллекции
    * @returns Найденная сущность
    */
-  async findById(id: string): Promise<Task | null> {
+  async findById(id: string): Promise<Review | null> {
     return this.repository[id] ?? null;
   }
 
@@ -37,22 +40,13 @@ export class Repository implements CRUDRepository<any, string, Task> {
    * @param item Обновленные данные
    * @returns Обновленная сущность
    */
-  async update(id: string, item: Task): Promise<Task> {
+  async update(id: string, item: Review): Promise<Review> {
     const record = {
       ...this.repository[id],
       ...item,
     };
     this.repository[record._id] = record;
     return record;
-  }
-
-  /**
-   * Получение всей коллекции коллекции
-   * @returns
-   */
-  async getRepository(): Promise<Task[]> {
-    // TODO: в целевой реализации будет поиск по идентификатору авторизованного пользователя
-    return Object.values(this.repository);
   }
 
   /**
