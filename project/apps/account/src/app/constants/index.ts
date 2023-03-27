@@ -1,1 +1,1 @@
-export { EXCEPTION_CONFLICT } from './exception-conflict';
+export { EXCEPTION } from './exception';

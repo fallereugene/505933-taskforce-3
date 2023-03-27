@@ -1,0 +1,64 @@
+### Variables
+@port = 3333
+@apiPrefix = api
+@apiVersion = v1
+@service = account
+@accountId = 7b98ce1c-d33a-4e75-ad76-ea401273a12e
+
+#####################################################################
+
+### 
+## Регистрация нового пользователя
+
+POST  http://localhost:{{port}}/{{apiPrefix}}/{{apiVersion}}/{{service}}/register HTTP/1.1
+content-type: application/json
+
+{
+    "firstname": "John",
+    "lastname": "Doe",
+    "email": "john@doe.com",
+    "city": "Saint Petersburg",
+    "role": "customer",
+    "password": "123456",
+    "birthDate": "1977-11-11T08:55:00.000Z"
+}
+
+###
+## Логин пользователя в систему
+POST  http://localhost:{{port}}/{{apiPrefix}}/{{apiVersion}}/{{service}}/login HTTP/1.1
+content-type: application/json
+
+{
+  "email": "john@doe.com",
+  "password": "123456"
+}
+
+###
+## Выход из авторизованной зоны
+POST  http://localhost:{{port}}/{{apiPrefix}}/{{apiVersion}}/{{service}}/logout HTTP/1.1
+content-type: application/json
+
+###
+## Получение детальной информации о пользователе
+POST  http://localhost:{{port}}/{{apiPrefix}}/{{apiVersion}}/{{service}}/{{accountId}} HTTP/1.1
+content-type: application/json
+
+###
+## Изменение пользовательского пароля
+PATCH  http://localhost:{{port}}/{{apiPrefix}}/{{apiVersion}}/{{service}}/{{accountId}}/password HTTP/1.1
+content-type: application/json
+
+{
+  "oldPassword": "123456",
+  "newPassword": "1234567"
+}
+
+###
+## Изменение информации профиля
+PATCH  http://localhost:{{port}}/{{apiPrefix}}/{{apiVersion}}/{{service}}/{{accountId}}/profile HTTP/1.1
+content-type: application/json
+
+{
+    "firstname": "Jack",
+    "lastname": "Russel"
+}

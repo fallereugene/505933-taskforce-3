@@ -3,7 +3,9 @@
  * This is only a minimal backend to get started.
  */
 
-import { Logger, INestApplication } from '@nestjs/common';
+import fs from 'fs';
+import { join } from 'path';
+import { Logger, INestApplication, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
@@ -12,10 +14,16 @@ import { AppModule } from './app/app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const globalPrefix = 'api';
+
+  app.enableVersioning({
+    type: VersioningType.URI,
+  });
   app.setGlobalPrefix(globalPrefix);
+
   const port = process.env.PORT || 3333;
   setupOpenApi(app);
   await app.listen(port);
+
   Logger.log(
     `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
   );
@@ -29,7 +37,12 @@ const setupOpenApi = (app: INestApplication) => {
     .addTag('account')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('spec', app, document, { useGlobalPrefix: true });
+  const specificationPath = join(__dirname, '/spec.json');
+
+  SwaggerModule.setup('/spec', app, document, {
+    useGlobalPrefix: true,
+  });
+  fs.writeFileSync(specificationPath, JSON.stringify(document));
 };
 
 bootstrap();

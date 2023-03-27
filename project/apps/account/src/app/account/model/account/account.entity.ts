@@ -1,7 +1,7 @@
-import { User, AvaliableCity, AvaliableRole } from '@project/contracts';
+import { Account, AvaliableCity, AvaliableRole } from '@project/contracts';
 import { compare, genSalt, hash } from 'bcrypt';
 
-export class AccountEntity implements User {
+export class AccountEntity implements Account {
   _id: string;
   firstname: string;
   lastname: string;
@@ -13,7 +13,7 @@ export class AccountEntity implements User {
   registrationDate: string;
   password: string;
 
-  constructor(account: User) {
+  constructor(account: Account) {
     this.fillEntity(account);
   }
 
@@ -21,7 +21,7 @@ export class AccountEntity implements User {
    * Заполнение данными
    * @param account Объект пользователя
    */
-  fillEntity(account: User) {
+  fillEntity(account: Account) {
     const {
       _id,
       firstname,
@@ -32,6 +32,7 @@ export class AccountEntity implements User {
       avatar,
       birthDate,
       registrationDate,
+      password,
     } = account;
     this._id = _id;
     this.firstname = firstname;
@@ -42,6 +43,7 @@ export class AccountEntity implements User {
     this.avatar = avatar;
     this.birthDate = birthDate;
     this.registrationDate = registrationDate;
+    this.password = password;
   }
 
   /**

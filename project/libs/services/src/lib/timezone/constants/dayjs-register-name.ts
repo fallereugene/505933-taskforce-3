@@ -1,1 +1,1 @@
-export const DAYJS_REGISTER_NAME = 'DayJS';
+export const DAYJS_REGISTER_NAME = 'dayjs';

@@ -1,7 +1,8 @@
 import { AvaliableCity, AvaliableRole } from '.';
 
-export interface User {
+export interface Account {
   _id?: string;
+  password: string;
   firstname: string;
   lastname: string;
   email: string;
