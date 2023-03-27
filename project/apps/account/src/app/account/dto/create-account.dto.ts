@@ -34,7 +34,7 @@ export class CreateAccountDto {
   password: string;
   @ApiProperty({
     description: "User's city",
-    example: '1977-29-10',
+    example: '1977-11-11T08:55:00.000Z',
   })
   birthDate: string;
   @ApiProperty({

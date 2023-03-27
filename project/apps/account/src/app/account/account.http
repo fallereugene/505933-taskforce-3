@@ -3,7 +3,7 @@
 @apiPrefix = api
 @apiVersion = v1
 @service = account
-@accountId = 7b98ce1c-d33a-4e75-ad76-ea401273a12e
+@accountId = 481bbbf7-7da3-4745-a53c-4062c7304aba
 
 #####################################################################
 
@@ -40,7 +40,7 @@ content-type: application/json
 
 ###
 ## Получение детальной информации о пользователе
-POST  http://localhost:{{port}}/{{apiPrefix}}/{{apiVersion}}/{{service}}/{{accountId}} HTTP/1.1
+GET  http://localhost:{{port}}/{{apiPrefix}}/{{apiVersion}}/{{service}}/{{accountId}} HTTP/1.1
 content-type: application/json
 
 ###

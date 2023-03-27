@@ -12,7 +12,7 @@ import {
   ChangeProfileDto,
 } from './dto';
 import { Repository } from './service';
-import { AccountEntity } from './model/account';
+import { AccountEntity } from './entity';
 import { EXCEPTION } from '../constants';
 import { Timezone } from '@project/services';
 
@@ -29,36 +29,24 @@ export class AccountService {
    * @returns Данные созданного пользователя
    */
   async register(payload: CreateAccountDto): Promise<Account> {
-    const {
-      email,
-      firstname,
-      lastname,
-      password,
-      birthDate,
-      city,
-      role,
-      avatar = '',
-    } = payload;
-
     const account = {
-      email,
-      firstname,
-      lastname,
-      password,
-      avatar,
-      city,
-      role,
-      birthDate: this.tz.getDateTimeLocale(Timezone.UTC_FORMAT, birthDate),
+      ...payload,
+      birthDate: this.tz.getDateTimeLocale(
+        Timezone.UTC_FORMAT,
+        payload.birthDate
+      ),
       registrationDate: this.tz.getDateTimeLocale(Timezone.UTC_FORMAT),
     };
 
-    const isUserExists = await this.repository.findByEmail(email);
+    const isUserExists = await this.repository.findByEmail(account.email);
 
     if (isUserExists) {
       throw new ConflictException(EXCEPTION.Conflict);
     }
 
-    const record = await new AccountEntity(account).setPassword(password);
+    const record = await new AccountEntity(account).setPassword(
+      account.password
+    );
 
     return this.repository.create(record);
   }
@@ -120,7 +108,7 @@ export class AccountService {
   /**
    * Авторизованный пользователь может изменить информацию о себе
    * @param accountId
-   * @param dto Объект DTO
+   * @param payload Объект DTO
    * @returns Обновленные пользовательские данные
    */
   async changeProfile(

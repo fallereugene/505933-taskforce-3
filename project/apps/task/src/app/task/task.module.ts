@@ -1,14 +1,14 @@
 import dayjs from 'dayjs';
 import { Module } from '@nestjs/common';
 import { Timezone, DAYJS_REGISTER_NAME } from '@project/services';
-import { AccountService } from './account.service';
-import { AccountController } from './account.controller';
+import { TaskService } from './task.service';
+import { TaskController } from './task.controller';
 import { Repository } from './service';
 
 @Module({
-  controllers: [AccountController],
+  controllers: [TaskController],
   providers: [
-    AccountService,
+    TaskService,
     Repository,
     Timezone,
     {
@@ -17,4 +17,4 @@ import { Repository } from './service';
     },
   ],
 })
-export class AccountModule {}
+export class TaskModule {}

@@ -63,11 +63,11 @@ export class AccountController {
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: 'Account was not found',
+    description: 'Not found',
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: 'Incorrect login or password',
+    description: 'Unauthorized',
   })
   async login(@Body() dto: LoginAccountDto): Promise<LoggedInAccountRdo> {
     const user = await this.accountService.verifyAccount(dto);
@@ -102,7 +102,7 @@ export class AccountController {
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: 'Account was not found',
+    description: 'Not found',
   })
   async getAccount(@Param('accountId') accountId: string): Promise<AccountRdo> {
     const payload = await this.accountService.findById(accountId);
@@ -124,11 +124,11 @@ export class AccountController {
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: 'Account was not found',
+    description: 'Not found',
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: 'Incorrect login or password',
+    description: 'Unauthorized',
   })
   async changePassword(
     @Param('accountId') accountId: string,
@@ -153,7 +153,7 @@ export class AccountController {
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: 'Account was not found',
+    description: 'Not found',
   })
   async changeProfile(
     @Param('accountId') accountId: string,
