@@ -1,0 +1,53 @@
+### Variables
+@port = 3333
+@apiPrefix = api
+@apiVersion = v1
+@service = tasks
+@taskId = 4e2d716d-1acc-429a-8b86-498cacc30504
+
+#####################################################################
+
+### 
+## Создание нового задания
+POST  http://localhost:{{port}}/{{apiPrefix}}/{{apiVersion}}/{{service}} HTTP/1.1
+content-type: application/json
+
+{
+    "title": "Task title",
+    "description": "Task's extended description",
+    "category": "engineering",
+    "city": "Moscow",
+    "cost": "1000",
+    "dueDate": "2023-23-04T08:55:00.000Z",
+    "address": "Moscow, Presnenskaya embankment, 12, office No. 2",
+    "tags": ["engineering", "moscow"]
+}
+
+### 
+## Получение списка заданий
+
+GET  http://localhost:{{port}}/{{apiPrefix}}/{{apiVersion}}/{{service}} HTTP/1.1
+content-type: application/json
+
+###
+## Получение детальной информации о задаче
+
+GET  http://localhost:{{port}}/{{apiPrefix}}/{{apiVersion}}/{{service}}/{{taskId}} HTTP/1.1
+content-type: application/json
+
+###
+## Обновление данных по задаче
+
+PATCH  http://localhost:{{port}}/{{apiPrefix}}/{{apiVersion}}/{{service}}/{{taskId}} HTTP/1.1
+content-type: application/json
+
+{
+    "status": 2,
+    "contractor": "fbc55fd6-9ac2-4aad-8b79-5adfb2faed8d"
+}
+
+###
+## Удаление существующей задачи
+
+DELETE  http://localhost:{{port}}/{{apiPrefix}}/{{apiVersion}}/{{service}}/{{taskId}} HTTP/1.1
+content-type: application/json

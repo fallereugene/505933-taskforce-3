@@ -14,7 +14,11 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@project/contracts": ["libs/contracts/src/index.ts"],
+      "@project/services": ["libs/services/src/index.ts"],
+      "@project/utils/utils-core": ["libs/utils/utils-core/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
