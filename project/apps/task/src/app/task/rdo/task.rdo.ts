@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { AvaliableCity, TaskStatus } from '@project/contracts';
+import { AvailableCity, TaskStatus } from '@project/contracts';
 import { Expose } from 'class-transformer';
 
 export class TaskRdo {
@@ -62,7 +62,7 @@ export class TaskRdo {
     example: 'Moscow',
   })
   @Expose()
-  city: AvaliableCity;
+  city: AvailableCity;
   @ApiProperty({
     description: "Current task's status",
     example: 0,

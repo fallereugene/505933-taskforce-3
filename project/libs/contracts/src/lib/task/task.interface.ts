@@ -1,4 +1,4 @@
-import { AvaliableCity } from '../account';
+import { AvailableCity } from '../account';
 import { TaskStatus } from '.';
 
 export interface Task {
@@ -11,7 +11,7 @@ export interface Task {
   image: string;
   address: string;
   tags: string[];
-  city: AvaliableCity;
+  city: AvailableCity;
   registrationDate: string;
   status: TaskStatus;
   customer: string;

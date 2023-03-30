@@ -56,7 +56,7 @@ export class AccountService {
    * @param payload Объект DTO
    * @returns Данные пользователя
    */
-  async verifyAccount(payload: LoginAccountDto): Promise<Account> {
+  async verifyAccount(payload: LoginAccountDto): Promise<AccountEntity> {
     const { email, password } = payload;
     const record = await this.repository.findByEmail(email);
     if (!record) {
@@ -66,7 +66,7 @@ export class AccountService {
     if (!(await accountEntity.comparePassword(password))) {
       throw new UnauthorizedException(EXCEPTION.AuthorizationFailed);
     }
-    return accountEntity.toObject();
+    return accountEntity;
   }
 
   /**
@@ -102,7 +102,7 @@ export class AccountService {
     const entity = await new AccountEntity({ ...record }).setPassword(
       newPassword
     );
-    return this.repository.update(accountId, entity.toObject());
+    return this.repository.update(accountId, entity);
   }
 
   /**

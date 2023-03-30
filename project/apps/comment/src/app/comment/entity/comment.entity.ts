@@ -16,19 +16,6 @@ export class CommentEntity implements Comment {
    * @param comment Объект комментария
    */
   fillEntity(comment: Comment) {
-    const { _id, text, task, author, registrationDate } = comment;
-
-    this._id = _id;
-    this.text = text;
-    this.task = task;
-    this.author = author;
-    this.registrationDate = registrationDate;
-  }
-
-  /**
-   * Преобразование данных в объект
-   */
-  toObject() {
-    return { ...this };
+    Object.assign(this, comment);
   }
 }

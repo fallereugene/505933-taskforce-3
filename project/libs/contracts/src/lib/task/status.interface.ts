@@ -1,4 +1,4 @@
-import { AvaliableCity } from '../account';
+import { AvailableCity } from '../account';
 
 export interface Task {
   _id?: string;
@@ -10,5 +10,5 @@ export interface Task {
   image: string;
   address: string;
   tags: string[];
-  city: AvaliableCity;
+  city: AvailableCity;
 }

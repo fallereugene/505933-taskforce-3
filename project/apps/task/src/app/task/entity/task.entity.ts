@@ -1,4 +1,4 @@
-import { Task, AvaliableCity, TaskStatus } from '@project/contracts';
+import { Task, AvailableCity, TaskStatus } from '@project/contracts';
 
 export class TaskEntity implements Task {
   _id?: string;
@@ -10,7 +10,7 @@ export class TaskEntity implements Task {
   image: string;
   address: string;
   tags: string[];
-  city: AvaliableCity;
+  city: AvailableCity;
   registrationDate: string;
   status: TaskStatus;
   contractor: string | null;
@@ -25,43 +25,6 @@ export class TaskEntity implements Task {
    * @param task Объект пользователя
    */
   fillEntity(task: Task) {
-    const {
-      _id,
-      title,
-      description,
-      category,
-      cost,
-      dueDate,
-      image,
-      address,
-      tags,
-      city,
-      registrationDate,
-      status,
-      contractor,
-      customer,
-    } = task;
-
-    this._id = _id;
-    this.title = title;
-    this.description = description;
-    this.category = category;
-    this.cost = cost;
-    this.dueDate = dueDate;
-    this.image = image;
-    this.address = address;
-    this.tags = tags;
-    this.city = city;
-    this.registrationDate = registrationDate;
-    this.status = status;
-    this.contractor = contractor;
-    this.customer = customer;
-  }
-
-  /**
-   * Преобразование данных в объект
-   */
-  toObject() {
-    return { ...this };
+    Object.assign(this, task);
   }
 }

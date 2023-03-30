@@ -1,1 +1,1 @@
-export { DAYJS_REGISTER_NAME } from './dayjs-register-name';
+export { InjectableTimezoneService } from './injectable-timezone-service';
