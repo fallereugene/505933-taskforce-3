@@ -33,6 +33,11 @@ DB_PORT=27017
 `.env.$ENVIRONMENT_NAME`, где `$ENVIRONMENT_NAME` - это окружение, в котором запускается приложение (`production`, `development`, `stage` или `test`).
 Например, для конфигурации системы под разработку файл конфигурации будет иметь следующее название: `.env.development`.
 
+### Запуск docker-образа
+
+Для поднятия и развертывания сервисов в docker-контейнере необходимо выполнить следующую команду:
+`docker compose --file $PATH_TO_DOCKER_CONFIGURATION_FILE --env-file $PATH_TO_ENV_CONFIGURATION_FILE up -d`
+
 ### Поддерживаемые переменные окружения
 
 `DB_NAME` - имя базы данных

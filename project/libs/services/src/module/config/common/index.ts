@@ -19,3 +19,5 @@ export const commonConfig = registerAs(
     return config.validate(CommonModel);
   }
 );
+
+export { CommonConfig };
