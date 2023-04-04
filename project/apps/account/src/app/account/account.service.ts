@@ -116,7 +116,10 @@ export class AccountService {
     payload: ChangeProfileDto
   ): Promise<Account> {
     const record = await this.findById(accountId);
-
-    return this.repository.update(accountId, { ...record, ...payload });
+    const updatedRecord = {
+      ...record,
+      ...payload,
+    };
+    return this.repository.update(accountId, updatedRecord);
   }
 }

@@ -39,12 +39,8 @@ export class RepositoryMongo<E, R, M> implements CRUDRepository<E, R> {
    * @returns Обновленный объект сущности
    */
   async update(id: string, item: R): Promise<R> {
-    const record = {
-      ...item,
-    };
     return this.model
-      .findByIdAndUpdate(id, record, { new: true })
-      .lean()
+      .findByIdAndUpdate(id, { ...item }, { new: true })
       .exec() as R;
   }
 }

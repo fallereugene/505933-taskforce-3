@@ -26,7 +26,7 @@ export class Repository extends RepositoryMongo<
    * В случае, если пользователь не найден - null.
    */
   async findByEmail(email: string): Promise<Account> {
-    const record = await this.accountModel.findOne({ email });
+    const record = await this.accountModel.findOne({ email }).lean();
     return record ?? null;
   }
 }
