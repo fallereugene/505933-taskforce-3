@@ -5,14 +5,10 @@ services:
     image: mongo
     restart: always
     container_name: taskforce.account.mongo
-
-    env_file:
-      - ./.env.development
-
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
-      MONGO_INITDB_DATABASE: taskforce-account
+      MONGO_INITDB_DATABASE: ${DB_NAME}
 
     ports:
       - 27017:27017
@@ -28,8 +24,6 @@ services:
 
   taskforce.account.mongo.admin:
     image: mongo-express
-    env_file:
-      - ./.env.development
     restart: always
     container_name: taskforce.account.mongo.admin
     ports:

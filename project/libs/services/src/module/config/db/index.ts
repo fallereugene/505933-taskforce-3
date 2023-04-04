@@ -20,3 +20,5 @@ export const dbConfig = registerAs(
     return config.validate(DatabaseModel);
   }
 );
+
+export * from './utils';
