@@ -1,24 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
 import { Account } from '@project/contracts';
-import { RepositoryMongo } from '@project/services';
 import { AccountEntity } from '../entity';
-import { AccountModel } from '../model';
+
+import { RepositoryInMemory } from '@project/services';
 
 @Injectable()
-export class Repository extends RepositoryMongo<
+export class RepositoryMemory extends RepositoryInMemory<
   AccountEntity,
-  Account,
-  AccountModel
+  Account
 > {
-  constructor(
-    @InjectModel(AccountModel.name)
-    private readonly accountModel: Model<AccountModel>
-  ) {
-    super(accountModel);
-  }
-
   /**
    * Поиск пользователя по электронной почте
    * @param email Электронная почта
@@ -26,7 +16,9 @@ export class Repository extends RepositoryMongo<
    * В случае, если пользователь не найден - null.
    */
   async findByEmail(email: string): Promise<Account> {
-    const record = await this.accountModel.findOne({ email });
+    const record = Object.values(this.repository).find(
+      (item) => item.email === email
+    );
     return record ?? null;
   }
 }

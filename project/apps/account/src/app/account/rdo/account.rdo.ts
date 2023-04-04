@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Expose } from 'class-transformer';
-import { AvailableCity, AvaliableRole } from '@project/contracts';
+import { Expose, Transform } from 'class-transformer';
+import { AvailableCity, AvailableRole } from '@project/contracts';
 
 export class AccountRdo {
   @ApiProperty({
@@ -8,6 +8,7 @@ export class AccountRdo {
     example: '4ff6e921-36c4-4f80-ae41-919c06c0c5c3',
   })
   @Expose({ name: '_id' })
+  @Transform(({ obj }) => obj._id.toString())
   id: string;
   @ApiProperty({
     description: "User's last name",
@@ -38,7 +39,7 @@ export class AccountRdo {
     example: 'Customer',
   })
   @Expose()
-  role: AvaliableRole;
+  role: AvailableRole;
   @ApiProperty({
     description: "User's city",
     example: '1977-29-10',

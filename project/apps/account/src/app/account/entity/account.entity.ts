@@ -1,4 +1,4 @@
-import { Account, AvailableCity, AvaliableRole } from '@project/contracts';
+import { Account, AvailableCity, AvailableRole } from '@project/contracts';
 import { compare, genSalt, hash } from 'bcrypt';
 
 export class AccountEntity implements Account {
@@ -7,7 +7,7 @@ export class AccountEntity implements Account {
   lastname: string;
   email: string;
   city: AvailableCity;
-  role: AvaliableRole;
+  role: AvailableRole;
   avatar?: string;
   birthDate: string;
   registrationDate: string;
