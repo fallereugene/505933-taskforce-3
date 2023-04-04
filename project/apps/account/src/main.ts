@@ -16,10 +16,11 @@ const setupOpenApi = (app: INestApplication) => {
     .setDescription('Account service API')
     .setVersion('1.0')
     .addTag('account')
+    .addServer('/api/v1/')
     .build();
   const document = SwaggerModule.createDocument(app, config);
 
-  SwaggerModule.setup('/spec', app, document, {
+  SwaggerModule.setup('/api/spec', app, document, {
     useGlobalPrefix: true,
   });
 };
@@ -30,14 +31,15 @@ const bootstrap = async () => {
     .get(ConfigService)
     .get<CommonConfig>(ConfigNamespace.Common);
 
+  setupOpenApi(app);
+
   const globalPrefix = 'api';
 
+  app.setGlobalPrefix(globalPrefix);
   app.enableVersioning({
     type: VersioningType.URI,
   });
-  app.setGlobalPrefix(globalPrefix);
 
-  setupOpenApi(app);
   await app.listen(port);
 
   Logger.log(
