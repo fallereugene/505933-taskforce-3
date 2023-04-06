@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { AvaliableCity, AvaliableRole } from '@project/contracts';
+import { AvailableCity, AvailableRole } from '@project/contracts';
 
 export class CreateAccountDto {
   @ApiProperty({
@@ -21,12 +21,12 @@ export class CreateAccountDto {
     description: "User's city",
     example: 'Moscow',
   })
-  city: AvaliableCity;
+  city: AvailableCity;
   @ApiProperty({
     description: "User's role",
     example: 'Customer',
   })
-  role: AvaliableRole;
+  role: AvailableRole;
   @ApiProperty({
     description: 'Password',
     example: '123456',

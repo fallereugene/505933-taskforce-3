@@ -1,13 +1,13 @@
-import { AvaliableCity, AvaliableRole } from '.';
+import { AvailableCity, AvailableRole } from '.';
 
 export interface AccountBase {
   id: string;
   firstname: string;
   lastname: string;
   registrationDate: Date;
-  city: AvaliableCity;
+  city: AvailableCity;
   age: number;
-  role: AvaliableRole;
+  role: AvailableRole;
   email: string;
   information: string;
 }

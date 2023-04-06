@@ -15,18 +15,6 @@ export class ReviewEntity implements Review {
    * @param review Объект DTO
    */
   fillEntity(review: Review) {
-    const { _id, text, task, rating } = review;
-
-    this._id = _id;
-    this.text = text;
-    this.task = task;
-    this.rating = rating;
-  }
-
-  /**
-   * Преобразование данных в объект
-   */
-  toObject() {
-    return { ...this };
+    Object.assign(this, review);
   }
 }

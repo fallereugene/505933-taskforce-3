@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { AvaliableCity } from '@project/contracts';
+import { AvailableCity } from '@project/contracts';
 
 export class CreateTaskDto {
   @ApiProperty({
@@ -25,7 +25,7 @@ export class CreateTaskDto {
     description: "User's city",
     example: 'Moscow',
   })
-  city: AvaliableCity;
+  city: AvailableCity;
   cost?: number;
   @ApiProperty({
     description: 'Date of completion task',

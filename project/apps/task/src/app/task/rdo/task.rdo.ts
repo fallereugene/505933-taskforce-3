@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { AvaliableCity, TaskStatus } from '@project/contracts';
-import { Expose } from 'class-transformer';
+import { AvailableCity, TaskStatus } from '@project/contracts';
+import { Expose, Transform } from 'class-transformer';
 
 export class TaskRdo {
   @ApiProperty({
@@ -8,6 +8,7 @@ export class TaskRdo {
     example: '4ff6e921-36c4-4f80-ae41-919c06c0c5c3',
   })
   @Expose({ name: '_id' })
+  @Transform(({ obj }) => obj._id.toString())
   id?: string;
   @ApiProperty({
     description: "Task's title",
@@ -62,7 +63,7 @@ export class TaskRdo {
     example: 'Moscow',
   })
   @Expose()
-  city: AvaliableCity;
+  city: AvailableCity;
   @ApiProperty({
     description: "Current task's status",
     example: 0,

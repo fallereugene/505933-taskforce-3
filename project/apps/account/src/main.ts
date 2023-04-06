@@ -3,31 +3,12 @@
  * This is only a minimal backend to get started.
  */
 
-import fs from 'fs';
-import { join } from 'path';
 import { Logger, INestApplication, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-
+import { ConfigService } from '@nestjs/config';
+import { ConfigNamespace, CommonConfig } from '@project/services';
 import { AppModule } from './app/app.module';
-
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  const globalPrefix = 'api';
-
-  app.enableVersioning({
-    type: VersioningType.URI,
-  });
-  app.setGlobalPrefix(globalPrefix);
-
-  const port = process.env.PORT || 3333;
-  setupOpenApi(app);
-  await app.listen(port);
-
-  Logger.log(
-    `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
-  );
-}
 
 const setupOpenApi = (app: INestApplication) => {
   const config = new DocumentBuilder()
@@ -35,14 +16,35 @@ const setupOpenApi = (app: INestApplication) => {
     .setDescription('Account service API')
     .setVersion('1.0')
     .addTag('account')
+    .addServer('/api/v1/')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  const specificationPath = join(__dirname, '/spec.json');
 
-  SwaggerModule.setup('/spec', app, document, {
+  SwaggerModule.setup('/api/spec', app, document, {
     useGlobalPrefix: true,
   });
-  fs.writeFileSync(specificationPath, JSON.stringify(document));
+};
+
+const bootstrap = async () => {
+  const app = await NestFactory.create(AppModule);
+  const { port } = app
+    .get(ConfigService)
+    .get<CommonConfig>(ConfigNamespace.Common);
+
+  setupOpenApi(app);
+
+  const globalPrefix = 'api';
+
+  app.setGlobalPrefix(globalPrefix);
+  app.enableVersioning({
+    type: VersioningType.URI,
+  });
+
+  await app.listen(port);
+
+  Logger.log(
+    `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
+  );
 };
 
 bootstrap();

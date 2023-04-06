@@ -1,4 +1,4 @@
-import { AvaliableCity, AvaliableRole } from '.';
+import { AvailableCity, AvailableRole } from '.';
 
 export interface Account {
   _id?: string;
@@ -6,8 +6,8 @@ export interface Account {
   firstname: string;
   lastname: string;
   email: string;
-  city: AvaliableCity;
-  role: AvaliableRole;
+  city: AvailableCity;
+  role: AvailableRole;
   avatar?: string;
   birthDate: string;
   registrationDate?: string;
