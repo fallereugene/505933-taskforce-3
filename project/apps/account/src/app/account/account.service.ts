@@ -5,7 +5,6 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { Timezone } from '@project/services';
-import { Account } from '@project/contracts';
 import {
   CreateAccountDto,
   LoginAccountDto,
@@ -28,7 +27,7 @@ export class AccountService {
    * @param payload Объект DTO
    * @returns Данные созданного пользователя
    */
-  async register(payload: CreateAccountDto): Promise<Account> {
+  async register(payload: CreateAccountDto) {
     const account = {
       ...payload,
       birthDate: this.tz.getDateTimeLocale(
@@ -56,7 +55,7 @@ export class AccountService {
    * @param payload Объект DTO
    * @returns Данные пользователя
    */
-  async verifyAccount(payload: LoginAccountDto): Promise<AccountEntity> {
+  async verifyAccount(payload: LoginAccountDto) {
     const { email, password } = payload;
     const record = await this.repository.findByEmail(email);
     if (!record) {
@@ -74,7 +73,7 @@ export class AccountService {
    * @param id Идентификатор пользователя
    * @returns Объект пользователя
    */
-  async findById(id: string): Promise<Account> {
+  async findById(id: string) {
     const record = await this.repository.findById(id);
     if (!record) {
       throw new NotFoundException(EXCEPTION.NotFoundAccount);
@@ -89,20 +88,18 @@ export class AccountService {
    * @param accountId Уникальный идентификатор пользователя
    * @returns Объект пользователя
    */
-  async changePassword(
-    payload: ChangePasswordDto,
-    accountId: string
-  ): Promise<Account> {
+  async changePassword(payload: ChangePasswordDto, accountId: string) {
     const { oldPassword, newPassword } = payload;
     const record = await this.findById(accountId);
     await this.verifyAccount({
       email: record.email,
       password: oldPassword,
     });
-    const entity = await new AccountEntity({ ...record }).setPassword(
+    const entity = await new AccountEntity({ ...record.toJSON() }).setPassword(
       newPassword
     );
-    return this.repository.update(accountId, entity);
+    console.log();
+    return this.repository.update(accountId, { ...entity });
   }
 
   /**
@@ -111,13 +108,10 @@ export class AccountService {
    * @param payload Объект DTO
    * @returns Обновленные пользовательские данные
    */
-  async changeProfile(
-    accountId: string,
-    payload: ChangeProfileDto
-  ): Promise<Account> {
+  async changeProfile(accountId: string, payload: ChangeProfileDto) {
     const record = await this.findById(accountId);
     const updatedRecord = {
-      ...record,
+      ...record.toJSON(),
       ...payload,
     };
     return this.repository.update(accountId, updatedRecord);
