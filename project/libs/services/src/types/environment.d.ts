@@ -3,13 +3,17 @@ export {};
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
-      DB_NAME: string;
+      MONGO_INITDB_ROOT_USERNAME: string;
+      MONGO_INITDB_ROOT_PASSWORD: string;
+      MONGO_INITDB_DATABASE: string;
+      ME_CONFIG_BASICAUTH_USERNAME: string;
+      ME_CONFIG_BASICAUTH_PASSWORD: string;
+      ME_CONFIG_MONGODB_ADMINUSERNAME: string;
+      ME_CONFIG_MONGODB_ADMINPASSWORD: string;
+      ME_CONFIG_MONGODB_URL: string;
+      DB_AUTH_BASE: string;
       DB_HOST: string;
       DB_PORT: string;
-      DB_USER: string;
-      DB_PASSWORD: string;
-      DB_AUTH_BASE: string;
-      APPLICATION_PORT: string;
     }
   }
 }

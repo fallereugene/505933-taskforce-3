@@ -36,15 +36,23 @@ DB_PORT=27017
 ### Запуск docker-образа
 
 Для поднятия и развертывания сервисов в docker-контейнере необходимо выполнить следующую команду:
-`docker compose --file $PATH_TO_DOCKER_CONFIGURATION_FILE --env-file $PATH_TO_ENV_CONFIGURATION_FILE up -d`
+`docker compose --file $PATH_TO_DOCKER_CONFIGURATION_FILE up -d`
+
+> > `Для корректной работы сервисов не забудьте в .env добавить соответствующие переменные окружения`
 
 ### Поддерживаемые переменные окружения
 
-`DB_NAME` - имя базы данных
+[Для более подробной информации см.](https://hub.docker.com/_/mongo)
+`MONGO_INITDB_ROOT_USERNAME` - рутовый пользователь базы данных `MongoDB`
+`MONGO_INITDB_ROOT_PASSWORD` - пароль к БД
+`MONGO_INITDB_DATABASE` - название БД
+`ME_CONFIG_BASICAUTH_USERNAME` - базовая аутентификация пользователя к UI-админке
+`ME_CONFIG_BASICAUTH_PASSWORD` - пароль к БД
+`ME_CONFIG_MONGODB_ADMINUSERNAME` - пользователь админ
+`ME_CONFIG_MONGODB_ADMINPASSWORD` - пароль к БД
+`ME_CONFIG_MONGODB_URL` - путь подключения к БД
 `DB_HOST` - хост базы данных
 `DB_PORT` - прослушиваемый порт базы данных
-`DB_USER` - пользователь базы данных
-`DB_PASSWORD` - пароль к базе данных
 `APPLICATION_PORT` - прослушиваемый порт запускаемого приложения
 
 ### Ключевые технологии проекта
