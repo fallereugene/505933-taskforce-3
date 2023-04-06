@@ -26,7 +26,7 @@ export class AccountEntity implements Account {
   }
 
   /**
-   * Генерация и установка хэша пароля
+   * Генерация и установка хеша пароля
    * @param password Переданный открытый пароль
    */
   async setPassword(password: string): Promise<AccountEntity> {

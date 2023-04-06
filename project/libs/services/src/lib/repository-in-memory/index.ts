@@ -34,7 +34,7 @@ export class RepositoryInMemory<E, R> implements CRUDRepository<E, R> {
    * Обновление сущности
    * @param id Переданный идентификатор
    * @param item Обновленные данные
-   * @returns Обновленный объыект сущности
+   * @returns Обновленный объект сущности
    */
   async update(id: string, item: R): Promise<R> {
     const record = {

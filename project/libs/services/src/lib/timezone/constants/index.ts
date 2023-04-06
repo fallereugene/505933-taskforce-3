@@ -1,1 +1,1 @@
-export { InjectableTimezoneService } from './injectable-timezone-service';
+export { AvailableTimezoneService } from './available-timezone-service';

@@ -8,8 +8,8 @@ export class Configuration<T extends Record<string, string | number>> {
   constructor(private readonly configuration: T) {}
 
   /**
-   * Валдация конфгурации в разрезе переденной валидационной модели
-   * @param model Валидационная модель
+   * Валидация конфигурации в разрезе переданной модели
+   * @param model Модель
    * @returns Объект конфигурации
    */
   validate(model: new (...args: any[]) => any): T {

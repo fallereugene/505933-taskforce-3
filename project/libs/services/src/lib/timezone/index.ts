@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@nestjs/common';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
-import { InjectableTimezoneService } from './constants';
+import { AvailableTimezoneService } from './constants';
 
 @Injectable()
 export class Timezone {
@@ -17,7 +17,7 @@ export class Timezone {
   static HUMAN_FORMAT = 'DD.MM.YYYY HH:mm';
 
   constructor(
-    @Inject(InjectableTimezoneService.DayJs) private readonly tz: typeof dayjs
+    @Inject(AvailableTimezoneService.DayJs) private readonly tz: typeof dayjs
   ) {
     dayjs.extend(utc);
     dayjs.extend(timezone);
@@ -37,4 +37,4 @@ export class Timezone {
   }
 }
 
-export { InjectableTimezoneService };
+export { AvailableTimezoneService };
