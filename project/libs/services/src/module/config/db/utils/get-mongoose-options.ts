@@ -1,6 +1,6 @@
 import { MongooseModuleAsyncOptions } from '@nestjs/mongoose';
 import { ConfigService } from '@nestjs/config';
-import { DatabaseConfig } from '../contracts';
+import { DatabaseConfig } from '../../contracts';
 import { ConfigNamespace } from '../../constants';
 import { getMongoConnectionString } from './get-mongo-connection-string';
 

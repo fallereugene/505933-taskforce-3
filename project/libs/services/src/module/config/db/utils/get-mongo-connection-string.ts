@@ -1,4 +1,4 @@
-import { DatabaseConfig } from '../contracts';
+import { DatabaseConfig } from '../../contracts';
 
 /**
  * Строка подключения к базе данных
