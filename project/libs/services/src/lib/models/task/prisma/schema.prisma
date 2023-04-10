@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output = "../../../../../../../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Task {
+  task_id Int @id @default(autoincrement())
+  title String @default("")
+  description String @default("")
+  categories Category[]
+  cost Int? @default(0)
+  due_date DateTime?
+  image String? @default("")
+  address String? @default("")
+  tags String[]
+  city City
+  status Status
+  customer String?
+  contractor String?
+  createdAt DateTime @default(now())
+
+  @@map("tasks")
+}
+
+model Category {
+  category_id Int @id @default(autoincrement())
+  name String
+  task Task[]
+
+  @@map("categories")
+}
+
+enum City {
+  Moscow
+  St_Petersburg
+  Vladivostok
+}
+
+enum Status {
+  New
+  Cancelled
+  InProgress
+  Done
+  Failed
+}
+
