@@ -2,14 +2,14 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { TaskStatus, Task } from '@project/contracts';
 import { Timezone } from '@project/services';
 import { TaskEntity } from './entity';
-import { Repository } from './service';
+import { Repository, RepositoryMemory } from './service';
 import { CreateTaskDto, UpdateTaskDto } from './dto';
 import { EXCEPTION } from '../constants';
 
 @Injectable()
 export class TaskService {
   constructor(
-    private readonly repository: Repository,
+    private readonly repository: RepositoryMemory,
     private readonly tz: Timezone
   ) {}
 
