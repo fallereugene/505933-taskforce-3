@@ -7,12 +7,11 @@ export interface Task {
   description: string;
   category: string;
   cost: number;
-  dueDate: string;
+  dueDate: Date;
   image: string;
   address: string;
   tags: string[];
   city: AvailableCity;
-  registrationDate: string;
   status: TaskStatus;
   customer: string;
   contractor: string;

@@ -12,26 +12,28 @@ datasource db {
 }
 
 model Task {
-  task_id Int @id @default(autoincrement())
+  id Int @id @default(autoincrement())
   title String @default("")
   description String @default("")
-  categories Category[]
+  category Category @relation(fields: [categoryId], references: [id])
+  categoryId Int @map("category_id")
   cost Int? @default(0)
-  due_date DateTime?
+  dueDate DateTime? @map("due_date")
   image String? @default("")
   address String? @default("")
   tags String[]
   city City
-  status Status
+  status Int
   customer String?
   contractor String?
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("tasks")
 }
 
 model Category {
-  category_id Int @id @default(autoincrement())
+  id Int @id @default(autoincrement())
   name String
   task Task[]
 
@@ -40,15 +42,8 @@ model Category {
 
 enum City {
   Moscow
-  St_Petersburg
+  StPetersburg
   Vladivostok
 }
 
-enum Status {
-  New
-  Cancelled
-  InProgress
-  Done
-  Failed
-}
 

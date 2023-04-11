@@ -2,16 +2,13 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { TaskStatus, Task } from '@project/contracts';
 import { Timezone } from '@project/services';
 import { TaskEntity } from './entity';
-import { Repository, RepositoryMemory } from './service';
+import { Repository } from './service';
 import { CreateTaskDto, UpdateTaskDto } from './dto';
 import { EXCEPTION } from '../constants';
 
 @Injectable()
 export class TaskService {
-  constructor(
-    private readonly repository: RepositoryMemory,
-    private readonly tz: Timezone
-  ) {}
+  constructor(private readonly repository: Repository) {}
 
   /**
    * Создание задачи.
@@ -27,7 +24,6 @@ export class TaskService {
       image: payload.image ?? '',
       address: payload.address ?? '',
       tags: payload.tags ?? [],
-      registrationDate: this.tz.getDateTimeLocale(Timezone.UTC_FORMAT),
       status: TaskStatus.New,
       contractor: null,
       customer: '',

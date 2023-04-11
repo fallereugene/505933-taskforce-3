@@ -20,26 +20,24 @@ export class CreateTaskDto {
   @ApiProperty({
     description: 'Service cost',
     example: 1000,
+    default: 0,
   })
-  @ApiProperty({
-    description: "User's city",
-    example: 'Moscow',
-  })
-  city: AvailableCity;
   cost?: number;
   @ApiProperty({
     description: 'Date of completion task',
-    example: '2023-23-04T08:55:00.000Z',
+    example: '2023-04-10T00:00:00.000Z',
   })
-  dueDate?: string;
+  dueDate?: Date;
   @ApiProperty({
     description: 'Picture',
     example: 'example.png',
+    default: '',
   })
   image?: string;
   @ApiProperty({
     description: 'The address where the task should be performed',
     example: 'Moscow, Presnenskaya embankment, 12, office No. 2',
+    default: '',
   })
   address?: string;
   @ApiProperty({
@@ -47,4 +45,9 @@ export class CreateTaskDto {
     example: ['engineering', 'moscow'],
   })
   tags?: string[];
+  @ApiProperty({
+    description: "User's city",
+    example: 'Moscow',
+  })
+  city: AvailableCity;
 }

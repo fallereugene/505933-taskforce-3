@@ -21,7 +21,6 @@ export class CommentService {
   async create(payload: CreateCommentDto): Promise<Comment> {
     const entity = new CommentEntity({
       ...payload,
-      registrationDate: this.tz.getDateTimeLocale(Timezone.UTC_FORMAT),
       // TODO: идентификатор авторизованного пользователя
       author: '833a6872-29dd-4869-af2e-7df28a82aa6c',
     });

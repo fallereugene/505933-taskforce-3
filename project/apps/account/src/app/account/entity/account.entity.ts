@@ -10,7 +10,6 @@ export class AccountEntity implements Account {
   role: AvailableRole;
   avatar?: string;
   birthDate: string;
-  registrationDate: string;
   password: string;
 
   constructor(account: Account) {

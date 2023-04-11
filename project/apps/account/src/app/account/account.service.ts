@@ -34,7 +34,6 @@ export class AccountService {
         Timezone.UTC_FORMAT,
         payload.birthDate
       ),
-      registrationDate: this.tz.getDateTimeLocale(Timezone.UTC_FORMAT),
     };
 
     const isUserExists = await this.repository.findByEmail(account.email);

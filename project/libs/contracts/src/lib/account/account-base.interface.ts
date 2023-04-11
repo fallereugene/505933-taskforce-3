@@ -4,7 +4,6 @@ export interface AccountBase {
   id: string;
   firstname: string;
   lastname: string;
-  registrationDate: Date;
   city: AvailableCity;
   age: number;
   role: AvailableRole;

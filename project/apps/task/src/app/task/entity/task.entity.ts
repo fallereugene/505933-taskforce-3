@@ -6,12 +6,11 @@ export class TaskEntity implements Task {
   description: string;
   category: string;
   cost: number;
-  dueDate: string | null;
+  dueDate: Date;
   image: string;
   address: string;
   tags: string[];
   city: AvailableCity;
-  registrationDate: string;
   status: TaskStatus;
   contractor: string | null;
   customer: string;
