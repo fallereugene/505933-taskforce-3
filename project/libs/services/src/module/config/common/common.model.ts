@@ -1,5 +1,5 @@
 import { IsNumber, IsString } from 'class-validator';
-import { CommonConfig } from './contracts';
+import { CommonConfig } from '../contracts';
 import { EnvValidationMessage } from './constants';
 
 export class CommonModel implements CommonConfig {

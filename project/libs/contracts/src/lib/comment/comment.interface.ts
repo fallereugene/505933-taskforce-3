@@ -3,5 +3,4 @@ export interface Comment {
   text: string;
   task: string;
   author: string;
-  registrationDate: string;
 }

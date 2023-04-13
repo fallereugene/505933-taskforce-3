@@ -2,17 +2,13 @@ version: '3.5'
 
 services:
   taskforce.account.mongo:
+    env_file:
+      - .env.development
     image: mongo
     restart: always
     container_name: taskforce.account.mongo
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
-      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
-      MONGO_INITDB_DATABASE: ${DB_NAME}
-
     ports:
       - 27017:27017
-
     volumes:
       - taskforce.account.mongo:/data/db
 
@@ -23,6 +19,8 @@ services:
       retries: 5
 
   taskforce.account.mongo.admin:
+    env_file:
+      - .env.development
     image: mongo-express
     restart: always
     container_name: taskforce.account.mongo.admin
@@ -30,12 +28,6 @@ services:
       - 8081:8081
     depends_on:
       - taskforce.account.mongo
-    environment:
-      ME_CONFIG_BASICAUTH_USERNAME: ${DB_USER}
-      ME_CONFIG_BASICAUTH_PASSWORD: ${DB_PASSWORD}
-      ME_CONFIG_MONGODB_ADMINUSERNAME: ${DB_USER}
-      ME_CONFIG_MONGODB_ADMINPASSWORD: ${DB_PASSWORD}
-      ME_CONFIG_MONGODB_URL: mongodb://${DB_USER}:${DB_PASSWORD}@taskforce.account.mongo:27017/
 
 volumes:
   taskforce.account.mongo:

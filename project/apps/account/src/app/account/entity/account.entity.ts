@@ -10,7 +10,6 @@ export class AccountEntity implements Account {
   role: AvailableRole;
   avatar?: string;
   birthDate: string;
-  registrationDate: string;
   password: string;
 
   constructor(account: Account) {
@@ -26,7 +25,7 @@ export class AccountEntity implements Account {
   }
 
   /**
-   * Генерация и установка хэша пароля
+   * Генерация и установка хеша пароля
    * @param password Переданный открытый пароль
    */
   async setPassword(password: string): Promise<AccountEntity> {

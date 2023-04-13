@@ -8,10 +8,7 @@ import { EXCEPTION } from '../constants';
 
 @Injectable()
 export class TaskService {
-  constructor(
-    private readonly repository: Repository,
-    private readonly tz: Timezone
-  ) {}
+  constructor(private readonly repository: Repository) {}
 
   /**
    * Создание задачи.
@@ -27,7 +24,6 @@ export class TaskService {
       image: payload.image ?? '',
       address: payload.address ?? '',
       tags: payload.tags ?? [],
-      registrationDate: this.tz.getDateTimeLocale(Timezone.UTC_FORMAT),
       status: TaskStatus.New,
       contractor: null,
       customer: '',

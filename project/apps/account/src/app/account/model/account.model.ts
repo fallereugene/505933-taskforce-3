@@ -33,9 +33,6 @@ export class AccountModel extends Document implements Account {
 
   @Prop({ required: true })
   birthDate: string;
-
-  @Prop({ required: true })
-  registrationDate: string;
 }
 
 export const AccountSchema = SchemaFactory.createForClass(AccountModel);

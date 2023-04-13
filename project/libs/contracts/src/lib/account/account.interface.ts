@@ -10,5 +10,4 @@ export interface Account {
   role: AvailableRole;
   avatar?: string;
   birthDate: string;
-  registrationDate?: string;
 }

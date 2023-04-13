@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { Module } from '@nestjs/common';
-import { Timezone, InjectableTimezoneService } from '@project/services';
+import { Timezone, AvailableTimezoneService } from '@project/services';
 import { CommentService } from './comment.service';
 import { CommentController } from './comment.controller';
 import { Repository } from './service';
@@ -12,7 +12,7 @@ import { Repository } from './service';
     Repository,
     Timezone,
     {
-      provide: InjectableTimezoneService.DayJs,
+      provide: AvailableTimezoneService.DayJs,
       useValue: dayjs,
     },
   ],

@@ -1,9 +1,9 @@
-import { DatabaseConfig } from '../contracts';
+import { DatabaseConfig } from '../../contracts';
 
 /**
  * Строка подключения к базе данных
  * @param param0 Объект данных для подключения: имя базы данных, хост, порт и т.д.
- * @returns Нормализваонная строка подключения
+ * @returns Нормализованная строка подключения
  */
 export const getMongoConnectionString = ({
   name,

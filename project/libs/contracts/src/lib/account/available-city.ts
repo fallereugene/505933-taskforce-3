@@ -1,1 +1,1 @@
-export type AvailableCity = 'Moscow' | 'Saint-Petersburg' | 'Vladivostok';
+export type AvailableCity = 'Moscow' | 'StPetersburg' | 'Vladivostok';

@@ -1,4 +1,4 @@
-export interface CommonConfig {
+export type CommonConfig = {
   environment: 'development' | 'test' | 'stage';
   port: number;
-}
+};

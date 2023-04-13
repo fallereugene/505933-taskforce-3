@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Timezone, InjectableTimezoneService } from '@project/services';
+import { Timezone, AvailableTimezoneService } from '@project/services';
 import { AccountService } from './account.service';
 import { AccountController } from './account.controller';
 import { AccountModel, AccountSchema } from './model';
@@ -19,7 +19,7 @@ import { Repository } from './service';
     Repository,
     Timezone,
     {
-      provide: InjectableTimezoneService.DayJs,
+      provide: AvailableTimezoneService.DayJs,
       useValue: dayjs,
     },
   ],

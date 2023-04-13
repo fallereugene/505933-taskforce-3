@@ -1,5 +1,5 @@
 import { IsNumber, IsString } from 'class-validator';
-import { DatabaseConfig } from './contracts';
+import { DatabaseConfig } from '../contracts';
 import { EnvValidationMessage } from './constants';
 
 export class DatabaseModel implements DatabaseConfig {

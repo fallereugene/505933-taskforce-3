@@ -5,7 +5,6 @@ export class CommentEntity implements Comment {
   text: string;
   task: string;
   author: string;
-  registrationDate: string;
 
   constructor(task: Comment) {
     this.fillEntity(task);

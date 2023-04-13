@@ -1,0 +1,39 @@
+version: '3.5'
+services:
+  taskforce.task.postgres:
+    env_file:
+      - .env.development
+    image: postgres:14-alpine
+    container_name: taskforce.task.postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - taskforce.task.postgres:/var/lib/postgresql/data
+
+    healthcheck:
+      test:
+        ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_PASSWORD}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+    networks:
+      - taskforce.task
+
+  taskforce.task.pgadmin:
+    env_file:
+      - .env.development
+    image: dpage/pgadmin4
+    container_name: taskforce.task.pgadmin
+    ports:
+      - 8082:80
+    networks:
+      - taskforce.task
+
+volumes:
+  taskforce.task.postgres:
+
+networks:
+  taskforce.task:
+    driver: bridge
