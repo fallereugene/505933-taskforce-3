@@ -6,6 +6,7 @@ import {
   MinLength,
   MaxLength,
   IsEnum,
+  IsArray,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { AvailableCity, AvailableRole, City } from '@project/contracts';
@@ -75,4 +76,14 @@ export class CreateAccountDto {
   @IsString()
   @IsOptional()
   avatar?: string;
+
+  @ApiProperty({
+    description: "Contractor's specialization",
+    example: ['engineering', 'embedded'],
+    required: false,
+  })
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  specialization?: string[];
 }

@@ -31,6 +31,9 @@ export class AccountModel extends Document implements Account {
   @Prop({ required: true, type: String })
   role: AvailableRole;
 
+  @Prop({ type: [String] })
+  specialization: string[];
+
   @Prop({ required: true })
   birthDate: string;
 }
