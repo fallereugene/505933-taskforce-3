@@ -3,7 +3,12 @@
  * This is only a minimal backend to get started.
  */
 
-import { Logger, INestApplication, VersioningType } from '@nestjs/common';
+import {
+  Logger,
+  INestApplication,
+  VersioningType,
+  ValidationPipe,
+} from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
@@ -39,6 +44,7 @@ const bootstrap = async () => {
   app.enableVersioning({
     type: VersioningType.URI,
   });
+  app.useGlobalPipes(new ValidationPipe());
 
   await app.listen(port);
 

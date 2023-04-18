@@ -1,2 +1,2 @@
 export { EXCEPTION } from './exception';
-export { DEFAULT_PORT } from './default-port';
+export { CommentSetting } from './comment-setting';

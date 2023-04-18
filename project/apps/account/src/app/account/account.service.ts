@@ -13,7 +13,7 @@ import {
 } from './dto';
 import { Repository } from './service';
 import { AccountEntity } from './entity';
-import { EXCEPTION } from '../constants';
+import { Exception } from '../constants';
 
 @Injectable()
 export class AccountService {
@@ -39,7 +39,7 @@ export class AccountService {
     const isUserExists = await this.repository.findByEmail(account.email);
 
     if (isUserExists) {
-      throw new ConflictException(EXCEPTION.Conflict);
+      throw new ConflictException(Exception.Conflict);
     }
 
     const record = await new AccountEntity(account).setPassword(
@@ -58,11 +58,11 @@ export class AccountService {
     const { email, password } = payload;
     const record = await this.repository.findByEmail(email);
     if (!record) {
-      throw new NotFoundException(EXCEPTION.NotFoundAccount);
+      throw new NotFoundException(Exception.NotFoundAccount);
     }
     const accountEntity = new AccountEntity(record);
     if (!(await accountEntity.comparePassword(password))) {
-      throw new UnauthorizedException(EXCEPTION.AuthorizationFailed);
+      throw new UnauthorizedException(Exception.AuthorizationFailed);
     }
     return accountEntity;
   }
@@ -75,7 +75,7 @@ export class AccountService {
   async findById(id: string) {
     const record = await this.repository.findById(id);
     if (!record) {
-      throw new NotFoundException(EXCEPTION.NotFoundAccount);
+      throw new NotFoundException(Exception.NotFoundAccount);
     }
     return record;
   }
