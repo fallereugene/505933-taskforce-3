@@ -9,6 +9,7 @@ import {
   IsArray,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { MinimumValidAge } from '../validators';
 import { AvailableCity, AvailableRole, City } from '@project/contracts';
 import { Exception, PasswordSetting, UsernameSetting } from '../../constants';
 
@@ -66,6 +67,9 @@ export class CreateAccountDto {
     example: '1977-11-11T08:55:00.000Z',
   })
   @IsISO8601({}, { message: Exception.InvalidDate })
+  @MinimumValidAge(UsernameSetting.MinimumAge, {
+    message: Exception.InvalidAge,
+  })
   birthDate: string;
 
   @ApiProperty({
