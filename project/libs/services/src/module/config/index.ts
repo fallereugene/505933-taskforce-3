@@ -11,6 +11,22 @@ const envFilePath = `apps/${path.basename(__dirname)}/.env.${
 
 @Module({})
 export class ConfigModule {
+  static availableModulesList = {
+    dbConfig,
+    commonConfig,
+  };
+
+  static modulesToActivate: Array<
+    keyof typeof ConfigModule.availableModulesList
+  > = ['dbConfig', 'commonConfig'];
+
+  static setModulesList(
+    updatedModulesList: (typeof ConfigModule.modulesToActivate)[number][]
+  ) {
+    ConfigModule.modulesToActivate = updatedModulesList;
+    return ConfigModule;
+  }
+
   static forRoot(options?: ConfigModuleOptions): DynamicModule {
     const dbConfigRegister = dbConfig(options);
     const commonConfigRegister = commonConfig(options);
@@ -20,7 +36,10 @@ export class ConfigModule {
         ConfigModuleRoot.forRoot({
           isGlobal: true,
           cache: true,
-          load: [dbConfigRegister, commonConfigRegister],
+          load: (() =>
+            ConfigModule.modulesToActivate.map((moduleName) =>
+              ConfigModule.availableModulesList[moduleName](options)
+            ))(),
           envFilePath: envFilePath,
         }),
       ],
