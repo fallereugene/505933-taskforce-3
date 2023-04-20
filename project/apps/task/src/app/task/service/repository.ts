@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { CRUDRepository } from '@project/contracts';
 import { PrismaService } from '@project/services';
 import { Task } from '@project/contracts';
-import { CreateTaskDto } from '../dto';
 import { TaskEntity } from '../entity';
 
 @Injectable()

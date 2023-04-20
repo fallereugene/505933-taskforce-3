@@ -18,6 +18,7 @@ import {
   ChangeProfileDto,
 } from './dto';
 import { AccountRdo, LoggedInAccountRdo } from './rdo';
+import { MongoIdValidationPipe } from './validators';
 
 @ApiTags('account')
 @Controller({
@@ -104,7 +105,9 @@ export class AccountController {
     status: HttpStatus.NOT_FOUND,
     description: 'Not found',
   })
-  async getAccount(@Param('accountId') accountId: string): Promise<AccountRdo> {
+  async getAccount(
+    @Param('accountId', MongoIdValidationPipe) accountId: string
+  ): Promise<AccountRdo> {
     const payload = await this.accountService.findById(accountId);
     return fillObject(AccountRdo, payload);
   }
@@ -131,7 +134,7 @@ export class AccountController {
     description: 'Unauthorized',
   })
   async changePassword(
-    @Param('accountId') accountId: string,
+    @Param('accountId', MongoIdValidationPipe) accountId: string,
     @Body() dto: ChangePasswordDto
   ): Promise<{}> {
     await this.accountService.changePassword(dto, accountId);
@@ -156,7 +159,7 @@ export class AccountController {
     description: 'Not found',
   })
   async changeProfile(
-    @Param('accountId') accountId: string,
+    @Param('accountId', MongoIdValidationPipe) accountId: string,
     @Body() dto: ChangeProfileDto
   ): Promise<AccountRdo> {
     const payload = await this.accountService.changeProfile(accountId, dto);
