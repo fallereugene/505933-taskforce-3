@@ -1,3 +1,4 @@
+import 'multer';
 import {
   Controller,
   Body,
@@ -7,7 +8,13 @@ import {
   Param,
   HttpCode,
   HttpStatus,
+  UploadedFile,
+  UseInterceptors,
+  UsePipes,
 } from '@nestjs/common';
+import { Express } from 'express';
+import { FileSizeValidationPipe } from '@project/utils/utils-core';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { fillObject } from '@project/utils/utils-core';
 import { AccountService } from './account.service';
@@ -164,5 +171,15 @@ export class AccountController {
   ): Promise<AccountRdo> {
     const payload = await this.accountService.changeProfile(accountId, dto);
     return fillObject(AccountRdo, payload);
+  }
+
+  @Post('/upload')
+  @UseInterceptors(FileInterceptor('file'))
+  @UsePipes(new FileSizeValidationPipe({ maxSize: 500 }))
+  async upload(
+    @UploadedFile()
+    file: Express.Multer.File
+  ) {
+    //  TODO: Need to implement
   }
 }
