@@ -1,8 +1,8 @@
-import { IsNumber, IsOptional, IsEnum } from 'class-validator';
+import { IsNumber, IsOptional, IsEnum, IsString } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { TaskStatus, AvailableCity, City } from '@project/contracts';
 
-enum Sorting {
+export enum Sorting {
   CreatedAt = 'createdAt',
   Popular = 'popular',
   Discussing = 'discussing',
@@ -30,6 +30,7 @@ export class PostQuery {
   @IsOptional()
   category: number;
 
+  @IsString()
   @IsOptional()
   tag: string;
 

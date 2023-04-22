@@ -10,9 +10,10 @@ import {
   HttpStatus,
   Query,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
 import { fillObject } from '@project/utils/utils-core';
-import { PostQuery } from './validations';
+import { City } from '@project/contracts';
+import { PostQuery, Sorting } from './validations';
 import { TaskService } from './task.service';
 import { CreateTaskDto, UpdateTaskDto } from './dto';
 import { TaskRdo } from './rdo';
@@ -57,6 +58,42 @@ export class TaskController {
     description: 'Tasks list',
     type: TaskRdo,
     isArray: true,
+  })
+  @ApiQuery({
+    name: 'page',
+    type: Number,
+    description: 'Page number. It is used for paginating.',
+    required: false,
+  })
+  @ApiQuery({
+    name: 'limit',
+    type: Number,
+    description: 'Max limit records.',
+    required: false,
+  })
+  @ApiQuery({
+    name: 'category',
+    type: Number,
+    description: 'Selection by category identifier.',
+    required: false,
+  })
+  @ApiQuery({
+    name: 'tag',
+    type: String,
+    description: 'Selection by tag.',
+    required: false,
+  })
+  @ApiQuery({
+    name: 'city',
+    enum: City,
+    description: 'Selection by city.',
+    required: false,
+  })
+  @ApiQuery({
+    name: 'sorting',
+    enum: Sorting,
+    description: 'Selection by passed sort.',
+    required: false,
   })
   async getList(@Query() query: PostQuery): Promise<TaskRdo[]> {
     const records = await this.taskService.getList(query);

@@ -1,1 +1,1 @@
-export { PostQuery } from './post-query';
+export { PostQuery, Sorting } from './post-query';
