@@ -8,9 +8,11 @@ import {
   Param,
   HttpCode,
   HttpStatus,
+  Query,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { fillObject } from '@project/utils/utils-core';
+import { PostQuery } from './validations';
 import { TaskService } from './task.service';
 import { CreateTaskDto, UpdateTaskDto } from './dto';
 import { TaskRdo } from './rdo';
@@ -56,8 +58,8 @@ export class TaskController {
     type: TaskRdo,
     isArray: true,
   })
-  async getList(): Promise<TaskRdo[]> {
-    const records = await this.taskService.getList();
+  async getList(@Query() query: PostQuery): Promise<TaskRdo[]> {
+    const records = await this.taskService.getList(query);
     return records.map((r) => fillObject(TaskRdo, r));
   }
 

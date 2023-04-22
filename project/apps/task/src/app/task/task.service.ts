@@ -4,6 +4,7 @@ import { Timezone } from '@project/services';
 import { TaskEntity } from './entity';
 import { Repository } from './service';
 import { CreateTaskDto, UpdateTaskDto } from './dto';
+import { PostQuery } from './validations';
 import { EXCEPTION } from '../constants';
 
 @Injectable()
@@ -37,8 +38,8 @@ export class TaskService {
    * Получение списка заданий
    * @returns Ненормализованный список заданий
    */
-  async getList(): Promise<Task[]> {
-    return this.repository.getRepository();
+  async getList(query: PostQuery): Promise<Task[]> {
+    return this.repository.getRepository(query);
   }
 
   /**
