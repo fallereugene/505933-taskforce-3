@@ -4,6 +4,7 @@ import { ConfigModule as ConfigModuleRoot } from '@nestjs/config';
 import { ConfigModuleOptions } from './contracts';
 import { dbConfig } from './db';
 import { commonConfig } from './common';
+import { jwtConfig } from './jwt';
 
 const envFilePath = `apps/${path.basename(__dirname)}/.env.${
   process.env.NODE_ENV
@@ -14,11 +15,12 @@ export class ConfigModule {
   static availableModulesList = {
     dbConfig,
     commonConfig,
+    jwtConfig,
   };
 
   static modulesToActivate: Array<
     keyof typeof ConfigModule.availableModulesList
-  > = ['dbConfig', 'commonConfig'];
+  > = ['dbConfig', 'commonConfig', 'jwtConfig'];
 
   static setModulesList(
     updatedModulesList: (typeof ConfigModule.modulesToActivate)[number][]
@@ -28,8 +30,6 @@ export class ConfigModule {
   }
 
   static forRoot(options?: ConfigModuleOptions): DynamicModule {
-    const dbConfigRegister = dbConfig(options);
-    const commonConfigRegister = commonConfig(options);
     return {
       module: ConfigModule,
       imports: [
@@ -51,3 +51,4 @@ export class ConfigModule {
 export * from './constants';
 export * from './db';
 export * from './common';
+export * from './jwt';

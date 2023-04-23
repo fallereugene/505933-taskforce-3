@@ -1,3 +1,3 @@
-import { CommonConfig, DatabaseConfig } from '.';
+import { CommonConfig, DatabaseConfig, JwtConfig } from '.';
 
-export type ConfigModuleOptions = CommonConfig & DatabaseConfig;
+export type ConfigModuleOptions = CommonConfig & DatabaseConfig & JwtConfig;
