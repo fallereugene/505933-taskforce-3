@@ -28,12 +28,10 @@ export class CommentService {
   }
 
   /**
-   * Получение всего репозитория
-   * @returns Ненормализованный список заданий
+   * Получение списка комментариев
    */
-  async getList(taskId: string): Promise<Comment[]> {
-    const repository = await this.repository.getRepository();
-    return repository.filter((item) => item.task === taskId);
+  async getList(taskId: number): Promise<Comment[]> {
+    return await this.repository.getList(taskId);
   }
 
   /**
@@ -41,7 +39,7 @@ export class CommentService {
    * @param id Идентификатор задачи
    * @returns Детальная информация о задаче + дополнительные данные (количество откликов, информация о пользователе и т.д.)
    */
-  async findById(id: string): Promise<Comment> {
+  async findById(id: number): Promise<Comment> {
     const record = await this.repository.findById(id);
     if (!record) {
       throw new NotFoundException(EXCEPTION.NotFoundComment);
@@ -53,7 +51,7 @@ export class CommentService {
    * Удаление существующего комментария
    * @param commentId Идентификатор задачи
    */
-  async deleteItem(commentId: string): Promise<void> {
+  async deleteItem(commentId: number): Promise<void> {
     await this.findById(commentId);
     await this.repository.delete(commentId);
   }
@@ -62,7 +60,7 @@ export class CommentService {
    * Удаление всех комментариев в разрезе определенной задачи
    * @param taskId Идентификатор задачи
    */
-  async deleteList(taskId: string): Promise<void> {
+  async deleteList(taskId: number): Promise<void> {
     await this.repository.deleteCommentsList(taskId);
   }
 }

@@ -8,7 +8,6 @@ import {
   IsPositive,
   IsArray,
   IsEnum,
-  Contains,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { AvailableCity, City } from '@project/contracts';

@@ -7,6 +7,7 @@ import {
   Delete,
   HttpCode,
   HttpStatus,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { fillObject } from '@project/utils/utils-core';
@@ -55,7 +56,9 @@ export class CommentController {
     type: CommentRdo,
     isArray: true,
   })
-  async getList(@Param('taskId') taskId: string): Promise<CommentRdo[]> {
+  async getList(
+    @Param('taskId', ParseIntPipe) taskId: number
+  ): Promise<CommentRdo[]> {
     const records = await this.commentService.getList(taskId);
     return records.map((r) => fillObject(CommentRdo, r));
   }
@@ -79,7 +82,9 @@ export class CommentController {
     status: HttpStatus.UNAUTHORIZED,
     description: 'Unauthorized',
   })
-  async deleteItem(@Param('commentId') commentId: string): Promise<void> {
+  async deleteItem(
+    @Param('commentId', ParseIntPipe) commentId: number
+  ): Promise<void> {
     await this.commentService.deleteItem(commentId);
   }
 
@@ -102,7 +107,9 @@ export class CommentController {
     status: HttpStatus.UNAUTHORIZED,
     description: 'Unauthorized',
   })
-  async deleteList(@Param('taskId') taskId: string): Promise<void> {
+  async deleteList(
+    @Param('taskId', ParseIntPipe) taskId: number
+  ): Promise<void> {
     await this.commentService.deleteList(taskId);
   }
 }

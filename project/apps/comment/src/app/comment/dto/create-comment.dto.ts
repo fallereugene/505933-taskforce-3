@@ -1,4 +1,4 @@
-import { IsString, MinLength, MaxLength } from 'class-validator';
+import { IsString, MinLength, MaxLength, IsNumber } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { CommentSetting } from '../../constants';
 
@@ -16,6 +16,6 @@ export class CreateCommentDto {
     description: 'Task identifier',
     example: 'fbc55fd6-9ac2-4aad-8b79-5adfb2faed8d',
   })
-  @IsString()
-  task: string;
+  @IsNumber()
+  task: number;
 }

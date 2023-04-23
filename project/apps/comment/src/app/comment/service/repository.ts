@@ -1,28 +1,92 @@
 import { Injectable } from '@nestjs/common';
+import { CRUDRepository } from '@project/contracts';
+import { PrismaService } from '@project/services';
 import { Comment } from '@project/contracts';
 import { CommentEntity } from '../entity';
-import { RepositoryInMemory } from '@project/services';
 
 @Injectable()
-export class Repository extends RepositoryInMemory<CommentEntity, Comment> {
+export class Repository
+  implements CRUDRepository<CommentEntity, Comment, number>
+{
+  constructor(private readonly prisma: PrismaService) {}
+
+  async create(payload: CommentEntity) {
+    return this.prisma.comment.create({
+      data: {
+        ...payload,
+      },
+    });
+  }
+
   /**
-   * Получение всей коллекции коллекции
-   * @returns
+   * Поиск записи
+   * @param id Уникальный идентификатор
    */
-  async getRepository(): Promise<Comment[]> {
-    // TODO: в целевой реализации будет поиск по идентификатору авторизованного пользователя
-    return Object.values(this.repository);
+  async findById(id: number) {
+    return this.prisma.comment.findUnique({
+      where: {
+        id,
+      },
+    });
+  }
+
+  /**
+   * Удаление записи
+   * @param id Идентификатор записи
+   */
+  async delete(id: number) {
+    await this.prisma.comment.delete({
+      where: {
+        id: id,
+      },
+    });
   }
 
   /**
    * Удаления списка комментариев в разрезе фильма
    * @param taskId Идентификатор задачи
    */
-  async deleteCommentsList(taskId: string) {
-    Object.entries(this.repository).forEach(([key, item]) => {
-      if (item.task === taskId) {
-        delete this.repository[key];
-      }
+  async deleteCommentsList(taskId: number) {
+    return this.prisma.comment.deleteMany({
+      where: {
+        task: taskId,
+      },
+    });
+  }
+
+  /**
+   * Обновление записи
+   * @param id Идентификатор записи
+   * @param item Полезная нагрузка
+   * @returns Обновленная запись
+   */
+  async update(id: number, item: Comment) {
+    return this.prisma.comment.update({
+      where: {
+        id,
+      },
+      data: {
+        ...item,
+      },
+    });
+  }
+
+  /**
+   * Выборка всех записей по таблице tasks  с учетом фильтрации
+   * @param query Фильтры, переданные в query-параметрах
+   * @returns Список записей
+   */
+  async getList(taskId: number) {
+    // const { limit, city, page, category, sorting, tag } = query;
+    return this.prisma.comment.findMany({
+      where: {
+        task: taskId,
+      },
+      // orderBy: {
+      //   [sorting]: 'desc',
+      // },
+      // take: limit,
+      // skip: page > 0 ? limit * (page - 1) : undefined,
     });
   }
 }
