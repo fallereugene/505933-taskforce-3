@@ -1,0 +1,39 @@
+version: '3.5'
+services:
+  taskforce.review.postgres:
+    env_file:
+      - .env.development
+    image: postgres:14-alpine
+    container_name: taskforce.review.postgres
+    ports:
+      - 5434:5432
+    volumes:
+      - taskforce.review.postgres:/var/lib/postgresql/data
+
+    healthcheck:
+      test:
+        ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_PASSWORD}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+    networks:
+      - taskforce.review
+
+  taskforce.review.pgadmin:
+    env_file:
+      - .env.development
+    image: dpage/pgadmin4
+    container_name: taskforce.review.pgadmin
+    ports:
+      - 8084:80
+    networks:
+      - taskforce.review
+
+volumes:
+  taskforce.review.postgres:
+
+networks:
+  taskforce.review:
+    driver: bridge

@@ -26,13 +26,14 @@ const seed = async () => {
   console.info('🚀 Database was filled');
 };
 
-seed()
-  .then(async () => {
+(async () => {
+  try {
+    await seed();
     await prisma.$disconnect();
-  })
-  .catch(async (err) => {
+  } catch (err) {
     console.error(err);
     await prisma.$disconnect();
 
     process.exit(1);
-  });
+  }
+})();
