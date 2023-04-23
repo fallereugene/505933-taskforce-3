@@ -3,7 +3,8 @@ import { Review } from '@project/contracts';
 export class ReviewEntity implements Review {
   _id?: string;
   text: string;
-  task: string;
+  taskId: number;
+  contractor: string;
   rating: number;
 
   constructor(review: Review) {

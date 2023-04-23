@@ -5,6 +5,7 @@ import {
   Min,
   Max,
   IsNumber,
+  IsMongoId,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { ReviewSetting } from '../../constants';
@@ -20,11 +21,18 @@ export class CreateReviewDto {
   text: string;
 
   @ApiProperty({
-    description: 'Task identifier',
-    example: 'fbc55fd6-9ac2-4aad-8b79-5adfb2faed8d',
+    description: 'Contractor identifier',
+    example: '6441aa5173cfe6ec7f835cba',
   })
-  @IsString()
-  task: string;
+  @IsMongoId()
+  contractor: string;
+
+  @ApiProperty({
+    description: 'Task identifier',
+    example: 4,
+  })
+  @IsNumber()
+  taskId: number;
 
   @ApiProperty({
     description: 'Rating',

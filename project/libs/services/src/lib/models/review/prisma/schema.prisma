@@ -14,7 +14,9 @@ datasource db {
 model Review {
   id Int @id @default(autoincrement())
   text String @default("")
-  userId String @map("user_id")
+  customer String @map("customer_id")
+  contractor String @map("contractor_id")
+  taskId Int @map("task_id")
   rating Int @default(3)
 
   createdAt DateTime @default(now())

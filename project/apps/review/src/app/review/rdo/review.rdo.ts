@@ -4,23 +4,38 @@ import { Expose, Transform } from 'class-transformer';
 export class ReviewRdo {
   @ApiProperty({
     description: 'Unique identifier',
-    example: '4ff6e921-36c4-4f80-ae41-919c06c0c5c3',
+    example: 4,
   })
-  @Expose({ name: '_id' })
-  @Transform(({ obj }) => obj._id.toString())
   id?: string;
+
   @ApiProperty({
     description: 'Comment',
     example: 'Some comment',
   })
   @Expose()
   text: string;
+
   @ApiProperty({
     description: 'Task identifier',
-    example: 'ahw55fd6-9ac2-4aad-8b79-5adfb2faeyui',
+    example: 4,
   })
   @Expose()
   task: string;
+
+  @ApiProperty({
+    description: 'Customer identifier',
+    example: '6441aa5173cfe6ec7f835cba',
+  })
+  @Expose()
+  customer: string;
+
+  @ApiProperty({
+    description: 'Contractor identifier',
+    example: '6441aa5173cfe6ec7f835cba',
+  })
+  @Expose()
+  contractor: string;
+
   @ApiProperty({
     description: 'Rating',
     example: 4,
