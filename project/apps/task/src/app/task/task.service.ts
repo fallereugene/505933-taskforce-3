@@ -30,8 +30,11 @@ export class TaskService {
       customer: '',
     };
     const record = new TaskEntity(task);
-
-    return this.repository.create(record);
+    const categoryList = await this.repository.getCategoryList();
+    const existingCategoryId = categoryList.find(
+      (item) => item.name === record.category
+    );
+    return this.repository.create(record, existingCategoryId?.id);
   }
 
   /**
