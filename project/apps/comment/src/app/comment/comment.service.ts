@@ -5,6 +5,7 @@ import { CommentEntity } from './entity';
 import { Repository } from './service';
 import { CreateCommentDto } from './dto';
 import { EXCEPTION } from '../constants';
+import { PostQuery } from './validations';
 
 @Injectable()
 export class CommentService {
@@ -30,14 +31,13 @@ export class CommentService {
   /**
    * Получение списка комментариев
    */
-  async getList(taskId: number): Promise<Comment[]> {
-    return await this.repository.getList(taskId);
+  async getList(taskId: number, query: PostQuery): Promise<Comment[]> {
+    return await this.repository.getList(taskId, query);
   }
 
   /**
-   * Получение детальной информации о задаче
-   * @param id Идентификатор задачи
-   * @returns Детальная информация о задаче + дополнительные данные (количество откликов, информация о пользователе и т.д.)
+   * Получение детальной информации по комментарию
+   * @param id Идентификатор комментария
    */
   async findById(id: number): Promise<Comment> {
     const record = await this.repository.findById(id);

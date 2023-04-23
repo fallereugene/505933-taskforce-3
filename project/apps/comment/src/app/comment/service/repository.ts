@@ -3,6 +3,7 @@ import { CRUDRepository } from '@project/contracts';
 import { PrismaService } from '@project/services';
 import { Comment } from '@project/contracts';
 import { CommentEntity } from '../entity';
+import { PostQuery } from '../validations';
 
 @Injectable()
 export class Repository
@@ -10,6 +11,10 @@ export class Repository
 {
   constructor(private readonly prisma: PrismaService) {}
 
+  /**
+   * Создание записи
+   * @param payload Сущность записи
+   */
   async create(payload: CommentEntity) {
     return this.prisma.comment.create({
       data: {
@@ -73,20 +78,21 @@ export class Repository
 
   /**
    * Выборка всех записей по таблице tasks  с учетом фильтрации
+   * @param taskId Идентификатор задачи, в разрезе которой осуществляется поиск комментариев
    * @param query Фильтры, переданные в query-параметрах
    * @returns Список записей
    */
-  async getList(taskId: number) {
-    // const { limit, city, page, category, sorting, tag } = query;
+  async getList(taskId: number, query: PostQuery) {
+    const { limit, page } = query;
     return this.prisma.comment.findMany({
       where: {
         task: taskId,
       },
       // orderBy: {
-      //   [sorting]: 'desc',
+      //   createdAt: 'desc',
       // },
-      // take: limit,
-      // skip: page > 0 ? limit * (page - 1) : undefined,
+      take: limit,
+      skip: page > 0 ? limit * (page - 1) : undefined,
     });
   }
 }
