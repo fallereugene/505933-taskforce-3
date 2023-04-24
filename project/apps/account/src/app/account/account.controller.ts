@@ -79,7 +79,8 @@ export class AccountController {
   })
   async login(@Body() dto: LoginAccountDto): Promise<LoggedInAccountRdo> {
     const user = await this.accountService.verifyAccount(dto);
-    return fillObject(LoggedInAccountRdo, user);
+    const { accessToken } = await this.accountService.createToken(user);
+    return fillObject(LoggedInAccountRdo, { ...user, accessToken });
   }
 
   /**

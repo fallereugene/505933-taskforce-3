@@ -4,6 +4,7 @@ import {
   UnauthorizedException,
   NotFoundException,
 } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { Timezone } from '@project/services';
 import {
   CreateAccountDto,
@@ -19,7 +20,8 @@ import { Exception } from '../constants';
 export class AccountService {
   constructor(
     private readonly repository: Repository,
-    private readonly tz: Timezone
+    private readonly tz: Timezone,
+    private readonly jwtService: JwtService
   ) {}
 
   /**
@@ -97,7 +99,6 @@ export class AccountService {
     const entity = await new AccountEntity({ ...record.toJSON() }).setPassword(
       newPassword
     );
-    console.log();
     return this.repository.update(accountId, { ...entity });
   }
 
@@ -114,5 +115,23 @@ export class AccountService {
       ...payload,
     };
     return this.repository.update(accountId, updatedRecord);
+  }
+
+  /**
+   * Создание JWT-токена
+   * @param user Пользовательские данные, на основе которых создается токен
+   */
+  async createToken(user: AccountEntity) {
+    const { _id, email, role, lastname, firstname } = user;
+
+    return {
+      accessToken: await this.jwtService.signAsync({
+        id: _id,
+        email,
+        role,
+        lastname,
+        firstname,
+      }),
+    };
   }
 }

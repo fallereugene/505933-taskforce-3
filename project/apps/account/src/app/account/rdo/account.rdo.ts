@@ -12,7 +12,7 @@ export class AccountRdo {
   id: string;
 
   @ApiProperty({
-    description: "User's last name",
+    description: "User's first name",
     example: 'John',
   })
   @Expose()

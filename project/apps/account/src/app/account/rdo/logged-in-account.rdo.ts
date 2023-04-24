@@ -10,10 +10,24 @@ export class LoggedInAccountRdo {
   email: string;
 
   @ApiProperty({
+    description: "User's first name",
+    example: 'John',
+  })
+  @Expose()
+  firstname: string;
+
+  @ApiProperty({
+    description: "User's last name",
+    example: 'Doe',
+  })
+  @Expose()
+  lastname: string;
+
+  @ApiProperty({
     description: 'JWT token',
     example:
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.PcmVIPbcZl9j7qFzXRAeSyhtuBnHQNMuLHsaG5l804A',
   })
   @Expose()
-  token: string;
+  accessToken: string;
 }

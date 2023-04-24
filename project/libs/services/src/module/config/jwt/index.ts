@@ -18,3 +18,4 @@ export const jwtConfig = (options: JwtConfig) => {
 };
 
 export { JwtConfig };
+export * from './utils';

@@ -1,7 +1,13 @@
 import dayjs from 'dayjs';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Timezone, AvailableTimezoneService } from '@project/services';
+import { JwtModule } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
+import {
+  Timezone,
+  AvailableTimezoneService,
+  getJwtOptions,
+} from '@project/services';
 import { AccountService } from './account.service';
 import { AccountController } from './account.controller';
 import { AccountModel, AccountSchema } from './model';
@@ -12,6 +18,10 @@ import { Repository } from './service';
     MongooseModule.forFeature([
       { name: AccountModel.name, schema: AccountSchema },
     ]),
+    JwtModule.registerAsync({
+      inject: [ConfigService],
+      useFactory: getJwtOptions,
+    }),
   ],
   controllers: [AccountController],
   providers: [
