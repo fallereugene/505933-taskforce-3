@@ -1,7 +1,7 @@
 import { AvailableRole } from './';
 
-export interface TokenPayload {
-  sub: string;
+export interface AccessTokenPayload {
+  id: string;
   email: string;
   role: AvailableRole;
   lastname: string;

@@ -11,6 +11,7 @@ import {
   UploadedFile,
   UseInterceptors,
   UsePipes,
+  UseGuards,
 } from '@nestjs/common';
 import { Express } from 'express';
 import { FileSizeValidationPipe } from '@project/utils/utils-core';
@@ -26,6 +27,7 @@ import {
 } from './dto';
 import { AccountRdo, LoggedInAccountRdo } from './rdo';
 import { MongoIdValidationPipe } from './validators';
+import { JwtAuthGuard } from './guards';
 
 @ApiTags('account')
 @Controller({
@@ -102,6 +104,7 @@ export class AccountController {
    * @param accountId Уникальный идентификатор пользователя
    * @returns Возвращаемая информация зависит от роли пользователя, по которому запрашивается информация.
    */
+  @UseGuards(JwtAuthGuard)
   @Get(':accountId')
   @ApiOperation({ summary: 'Getting detailed information' })
   @ApiResponse({

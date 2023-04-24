@@ -12,6 +12,7 @@ import {
   ChangePasswordDto,
   ChangeProfileDto,
 } from './dto';
+import { AccessTokenPayload } from '@project/contracts';
 import { Repository } from './service';
 import { AccountEntity } from './entity';
 import { Exception } from '../constants';
@@ -123,15 +124,15 @@ export class AccountService {
    */
   async createToken(user: AccountEntity) {
     const { _id, email, role, lastname, firstname } = user;
-
+    const payload: AccessTokenPayload = {
+      id: _id,
+      email,
+      role,
+      lastname,
+      firstname,
+    };
     return {
-      accessToken: await this.jwtService.signAsync({
-        id: _id,
-        email,
-        role,
-        lastname,
-        firstname,
-      }),
+      accessToken: await this.jwtService.signAsync(payload),
     };
   }
 }
