@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CRUDRepository } from '@project/contracts';
-import { PrismaService } from '@project/services';
+import { PrismaServiceComment } from '@project/services';
 import { Comment } from '@project/contracts';
 import { CommentEntity } from '../entity';
 import { PostQuery } from '../validations';
@@ -9,7 +9,7 @@ import { PostQuery } from '../validations';
 export class Repository
   implements CRUDRepository<CommentEntity, Comment, number>
 {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaServiceComment) {}
 
   /**
    * Создание записи

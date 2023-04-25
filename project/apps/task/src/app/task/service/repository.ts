@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { CRUDRepository } from '@project/contracts';
-import { PrismaService } from '@project/services';
+import { PrismaServiceTask } from '@project/services';
 import { Task, TaskStatus } from '@project/contracts';
 import { TaskEntity } from '../entity';
 import { PostQuery } from '../validations';
 
 @Injectable()
 export class Repository implements CRUDRepository<TaskEntity, Task> {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaServiceTask) {}
 
   /**
    * Создание записи Задача (Task)
