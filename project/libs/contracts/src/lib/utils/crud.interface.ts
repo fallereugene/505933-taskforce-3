@@ -1,4 +1,4 @@
-export interface CRUDRepository<E, R, I extends string = string> {
+export interface CRUDRepository<E, R, I extends string | number = string> {
   findById(id: I): Promise<R | null>;
   create(item: E): Promise<R>;
   update(id: I, item: R): Promise<R>;

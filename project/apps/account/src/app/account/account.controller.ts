@@ -1,3 +1,4 @@
+import 'multer';
 import {
   Controller,
   Body,
@@ -7,7 +8,14 @@ import {
   Param,
   HttpCode,
   HttpStatus,
+  UploadedFile,
+  UseInterceptors,
+  UsePipes,
+  UseGuards,
 } from '@nestjs/common';
+import { Express } from 'express';
+import { FileSizeValidationPipe } from '@project/utils/utils-core';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { fillObject } from '@project/utils/utils-core';
 import { AccountService } from './account.service';
@@ -18,6 +26,8 @@ import {
   ChangeProfileDto,
 } from './dto';
 import { AccountRdo, LoggedInAccountRdo } from './rdo';
+import { MongoIdValidationPipe } from './validators';
+import { JwtAuthGuard } from './guards';
 
 @ApiTags('account')
 @Controller({
@@ -71,7 +81,8 @@ export class AccountController {
   })
   async login(@Body() dto: LoginAccountDto): Promise<LoggedInAccountRdo> {
     const user = await this.accountService.verifyAccount(dto);
-    return fillObject(LoggedInAccountRdo, user);
+    const { accessToken } = await this.accountService.createToken(user);
+    return fillObject(LoggedInAccountRdo, { ...user, accessToken });
   }
 
   /**
@@ -93,6 +104,7 @@ export class AccountController {
    * @param accountId Уникальный идентификатор пользователя
    * @returns Возвращаемая информация зависит от роли пользователя, по которому запрашивается информация.
    */
+  @UseGuards(JwtAuthGuard)
   @Get(':accountId')
   @ApiOperation({ summary: 'Getting detailed information' })
   @ApiResponse({
@@ -104,7 +116,9 @@ export class AccountController {
     status: HttpStatus.NOT_FOUND,
     description: 'Not found',
   })
-  async getAccount(@Param('accountId') accountId: string): Promise<AccountRdo> {
+  async getAccount(
+    @Param('accountId', MongoIdValidationPipe) accountId: string
+  ): Promise<AccountRdo> {
     const payload = await this.accountService.findById(accountId);
     return fillObject(AccountRdo, payload);
   }
@@ -131,7 +145,7 @@ export class AccountController {
     description: 'Unauthorized',
   })
   async changePassword(
-    @Param('accountId') accountId: string,
+    @Param('accountId', MongoIdValidationPipe) accountId: string,
     @Body() dto: ChangePasswordDto
   ): Promise<{}> {
     await this.accountService.changePassword(dto, accountId);
@@ -156,10 +170,20 @@ export class AccountController {
     description: 'Not found',
   })
   async changeProfile(
-    @Param('accountId') accountId: string,
+    @Param('accountId', MongoIdValidationPipe) accountId: string,
     @Body() dto: ChangeProfileDto
   ): Promise<AccountRdo> {
     const payload = await this.accountService.changeProfile(accountId, dto);
     return fillObject(AccountRdo, payload);
+  }
+
+  @Post('/upload')
+  @UseInterceptors(FileInterceptor('file'))
+  @UsePipes(new FileSizeValidationPipe({ maxSize: 500 }))
+  async upload(
+    @UploadedFile()
+    file: Express.Multer.File
+  ) {
+    //  TODO: Need to implement
   }
 }

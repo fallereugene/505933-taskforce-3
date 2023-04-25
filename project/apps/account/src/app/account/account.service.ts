@@ -4,6 +4,7 @@ import {
   UnauthorizedException,
   NotFoundException,
 } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { Timezone } from '@project/services';
 import {
   CreateAccountDto,
@@ -11,15 +12,17 @@ import {
   ChangePasswordDto,
   ChangeProfileDto,
 } from './dto';
+import { AccessTokenPayload } from '@project/contracts';
 import { Repository } from './service';
 import { AccountEntity } from './entity';
-import { EXCEPTION } from '../constants';
+import { Exception } from '../constants';
 
 @Injectable()
 export class AccountService {
   constructor(
     private readonly repository: Repository,
-    private readonly tz: Timezone
+    private readonly tz: Timezone,
+    private readonly jwtService: JwtService
   ) {}
 
   /**
@@ -39,7 +42,7 @@ export class AccountService {
     const isUserExists = await this.repository.findByEmail(account.email);
 
     if (isUserExists) {
-      throw new ConflictException(EXCEPTION.Conflict);
+      throw new ConflictException(Exception.Conflict);
     }
 
     const record = await new AccountEntity(account).setPassword(
@@ -58,11 +61,11 @@ export class AccountService {
     const { email, password } = payload;
     const record = await this.repository.findByEmail(email);
     if (!record) {
-      throw new NotFoundException(EXCEPTION.NotFoundAccount);
+      throw new NotFoundException(Exception.NotFoundAccount);
     }
     const accountEntity = new AccountEntity(record);
     if (!(await accountEntity.comparePassword(password))) {
-      throw new UnauthorizedException(EXCEPTION.AuthorizationFailed);
+      throw new UnauthorizedException(Exception.AuthorizationFailed);
     }
     return accountEntity;
   }
@@ -75,7 +78,7 @@ export class AccountService {
   async findById(id: string) {
     const record = await this.repository.findById(id);
     if (!record) {
-      throw new NotFoundException(EXCEPTION.NotFoundAccount);
+      throw new NotFoundException(Exception.NotFoundAccount);
     }
     return record;
   }
@@ -97,7 +100,6 @@ export class AccountService {
     const entity = await new AccountEntity({ ...record.toJSON() }).setPassword(
       newPassword
     );
-    console.log();
     return this.repository.update(accountId, { ...entity });
   }
 
@@ -114,5 +116,23 @@ export class AccountService {
       ...payload,
     };
     return this.repository.update(accountId, updatedRecord);
+  }
+
+  /**
+   * Создание JWT-токена
+   * @param user Пользовательские данные, на основе которых создается токен
+   */
+  async createToken(user: AccountEntity) {
+    const { _id, email, role, lastname, firstname } = user;
+    const payload: AccessTokenPayload = {
+      id: _id,
+      email,
+      role,
+      lastname,
+      firstname,
+    };
+    return {
+      accessToken: await this.jwtService.signAsync(payload),
+    };
   }
 }

@@ -14,6 +14,8 @@ declare global {
       DB_AUTH_BASE: string;
       DB_HOST: string;
       DB_PORT: string;
+      JWT_SECRET: string;
+      JWT_EXPIRES_IN: string;
     }
   }
 }

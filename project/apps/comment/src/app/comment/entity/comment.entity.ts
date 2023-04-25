@@ -3,7 +3,7 @@ import { Comment } from '@project/contracts';
 export class CommentEntity implements Comment {
   _id?: string;
   text: string;
-  task: string;
+  task: number;
   author: string;
 
   constructor(task: Comment) {

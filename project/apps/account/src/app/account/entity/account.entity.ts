@@ -11,6 +11,7 @@ export class AccountEntity implements Account {
   avatar?: string;
   birthDate: string;
   password: string;
+  specialization: string[];
 
   constructor(account: Account) {
     this.fillEntity(account);

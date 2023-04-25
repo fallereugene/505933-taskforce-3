@@ -6,8 +6,7 @@ export class CommentRdo {
     description: 'Unique identifier',
     example: '4ff6e921-36c4-4f80-ae41-919c06c0c5c3',
   })
-  @Expose({ name: '_id' })
-  @Transform(({ obj }) => obj._id.toString())
+  @Expose()
   id?: string;
   @ApiProperty({
     description: 'Comment',

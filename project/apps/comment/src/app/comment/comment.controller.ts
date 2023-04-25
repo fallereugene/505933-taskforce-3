@@ -7,12 +7,15 @@ import {
   Delete,
   HttpCode,
   HttpStatus,
+  ParseIntPipe,
+  Query,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
 import { fillObject } from '@project/utils/utils-core';
 import { CommentService } from './comment.service';
 import { CreateCommentDto } from './dto';
 import { CommentRdo } from './rdo';
+import { PostQuery } from './validations';
 
 @ApiTags('Comment service')
 @Controller({
@@ -49,14 +52,29 @@ export class CommentController {
    */
   @Get(':taskId')
   @ApiOperation({ summary: 'Getting tasks list' })
+  @ApiQuery({
+    name: 'page',
+    type: Number,
+    description: 'Page number. It is used for paginating.',
+    required: false,
+  })
+  @ApiQuery({
+    name: 'limit',
+    type: Number,
+    description: 'Max limit records.',
+    required: false,
+  })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Tasks list',
     type: CommentRdo,
     isArray: true,
   })
-  async getList(@Param('taskId') taskId: string): Promise<CommentRdo[]> {
-    const records = await this.commentService.getList(taskId);
+  async getList(
+    @Param('taskId', ParseIntPipe) taskId: number,
+    @Query() query: PostQuery
+  ): Promise<CommentRdo[]> {
+    const records = await this.commentService.getList(taskId, query);
     return records.map((r) => fillObject(CommentRdo, r));
   }
 
@@ -79,7 +97,9 @@ export class CommentController {
     status: HttpStatus.UNAUTHORIZED,
     description: 'Unauthorized',
   })
-  async deleteItem(@Param('commentId') commentId: string): Promise<void> {
+  async deleteItem(
+    @Param('commentId', ParseIntPipe) commentId: number
+  ): Promise<void> {
     await this.commentService.deleteItem(commentId);
   }
 
@@ -102,7 +122,9 @@ export class CommentController {
     status: HttpStatus.UNAUTHORIZED,
     description: 'Unauthorized',
   })
-  async deleteList(@Param('taskId') taskId: string): Promise<void> {
+  async deleteList(
+    @Param('taskId', ParseIntPipe) taskId: number
+  ): Promise<void> {
     await this.commentService.deleteList(taskId);
   }
 }

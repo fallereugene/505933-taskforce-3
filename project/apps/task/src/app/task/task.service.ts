@@ -4,6 +4,7 @@ import { Timezone } from '@project/services';
 import { TaskEntity } from './entity';
 import { Repository } from './service';
 import { CreateTaskDto, UpdateTaskDto } from './dto';
+import { PostQuery } from './validations';
 import { EXCEPTION } from '../constants';
 
 @Injectable()
@@ -29,16 +30,19 @@ export class TaskService {
       customer: '',
     };
     const record = new TaskEntity(task);
-
-    return this.repository.create(record);
+    const categoryList = await this.repository.getCategoryList();
+    const existingCategoryId = categoryList.find(
+      (item) => item.name === record.category
+    );
+    return this.repository.create(record, existingCategoryId?.id);
   }
 
   /**
    * Получение списка заданий
    * @returns Ненормализованный список заданий
    */
-  async getList(): Promise<Task[]> {
-    return this.repository.getRepository();
+  async getList(query: PostQuery): Promise<Task[]> {
+    return this.repository.getRepository(query);
   }
 
   /**

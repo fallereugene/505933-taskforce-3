@@ -1,0 +1,39 @@
+version: '3.5'
+services:
+  taskforce.comment.postgres:
+    env_file:
+      - .env.development
+    image: postgres:14-alpine
+    container_name: taskforce.comment.postgres
+    ports:
+      - 5433:5432
+    volumes:
+      - taskforce.comment.postgres:/var/lib/postgresql/data
+
+    healthcheck:
+      test:
+        ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_PASSWORD}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+    networks:
+      - taskforce.comment
+
+  taskforce.comment.pgadmin:
+    env_file:
+      - .env.development
+    image: dpage/pgadmin4
+    container_name: taskforce.comment.pgadmin
+    ports:
+      - 8083:80
+    networks:
+      - taskforce.comment
+
+volumes:
+  taskforce.comment.postgres:
+
+networks:
+  taskforce.comment:
+    driver: bridge
