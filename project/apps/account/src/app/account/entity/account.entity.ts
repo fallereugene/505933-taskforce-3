@@ -12,6 +12,7 @@ export class AccountEntity implements Account {
   birthDate: string;
   password: string;
   specialization: string[];
+  info: string;
 
   constructor(account: Account) {
     this.fillEntity(account);

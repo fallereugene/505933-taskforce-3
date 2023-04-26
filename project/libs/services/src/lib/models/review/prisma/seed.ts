@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/review';
 // import {  } from './fixtures';
 
 const prisma = new PrismaClient();

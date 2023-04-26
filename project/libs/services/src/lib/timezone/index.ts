@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import dayjs from 'dayjs';
+import dayjs, { UnitType } from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import { AvailableTimezoneService } from './constants';
@@ -34,6 +34,16 @@ export class Timezone {
     datestring?: string
   ): string {
     return this.tz.utc(datestring).format(format);
+  }
+
+  /**
+   * Получение разности двух дат: текущей и переданной
+   * в заданных единицах
+   * @param datestring Переданная дата в формате UTC
+   * @param unitType Единица измерения
+   */
+  getDiffFromNow(datestring: string, unitType: UnitType) {
+    return this.tz().utc().diff(this.tz.utc(datestring), unitType);
   }
 }
 

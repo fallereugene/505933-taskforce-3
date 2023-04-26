@@ -12,7 +12,7 @@ import {
   ChangePasswordDto,
   ChangeProfileDto,
 } from './dto';
-import { AccessTokenPayload } from '@project/contracts';
+import { AccessTokenPayload, Account } from '@project/contracts';
 import { Repository } from './service';
 import { AccountEntity } from './entity';
 import { Exception } from '../constants';
@@ -31,7 +31,10 @@ export class AccountService {
    * @returns Данные созданного пользователя
    */
   async register(payload: CreateAccountDto) {
-    const account = {
+    const account: Account = {
+      avatar: '',
+      info: '',
+      specialization: [],
       ...payload,
       birthDate: this.tz.getDateTimeLocale(
         Timezone.UTC_FORMAT,
@@ -75,12 +78,20 @@ export class AccountService {
    * @param id Идентификатор пользователя
    * @returns Объект пользователя
    */
-  async findById(id: string) {
+  async findById(id: string): Promise<Account> {
     const record = await this.repository.findById(id);
     if (!record) {
       throw new NotFoundException(Exception.NotFoundAccount);
     }
-    return record;
+    const { birthDate, specialization, ...rest } = record.toJSON();
+    if (record.role === 'customer') {
+      return rest;
+    }
+    return {
+      ...rest,
+      specialization,
+      age: this.tz.getDiffFromNow(birthDate, 'year'),
+    };
   }
 
   /**
@@ -97,7 +108,7 @@ export class AccountService {
       email: record.email,
       password: oldPassword,
     });
-    const entity = await new AccountEntity({ ...record.toJSON() }).setPassword(
+    const entity = await new AccountEntity({ ...record }).setPassword(
       newPassword
     );
     return this.repository.update(accountId, { ...entity });
@@ -111,9 +122,14 @@ export class AccountService {
    */
   async changeProfile(accountId: string, payload: ChangeProfileDto) {
     const record = await this.findById(accountId);
+    const { firstname, lastname, birthDate, info, specialization } = payload;
     const updatedRecord = {
-      ...record.toJSON(),
-      ...payload,
+      ...record,
+      firstname,
+      lastname,
+      birthDate,
+      info,
+      specialization: [...new Set(specialization)].slice(0, 5),
     };
     return this.repository.update(accountId, updatedRecord);
   }
