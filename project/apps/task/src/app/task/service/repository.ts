@@ -96,6 +96,19 @@ export class Repository implements CRUDRepository<TaskEntity, Task, number> {
   }
 
   /**
+   * Поиск задач в разрезе исполнителя
+   * @param contractor Идентификатор исполнителя
+   */
+  async findByContractor(contractor: string) {
+    return this.prisma.task.findMany({
+      where: {
+        contractor,
+        status: TaskStatus.InProgress,
+      },
+    });
+  }
+
+  /**
    * Выборка всех записей по таблице tasks  с учетом фильтрации
    * @param query Фильтры, переданные в query-параметрах
    * @returns Список записей

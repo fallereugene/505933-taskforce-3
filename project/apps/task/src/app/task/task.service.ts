@@ -2,6 +2,7 @@ import {
   Injectable,
   NotFoundException,
   UnauthorizedException,
+  BadRequestException,
 } from '@nestjs/common';
 import { TaskStatus, Task } from '@project/contracts';
 import { TaskEntity } from './entity';
@@ -97,7 +98,19 @@ export class TaskService {
     if (!isNewStatusValid) {
       throw new UnauthorizedException();
     }
-    return this.repository.update(id, { ...record, ...payload });
+    const isVacantContractor = !(
+      await this.repository.findByContractor(payload.contractor)
+    ).length;
+
+    if (!isVacantContractor) {
+      throw new BadRequestException(EXCEPTION.NotVacantContractor);
+    }
+
+    return this.repository.update(id, {
+      ...record,
+      contractor: payload.contractor ?? record.contractor,
+      status: payload.status ?? record.status,
+    });
   }
 
   /**

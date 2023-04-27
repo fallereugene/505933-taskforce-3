@@ -146,6 +146,10 @@ export class TaskController {
     status: HttpStatus.UNAUTHORIZED,
     description: 'Unauthorized',
   })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Bad request',
+  })
   async update(
     @Param('taskId', ParseIntPipe) taskId: number,
     @Body() dto: UpdateTaskDto
