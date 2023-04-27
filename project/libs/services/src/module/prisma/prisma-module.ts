@@ -1,9 +1,7 @@
 import { Module, DynamicModule } from '@nestjs/common';
-import {
-  PrismaServiceComment,
-  PrismaServiceReview,
-  PrismaServiceTask,
-} from '.';
+import { PrismaServiceTask } from './prisma-service-task';
+import { PrismaServiceComment } from './prisma-service-comment';
+import { PrismaServiceReview } from './prisma-service-review';
 
 @Module({})
 export class PrismaModule {
@@ -11,8 +9,8 @@ export class PrismaModule {
     return {
       global: true,
       module: PrismaModule,
-      providers: [PrismaServiceComment, PrismaServiceReview, PrismaServiceTask],
-      exports: [PrismaServiceComment, PrismaServiceReview, PrismaServiceTask],
+      providers: [PrismaServiceComment, PrismaServiceTask, PrismaServiceReview],
+      exports: [PrismaServiceComment, PrismaServiceTask, PrismaServiceReview],
     };
   }
 }

@@ -7,9 +7,8 @@ export class UpdateTaskDto {
     description: 'Task contractor',
     example: 'fbc55fd6-9ac2-4aad-8b79-5adfb2faed8d',
   })
-  @IsOptional()
   @IsString()
-  contractor?: string;
+  contractor: string;
 
   @ApiProperty({
     description: 'Tags for the task',

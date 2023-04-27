@@ -1,10 +1,13 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { TaskStatus, Task } from '@project/contracts';
-import { Timezone } from '@project/services';
 import { TaskEntity } from './entity';
 import { Repository } from './service';
 import { CreateTaskDto, UpdateTaskDto } from './dto';
-import { PostQuery } from './validations';
+import { PostQuery, validateStatus } from './validations';
 import { EXCEPTION } from '../constants';
 
 @Injectable()
@@ -18,7 +21,18 @@ export class TaskService {
    * @returns Созданная задача
    */
   async create(payload: CreateTaskDto): Promise<Task> {
-    const task = {
+    // TODO: реализовать запрос к сервису пользователей
+    const tokenPayload = await Promise.resolve({
+      id: '64498ada0239cc6788ac2691',
+      email: 'john@doe.ru',
+      role: 'customer',
+      lastname: 'John',
+      firstname: 'Doe',
+    });
+    if (tokenPayload.role !== 'customer') {
+      throw new UnauthorizedException();
+    }
+    const task: Task = {
       ...payload,
       cost: payload.cost ?? 0,
       dueDate: payload.dueDate ?? null,
@@ -27,7 +41,7 @@ export class TaskService {
       tags: payload.tags ?? [],
       status: TaskStatus.New,
       contractor: null,
-      customer: '',
+      customer: tokenPayload.id,
     };
     const record = new TaskEntity(task);
     const categoryList = await this.repository.getCategoryList();
@@ -50,7 +64,8 @@ export class TaskService {
    * @param id Идентификатор задачи
    * @returns Детальная информация о задаче + дополнительные данные (количество откликов, информация о пользователе и т.д.)
    */
-  async findById(id: string): Promise<Task> {
+  async findById(id: number): Promise<Task> {
+    // TODO: проверить, что пользователь аутентифицированный
     const record = await this.repository.findById(id);
     if (!record) {
       throw new NotFoundException(EXCEPTION.NotFoundTask);
@@ -64,8 +79,24 @@ export class TaskService {
    * @param payload Объект DTO
    * @returns Детальная информация о задаче
    */
-  async update(id: string, payload: UpdateTaskDto): Promise<Task> {
+  async update(id: number, payload: UpdateTaskDto): Promise<Task> {
     const record = await this.findById(id);
+    // TODO: реализовать запрос к сервису пользователей
+    const tokenPayload = await Promise.resolve({
+      id: '64498ada0239cc6788ac2691',
+      email: 'john@doe.ru',
+      role: 'customer',
+      lastname: 'John',
+      firstname: 'Doe',
+    });
+    const isNewStatusValid = validateStatus(
+      record.status,
+      payload.status,
+      tokenPayload.role as any
+    );
+    if (!isNewStatusValid) {
+      throw new UnauthorizedException();
+    }
     return this.repository.update(id, { ...record, ...payload });
   }
 
@@ -73,8 +104,21 @@ export class TaskService {
    * Удаление существующего задания
    * @param id Идентификатор задачи
    */
-  async delete(id: string): Promise<void> {
-    await this.findById(id);
+  async delete(id: number): Promise<void> {
+    // TODO: реализовать запрос к сервису пользователей
+    const tokenPayload = await Promise.resolve({
+      id: '64498ada0239cc6788ac2691',
+      email: 'john@doe.ru',
+      role: 'contractor',
+      lastname: 'John',
+      firstname: 'Doe',
+    });
+    const record = await this.findById(id);
+    if (record.customer !== tokenPayload.id) {
+      throw new UnauthorizedException();
+    }
     await this.repository.delete(id);
+    // TODO: сделать запрос к сервису комментариев
+    // Удаление задания приводит к удалению всех оставленных к нему комментариев.
   }
 }

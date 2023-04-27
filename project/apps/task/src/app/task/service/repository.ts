@@ -6,7 +6,7 @@ import { TaskEntity } from '../entity';
 import { PostQuery } from '../validations';
 
 @Injectable()
-export class Repository implements CRUDRepository<TaskEntity, Task> {
+export class Repository implements CRUDRepository<TaskEntity, Task, number> {
   constructor(private readonly prisma: PrismaServiceTask) {}
 
   /**
@@ -42,10 +42,10 @@ export class Repository implements CRUDRepository<TaskEntity, Task> {
    * Поиск записи
    * @param id Уникальный идентификатор
    */
-  async findById(id: string) {
+  async findById(id: number) {
     const record = await this.prisma.task.findUnique({
       where: {
-        id: parseInt(id, 10),
+        id,
       },
       include: {
         category: {
@@ -65,10 +65,10 @@ export class Repository implements CRUDRepository<TaskEntity, Task> {
    * Удаление записи
    * @param id Идентификатор записи
    */
-  async delete(id: string) {
+  async delete(id: number) {
     await this.prisma.task.delete({
       where: {
-        id: parseInt(id, 10),
+        id,
       },
     });
   }
@@ -79,11 +79,11 @@ export class Repository implements CRUDRepository<TaskEntity, Task> {
    * @param item Полезная нагрузка
    * @returns Обновленная запись
    */
-  async update(id: string, item: Task) {
+  async update(id: number, item: Task) {
     const { category, ...rest } = item;
     const record = await this.prisma.task.update({
       where: {
-        id: parseInt(id, 10),
+        id,
       },
       data: {
         ...rest,

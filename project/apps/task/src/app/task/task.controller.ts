@@ -9,7 +9,7 @@ import {
   HttpCode,
   HttpStatus,
   Query,
-  UseGuards,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
 import { fillObject, Roles, RoleGuard } from '@project/utils/utils-core';
@@ -117,7 +117,9 @@ export class TaskController {
     status: HttpStatus.NOT_FOUND,
     description: 'Not found',
   })
-  async getItem(@Param('taskId') taskId: string): Promise<TaskRdo> {
+  async getItem(
+    @Param('taskId', ParseIntPipe) taskId: number
+  ): Promise<TaskRdo> {
     const payload = await this.taskService.findById(taskId);
     return fillObject(TaskRdo, payload);
   }
@@ -140,8 +142,12 @@ export class TaskController {
     status: HttpStatus.NOT_FOUND,
     description: 'Not found',
   })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Unauthorized',
+  })
   async update(
-    @Param('taskId') taskId: string,
+    @Param('taskId', ParseIntPipe) taskId: number,
     @Body() dto: UpdateTaskDto
   ): Promise<TaskRdo> {
     const payload = await this.taskService.update(taskId, dto);
@@ -167,7 +173,7 @@ export class TaskController {
     status: HttpStatus.UNAUTHORIZED,
     description: 'Unauthorized',
   })
-  async delete(@Param('taskId') taskId: string): Promise<void> {
+  async delete(@Param('taskId', ParseIntPipe) taskId: number): Promise<void> {
     await this.taskService.delete(taskId);
   }
 }

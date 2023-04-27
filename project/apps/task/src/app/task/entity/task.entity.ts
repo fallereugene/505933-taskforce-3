@@ -1,7 +1,6 @@
 import { Task, AvailableCity, TaskStatus } from '@project/contracts';
 
 export class TaskEntity implements Task {
-  _id?: string;
   title: string;
   description: string;
   category: string;
