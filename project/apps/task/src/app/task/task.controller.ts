@@ -12,7 +12,7 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
-import { fillObject, Roles, RoleGuard } from '@project/utils/utils-core';
+import { fillObject, NoAuth } from '@project/utils/utils-core';
 import { City } from '@project/contracts';
 import { PostQuery, Sorting } from './validations';
 import { TaskService } from './task.service';
@@ -53,6 +53,7 @@ export class TaskController {
    * @returns Список заданий
    */
   @Get()
+  @NoAuth()
   @ApiOperation({ summary: 'Getting tasks list' })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -107,6 +108,7 @@ export class TaskController {
    * @returns Детальная информация о задаче + дополнительные данные (количество откликов, информация о пользователе и т.д.)
    */
   @Get(':taskId')
+  @NoAuth()
   @ApiOperation({ summary: 'Getting detailed information about task' })
   @ApiResponse({
     status: HttpStatus.OK,

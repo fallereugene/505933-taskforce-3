@@ -151,4 +151,12 @@ export class AccountService {
       accessToken: await this.jwtService.signAsync(payload),
     };
   }
+
+  /**
+   * Проверка аутентификации пользователя
+   * @param token Токен
+   */
+  async isAuthenticated(token: string) {
+    return this.jwtService.verify(token);
+  }
 }

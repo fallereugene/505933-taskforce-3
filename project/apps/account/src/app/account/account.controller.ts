@@ -12,6 +12,7 @@ import {
   UseInterceptors,
   UsePipes,
   UseGuards,
+  Headers,
 } from '@nestjs/common';
 import { Express } from 'express';
 import { FileSizeValidationPipe } from '@project/utils/utils-core';
@@ -25,7 +26,7 @@ import {
   ChangePasswordDto,
   ChangeProfileDto,
 } from './dto';
-import { AccountRdo, LoggedInAccountRdo } from './rdo';
+import { AccountRdo, LoggedInAccountRdo, AccessTokenRdo } from './rdo';
 import { MongoIdValidationPipe } from './validators';
 import { JwtAuthGuard } from './guards';
 
@@ -97,6 +98,26 @@ export class AccountController {
   })
   async logout(): Promise<{}> {
     return {};
+  }
+
+  /**
+   * Проверка аутентификации пользователя
+   * @param authorization Параметр авторизации, переданный в заголовке
+   */
+  @Get('/auth')
+  @ApiOperation({ summary: "Check user's auth state." })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Unauthorized',
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Access token information',
+    type: AccessTokenRdo,
+  })
+  async isAuthenticated(@Headers('authorization') authorization: string) {
+    const token = authorization?.split(' ')[1];
+    return this.accountService.isAuthenticated(token);
   }
 
   /**

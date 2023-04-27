@@ -14,6 +14,7 @@ export const commonConfig = (options: CommonConfig) => {
           process.env.APPLICATION_PORT ?? DEFAULT_PORT.toString(),
           10
         ),
+        urlServiceAccount: process.env.URL_SERVICE_ACCOUNT,
       }
     );
 
