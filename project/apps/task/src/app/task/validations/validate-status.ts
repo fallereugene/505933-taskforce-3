@@ -37,7 +37,7 @@ export const validateStatus = (
   role: AvailableRole
 ): boolean => {
   return (
-    validStatus[currentStatus].includes(newStatus) &&
+    validStatus[currentStatus]?.includes(newStatus) &&
     AvailableStatusForRole[role].includes(newStatus)
   );
 };

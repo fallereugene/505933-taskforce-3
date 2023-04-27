@@ -90,19 +90,20 @@ export class TaskService {
       lastname: 'John',
       firstname: 'Doe',
     });
+    const shouldSetContractor = payload.status === TaskStatus.New;
     const isNewStatusValid = validateStatus(
       record.status,
       payload.status,
       tokenPayload.role as any
     );
     if (!isNewStatusValid) {
-      throw new UnauthorizedException();
+      throw new BadRequestException(EXCEPTION.NotValidStatus);
     }
     const isVacantContractor = !(
       await this.repository.findByContractor(payload.contractor)
     ).length;
 
-    if (!isVacantContractor) {
+    if (!isVacantContractor && shouldSetContractor) {
       throw new BadRequestException(EXCEPTION.NotVacantContractor);
     }
 
