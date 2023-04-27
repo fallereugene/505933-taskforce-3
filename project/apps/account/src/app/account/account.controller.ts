@@ -17,7 +17,7 @@ import { Express } from 'express';
 import { FileSizeValidationPipe } from '@project/utils/utils-core';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { fillObject } from '@project/utils/utils-core';
+import { fillObject, JwtAuthGuard } from '@project/utils/utils-core';
 import { AccountService } from './account.service';
 import {
   CreateAccountDto,
@@ -27,7 +27,6 @@ import {
 } from './dto';
 import { AccountRdo, LoggedInAccountRdo } from './rdo';
 import { MongoIdValidationPipe } from './validators';
-import { JwtAuthGuard } from './guards';
 
 @ApiTags('account')
 @Controller({
