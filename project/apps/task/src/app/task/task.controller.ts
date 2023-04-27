@@ -9,9 +9,10 @@ import {
   HttpCode,
   HttpStatus,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
-import { fillObject } from '@project/utils/utils-core';
+import { fillObject, Roles, RoleGuard } from '@project/utils/utils-core';
 import { City } from '@project/contracts';
 import { PostQuery, Sorting } from './validations';
 import { TaskService } from './task.service';

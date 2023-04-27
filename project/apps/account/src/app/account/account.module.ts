@@ -8,11 +8,11 @@ import {
   AvailableTimezoneService,
   getJwtOptions,
 } from '@project/services';
+import { JwtAuthStrategy } from './validators';
 import { AccountService } from './account.service';
 import { AccountController } from './account.controller';
 import { AccountModel, AccountSchema } from './model';
 import { Repository } from './service';
-import { JwtAuthStrategy } from './validators';
 
 @Module({
   imports: [
