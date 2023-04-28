@@ -6,14 +6,17 @@ import {
 } from '@nestjs/common';
 import { TaskStatus, Task } from '@project/contracts';
 import { TaskEntity } from './entity';
-import { Repository } from './service';
+import { Repository, AccountRepository } from './service';
 import { CreateTaskDto, UpdateTaskDto } from './dto';
 import { PostQuery, validateStatus } from './validations';
 import { EXCEPTION } from '../constants';
 
 @Injectable()
 export class TaskService {
-  constructor(private readonly repository: Repository) {}
+  constructor(
+    private readonly repository: Repository,
+    private readonly accountRepostory: AccountRepository
+  ) {}
 
   /**
    * Создание задачи.

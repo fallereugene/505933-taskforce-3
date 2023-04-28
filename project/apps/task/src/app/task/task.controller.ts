@@ -12,7 +12,7 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
-import { fillObject, NoAuth } from '@project/utils/utils-core';
+import { fillObject, NoAuth, Roles } from '@project/utils/utils-core';
 import { City } from '@project/contracts';
 import { PostQuery, Sorting } from './validations';
 import { TaskService } from './task.service';
@@ -33,6 +33,7 @@ export class TaskController {
    * @returns Детали созданного задания
    */
   @Post()
+  @Roles('customer')
   @ApiOperation({ summary: 'Creating new task' })
   @ApiResponse({
     status: HttpStatus.CREATED,
@@ -53,13 +54,17 @@ export class TaskController {
    * @returns Список заданий
    */
   @Get()
-  @NoAuth()
+  @Roles('contractor')
   @ApiOperation({ summary: 'Getting tasks list' })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Tasks list',
     type: TaskRdo,
     isArray: true,
+  })
+  @ApiResponse({
+    status: HttpStatus.FORBIDDEN,
+    description: 'Access forbidden.',
   })
   @ApiQuery({
     name: 'page',

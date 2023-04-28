@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { PrismaModule, ConfigModule } from '@project/services';
 import { TaskModule } from './task/task.module';
 import { APP_GUARD } from '@nestjs/core';
-import { AuthGuard } from './task/guard';
+import { AuthGuard, RoleGuard } from './task/guard';
 import { HttpModule } from '@project/services';
 
 @Module({
@@ -17,6 +17,10 @@ import { HttpModule } from '@project/services';
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RoleGuard,
     },
   ],
 })

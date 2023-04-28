@@ -120,9 +120,13 @@ export class Repository implements CRUDRepository<TaskEntity, Task, number> {
         status: TaskStatus.New,
         city,
         categoryId: category,
-        tags: {
-          hasSome: tag,
-        },
+        ...(tag
+          ? {
+              tags: {
+                has: tag,
+              },
+            }
+          : {}),
       },
       include: {
         category: {
