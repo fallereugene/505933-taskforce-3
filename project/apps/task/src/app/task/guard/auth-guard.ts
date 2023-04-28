@@ -26,16 +26,16 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
+    const request = context.switchToHttp().getRequest();
     const noAuth = this.reflector.get(MetadataKey.NoAuth, context.getHandler());
+
+    request.user = null;
 
     if (noAuth) {
       return true;
     }
 
-    const token = context
-      .switchToHttp()
-      .getRequest()
-      .headers.authorization?.split(' ')[1];
+    const token = request.headers.authorization?.split(' ')[1];
 
     if (!token) {
       throw new UnauthorizedException(EXCEPTION.Unauthorized);
@@ -45,7 +45,7 @@ export class AuthGuard implements CanActivate {
       ConfigNamespace.Common
     );
 
-    const { data } = await this.http.get(urlServiceAccount, {
+    const { data } = await this.http.get(`${urlServiceAccount}/auth`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -54,6 +54,8 @@ export class AuthGuard implements CanActivate {
     if (data === null) {
       throw new UnauthorizedException(EXCEPTION.Unauthorized);
     }
+
+    request.user = data;
 
     return Boolean(data);
   }

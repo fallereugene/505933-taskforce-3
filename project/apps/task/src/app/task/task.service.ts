@@ -4,7 +4,7 @@ import {
   UnauthorizedException,
   BadRequestException,
 } from '@nestjs/common';
-import { TaskStatus, Task } from '@project/contracts';
+import { TaskStatus, Task, AccessTokenPayload } from '@project/contracts';
 import { TaskEntity } from './entity';
 import { Repository, AccountRepository } from './service';
 import { CreateTaskDto, UpdateTaskDto } from './dto';
@@ -15,27 +15,21 @@ import { EXCEPTION } from '../constants';
 export class TaskService {
   constructor(
     private readonly repository: Repository,
-    private readonly accountRepostory: AccountRepository
+    private readonly accountRepository: AccountRepository
   ) {}
 
   /**
    * Создание задачи.
    * Создавать задачи могут только авторизованные пользователи
    * @param payload Объект DTO
+   * @param tokenPayload Данные access-токена
    * @returns Созданная задача
    */
-  async create(payload: CreateTaskDto): Promise<Task> {
-    // TODO: реализовать запрос к сервису пользователей
-    const tokenPayload = await Promise.resolve({
-      id: '64498ada0239cc6788ac2691',
-      email: 'john@doe.ru',
-      role: 'customer',
-      lastname: 'John',
-      firstname: 'Doe',
-    });
-    if (tokenPayload.role !== 'customer') {
-      throw new UnauthorizedException();
-    }
+  async create(
+    payload: CreateTaskDto,
+    tokenPayload: AccessTokenPayload
+  ): Promise<Task> {
+    const { id } = tokenPayload;
     const task: Task = {
       ...payload,
       cost: payload.cost ?? 0,
@@ -45,7 +39,7 @@ export class TaskService {
       tags: payload.tags ?? [],
       status: TaskStatus.New,
       contractor: null,
-      customer: tokenPayload.id,
+      customer: id,
     };
     const record = new TaskEntity(task);
     const categoryList = await this.repository.getCategoryList();
@@ -69,7 +63,6 @@ export class TaskService {
    * @returns Детальная информация о задаче + дополнительные данные (количество откликов, информация о пользователе и т.д.)
    */
   async findById(id: number): Promise<Task> {
-    // TODO: проверить, что пользователь аутентифицированный
     const record = await this.repository.findById(id);
     if (!record) {
       throw new NotFoundException(EXCEPTION.NotFoundTask);
@@ -81,33 +74,41 @@ export class TaskService {
    * Обновление задачи.
    * @param id Идентификатор задачи
    * @param payload Объект DTO
+   * @param tokenPayload Данные access-токена
    * @returns Детальная информация о задаче
    */
-  async update(id: number, payload: UpdateTaskDto): Promise<Task> {
+  async update(
+    id: number,
+    payload: UpdateTaskDto,
+    tokenPayload: AccessTokenPayload
+  ): Promise<Task> {
     const record = await this.findById(id);
-    // TODO: реализовать запрос к сервису пользователей
-    const tokenPayload = await Promise.resolve({
-      id: '64498ada0239cc6788ac2691',
-      email: 'john@doe.ru',
-      role: 'customer',
-      lastname: 'John',
-      firstname: 'Doe',
-    });
-    const shouldSetContractor = payload.status === TaskStatus.New;
+    const { id: userId, role } = tokenPayload;
     const isNewStatusValid = validateStatus(
       record.status,
       payload.status,
-      tokenPayload.role as any
+      role
     );
-    if (!isNewStatusValid) {
-      throw new BadRequestException(EXCEPTION.NotValidStatus);
-    }
-    const isVacantContractor = !(
-      await this.repository.findByContractor(payload.contractor)
-    ).length;
 
-    if (!isVacantContractor && shouldSetContractor) {
-      throw new BadRequestException(EXCEPTION.NotVacantContractor);
+    if (
+      ![record.customer, record.contractor].includes(userId) ||
+      !isNewStatusValid
+    ) {
+      throw new BadRequestException(EXCEPTION.NotValidStatusOrRole);
+    }
+
+    const shouldSetContractor =
+      role === 'customer' &&
+      record.status === TaskStatus.New &&
+      payload.contractor;
+
+    if (shouldSetContractor) {
+      const isVacantContractor = !(
+        await this.repository.findByContractor(payload.contractor)
+      ).length;
+      if (!isVacantContractor) {
+        throw new BadRequestException(EXCEPTION.NotVacantContractor);
+      }
     }
 
     return this.repository.update(id, {
@@ -115,21 +116,50 @@ export class TaskService {
       contractor: payload.contractor ?? record.contractor,
       status: payload.status ?? record.status,
     });
+
+    // if (role === 'customer' && )
+
+    console.log(`isNewStatusValid`, isNewStatusValid);
+
+    // if (![record.customer, record.contractor].includes(userId)) {
+    //   throw new BadRequestException(EXCEPTION.NotValidStatus);
+    // }
+
+    // if (role === 'customer') {
+    //   const isVacantContractor = !(
+    //     await this.repository.findByContractor(payload.contractor)
+    //   ).length;
+    // }
+
+    // const record = await this.findById(id);
+    // const shouldSetContractor = payload.status === TaskStatus.New;
+    // const isNewStatusValid = validateStatus(
+    //   record.status,
+    //   payload.status,
+    //   tokenPayload.role as any
+    // );
+    // if (!isNewStatusValid) {
+    //   throw new BadRequestException(EXCEPTION.NotValidStatus);
+    // }
+    // const isVacantContractor = !(
+    //   await this.repository.findByContractor(payload.contractor)
+    // ).length;
+    // if (!isVacantContractor && shouldSetContractor) {
+    //   throw new BadRequestException(EXCEPTION.NotVacantContractor);
+    // }
+    // return this.repository.update(id, {
+    //   ...record,
+    //   contractor: payload.contractor ?? record.contractor,
+    //   status: payload.status ?? record.status,
+    // });
   }
 
   /**
    * Удаление существующего задания
    * @param id Идентификатор задачи
+   * @param tokenPayload Данные access-токена
    */
-  async delete(id: number): Promise<void> {
-    // TODO: реализовать запрос к сервису пользователей
-    const tokenPayload = await Promise.resolve({
-      id: '64498ada0239cc6788ac2691',
-      email: 'john@doe.ru',
-      role: 'contractor',
-      lastname: 'John',
-      firstname: 'Doe',
-    });
+  async delete(id: number, tokenPayload: AccessTokenPayload): Promise<void> {
     const record = await this.findById(id);
     if (record.customer !== tokenPayload.id) {
       throw new UnauthorizedException();

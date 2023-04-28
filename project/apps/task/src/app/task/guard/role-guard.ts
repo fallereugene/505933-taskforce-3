@@ -1,8 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { ConfigService } from '@nestjs/config';
 import { AccessTokenPayload } from '@project/contracts';
-import { Http, ConfigNamespace } from '@project/services';
 import { MetadataKey } from '@project/utils/utils-core';
 
 /**
@@ -11,13 +9,10 @@ import { MetadataKey } from '@project/utils/utils-core';
  */
 @Injectable()
 export class RoleGuard implements CanActivate {
-  constructor(
-    private readonly http: Http,
-    private readonly configService: ConfigService,
-    private readonly reflector: Reflector
-  ) {}
+  constructor(private readonly reflector: Reflector) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
+    const request = context.switchToHttp().getRequest();
     const roles: string[] = this.reflector.get(
       MetadataKey.Roles,
       context.getHandler()
@@ -27,24 +22,12 @@ export class RoleGuard implements CanActivate {
       return true;
     }
 
-    const token = context
-      .switchToHttp()
-      .getRequest()
-      .headers.authorization?.split(' ')[1];
+    const accessTokenUser: AccessTokenPayload | null | undefined = request.user;
 
-    const { urlServiceAccount } = this.configService.get(
-      ConfigNamespace.Common
-    );
+    if (!accessTokenUser) {
+      return false;
+    }
 
-    const response = await this.http.get<AccessTokenPayload>(
-      urlServiceAccount,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    return roles.includes(response.data.role);
+    return roles.includes(accessTokenUser.role);
   }
 }

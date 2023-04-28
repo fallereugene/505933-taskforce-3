@@ -10,7 +10,9 @@ import {
   HttpStatus,
   Query,
   ParseIntPipe,
+  Req,
 } from '@nestjs/common';
+import { Request } from 'express';
 import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
 import { fillObject, NoAuth, Roles } from '@project/utils/utils-core';
 import { City } from '@project/contracts';
@@ -44,8 +46,12 @@ export class TaskController {
     status: HttpStatus.UNAUTHORIZED,
     description: 'Unauthorized',
   })
-  async create(@Body() dto: CreateTaskDto): Promise<TaskRdo> {
-    const payload = await this.taskService.create(dto);
+  async create(
+    @Body() dto: CreateTaskDto,
+    @Req() request: Request
+  ): Promise<TaskRdo> {
+    const { user } = request;
+    const payload = await this.taskService.create(dto, user);
     return fillObject(TaskRdo, payload);
   }
 
@@ -159,9 +165,11 @@ export class TaskController {
   })
   async update(
     @Param('taskId', ParseIntPipe) taskId: number,
-    @Body() dto: UpdateTaskDto
+    @Body() dto: UpdateTaskDto,
+    @Req() request: Request
   ): Promise<TaskRdo> {
-    const payload = await this.taskService.update(taskId, dto);
+    const { user } = request;
+    const payload = await this.taskService.update(taskId, dto, user);
     return fillObject(TaskRdo, payload);
   }
 
@@ -184,7 +192,11 @@ export class TaskController {
     status: HttpStatus.UNAUTHORIZED,
     description: 'Unauthorized',
   })
-  async delete(@Param('taskId', ParseIntPipe) taskId: number): Promise<void> {
-    await this.taskService.delete(taskId);
+  async delete(
+    @Param('taskId', ParseIntPipe) taskId: number,
+    @Req() request: Request
+  ): Promise<void> {
+    const { user } = request;
+    await this.taskService.delete(taskId, user);
   }
 }

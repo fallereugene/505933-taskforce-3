@@ -13,7 +13,6 @@ export class RepositoryMemory extends RepositoryInMemory<
    * @returns
    */
   async getRepository(): Promise<Comment[]> {
-    // TODO: в целевой реализации будет поиск по идентификатору авторизованного пользователя
     return Object.values(this.repository);
   }
 
