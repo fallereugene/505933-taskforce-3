@@ -14,4 +14,10 @@ export interface Account {
   specialization?: string[];
   created?: string;
   age?: number;
+  publishedTasks?: number;
+  newTasks?: number;
+  finishedTasksQuantity?: number;
+  failedTasksQuantity?: number;
+  rating?: number;
+  ratingPosition?: number;
 }

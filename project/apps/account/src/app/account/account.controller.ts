@@ -123,6 +123,7 @@ export class AccountController {
   /**
    * Получение детальной информации по определенному пользователю. Информация запрашивается по идентификатору пользователя.
    * @param accountId Уникальный идентификатор пользователя
+   * @param authorization Значение, передаваемое в заголовке Authorization
    * @returns Возвращаемая информация зависит от роли пользователя, по которому запрашивается информация.
    */
   @UseGuards(JwtAuthGuard)
@@ -138,9 +139,11 @@ export class AccountController {
     description: 'Not found',
   })
   async getAccount(
-    @Param('accountId', MongoIdValidationPipe) accountId: string
+    @Param('accountId', MongoIdValidationPipe) accountId: string,
+    @Headers('authorization') authorization: string
   ): Promise<AccountRdo> {
-    const payload = await this.accountService.findById(accountId);
+    const token = authorization.split(' ')[1];
+    const payload = await this.accountService.getAccountInfo(accountId, token);
     return fillObject(AccountRdo, payload);
   }
 

@@ -1,7 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { CRUDRepository } from '@project/contracts';
+import {
+  AvailableRole,
+  CRUDRepository,
+  TaskStatus,
+  Task,
+} from '@project/contracts';
 import { PrismaServiceTask } from '@project/services';
-import { Task, TaskStatus } from '@project/contracts';
 import { TaskEntity } from '../entity';
 import { PostQuery } from '../validations';
 
@@ -99,11 +103,11 @@ export class Repository implements CRUDRepository<TaskEntity, Task, number> {
    * Поиск задач в разрезе исполнителя
    * @param contractor Идентификатор исполнителя
    */
-  async findByContractor(contractor: string) {
+  async findByAccount(role: AvailableRole, id: string, status?: TaskStatus) {
     return this.prisma.task.findMany({
       where: {
-        contractor,
-        status: TaskStatus.InProgress,
+        [role]: id,
+        status,
       },
     });
   }
@@ -114,11 +118,12 @@ export class Repository implements CRUDRepository<TaskEntity, Task, number> {
    * @returns Список записей
    */
   async getRepository(query: PostQuery) {
-    const { limit, city, page, category, sorting, tag } = query;
+    const { limit, city, page, category, sorting, tag, role, roleId } = query;
     const records = await this.prisma.task.findMany({
       where: {
         status: TaskStatus.New,
         city,
+        [role]: roleId,
         categoryId: category,
         ...(tag
           ? {
@@ -149,5 +154,13 @@ export class Repository implements CRUDRepository<TaskEntity, Task, number> {
 
   async getCategoryList() {
     return this.prisma.category.findMany();
+  }
+
+  async findBy(field: string, value: string | number) {
+    return this.prisma.task.findMany({
+      where: {
+        [field]: value,
+      },
+    });
   }
 }

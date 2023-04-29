@@ -15,6 +15,7 @@ export const commonConfig = (options: CommonConfig) => {
           10
         ),
         urlServiceAccount: process.env.URL_SERVICE_ACCOUNT,
+        urlServiceTask: process.env.URL_SERVICE_TASK,
       }
     );
 

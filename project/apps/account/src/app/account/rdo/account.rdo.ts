@@ -74,4 +74,46 @@ export class AccountRdo {
   })
   @Expose()
   specialization?: string;
+
+  @ApiProperty({
+    description: 'Tasks quantity published by customer',
+    example: 12,
+  })
+  @Expose()
+  publishedTasks?: number;
+
+  @ApiProperty({
+    description: 'Tasks quantity with status New published by customer',
+    example: 4,
+  })
+  @Expose()
+  newTasks?: number;
+
+  @ApiProperty({
+    description: 'Tasks quantity with status Finished.',
+    example: 12,
+  })
+  @Expose()
+  finishedTasksQuantity?: number;
+
+  @ApiProperty({
+    description: 'Tasks quantity with status Failed.',
+    example: 12,
+  })
+  @Expose()
+  failedTasksQuantity?: number;
+
+  @ApiProperty({
+    description: "Contractor's rating.",
+    example: 12,
+  })
+  @Expose()
+  rating?: 4.7;
+
+  @ApiProperty({
+    description: "Contractor's rating position.",
+    example: 12,
+  })
+  @Expose()
+  ratingPosition: 7;
 }

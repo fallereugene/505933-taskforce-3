@@ -4,11 +4,16 @@ import {
   UnauthorizedException,
   BadRequestException,
 } from '@nestjs/common';
-import { TaskStatus, Task, AccessTokenPayload } from '@project/contracts';
+import {
+  TaskStatus,
+  Task,
+  AccessTokenPayload,
+  AvailableRole,
+} from '@project/contracts';
 import { TaskEntity } from './entity';
 import { Repository, AccountRepository } from './service';
 import { CreateTaskDto, UpdateTaskDto } from './dto';
-import { PostQuery, validateStatus } from './validations';
+import { PostQuery, AccountQuery, validateStatus } from './validations';
 import { EXCEPTION } from '../constants';
 
 @Injectable()
@@ -70,6 +75,11 @@ export class TaskService {
     return record;
   }
 
+  async findByAccount(query: AccountQuery) {
+    const { role, roleId } = query;
+    return this.repository.findByAccount(role as AvailableRole, roleId);
+  }
+
   /**
    * Обновление задачи.
    * @param id Идентификатор задачи
@@ -104,7 +114,11 @@ export class TaskService {
 
     if (shouldSetContractor) {
       const isVacantContractor = !(
-        await this.repository.findByContractor(payload.contractor)
+        await this.repository.findByAccount(
+          'contractor',
+          payload.contractor,
+          TaskStatus.InProgress
+        )
       ).length;
       if (!isVacantContractor) {
         throw new BadRequestException(EXCEPTION.NotVacantContractor);
@@ -116,42 +130,6 @@ export class TaskService {
       contractor: payload.contractor ?? record.contractor,
       status: payload.status ?? record.status,
     });
-
-    // if (role === 'customer' && )
-
-    console.log(`isNewStatusValid`, isNewStatusValid);
-
-    // if (![record.customer, record.contractor].includes(userId)) {
-    //   throw new BadRequestException(EXCEPTION.NotValidStatus);
-    // }
-
-    // if (role === 'customer') {
-    //   const isVacantContractor = !(
-    //     await this.repository.findByContractor(payload.contractor)
-    //   ).length;
-    // }
-
-    // const record = await this.findById(id);
-    // const shouldSetContractor = payload.status === TaskStatus.New;
-    // const isNewStatusValid = validateStatus(
-    //   record.status,
-    //   payload.status,
-    //   tokenPayload.role as any
-    // );
-    // if (!isNewStatusValid) {
-    //   throw new BadRequestException(EXCEPTION.NotValidStatus);
-    // }
-    // const isVacantContractor = !(
-    //   await this.repository.findByContractor(payload.contractor)
-    // ).length;
-    // if (!isVacantContractor && shouldSetContractor) {
-    //   throw new BadRequestException(EXCEPTION.NotVacantContractor);
-    // }
-    // return this.repository.update(id, {
-    //   ...record,
-    //   contractor: payload.contractor ?? record.contractor,
-    //   status: payload.status ?? record.status,
-    // });
   }
 
   /**

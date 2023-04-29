@@ -1,4 +1,5 @@
 export { City } from './city';
+export { Role } from './role';
 export type { AvailableCity } from './available-city';
 export type { AvailableRole } from './available-role';
 export type { AccountBase } from './account-base.interface';

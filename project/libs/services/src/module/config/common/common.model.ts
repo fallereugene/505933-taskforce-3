@@ -19,4 +19,9 @@ export class CommonModel implements CommonConfig {
     message: EnvValidationMessage.UrlServiceAccountRequired,
   })
   urlServiceAccount: string;
+
+  @IsString({
+    message: EnvValidationMessage.UrlServiceTaskRequired,
+  })
+  urlServiceTask: string;
 }

@@ -12,8 +12,8 @@ import {
   ChangePasswordDto,
   ChangeProfileDto,
 } from './dto';
-import { AccessTokenPayload, Account } from '@project/contracts';
-import { Repository } from './service';
+import { AccessTokenPayload, Account, TaskStatus } from '@project/contracts';
+import { Repository, TaskRepository } from './service';
 import { AccountEntity } from './entity';
 import { Exception } from '../constants';
 
@@ -22,7 +22,8 @@ export class AccountService {
   constructor(
     private readonly repository: Repository,
     private readonly tz: Timezone,
-    private readonly jwtService: JwtService
+    private readonly jwtService: JwtService,
+    private readonly taskRepository: TaskRepository
   ) {}
 
   /**
@@ -91,6 +92,40 @@ export class AccountService {
       ...rest,
       specialization,
       age: this.tz.getDiffFromNow(birthDate, 'year'),
+    };
+  }
+
+  /**
+   * Получение полной информации по аккаунту, включая информацию,
+   * получаемую из других микросервисов
+   * @param id Идентификатор роли
+   * @param token Токен, передаваемы в заголовке Authorization
+   */
+  async getAccountInfo(id: string, token: string): Promise<Account> {
+    const { role } = this.jwtService.decode(token) as AccessTokenPayload;
+    const account = await this.findById(id);
+    const rawTaskRecords = await this.taskRepository.getListByAccount(token);
+
+    return {
+      ...account,
+      ...(role === 'customer'
+        ? {
+            publishedTasks: rawTaskRecords.length,
+            newTasks: rawTaskRecords.filter(
+              (item) => item.status === TaskStatus.New
+            ).length,
+          }
+        : {
+            finishedTasksQuantity: rawTaskRecords.filter(
+              ({ status }) => status === TaskStatus.Done
+            ).length,
+            failedTasksQuantity: rawTaskRecords.filter(
+              ({ status }) => status === TaskStatus.Failed
+            ).length,
+            // TODO: сделать соответствующую миграцию
+            rating: 4.7,
+            ratingPosition: 7,
+          }),
     };
   }
 

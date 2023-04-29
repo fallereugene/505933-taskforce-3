@@ -6,8 +6,7 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
-import { Http } from '@project/services';
-import { ConfigNamespace } from '@project/services';
+import { Http, ConfigNamespace } from '@project/services';
 import { MetadataKey } from '@project/utils/utils-core';
 import { EXCEPTION } from '../../constants';
 
