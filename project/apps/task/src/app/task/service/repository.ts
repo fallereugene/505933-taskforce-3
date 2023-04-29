@@ -109,6 +109,9 @@ export class Repository implements CRUDRepository<TaskEntity, Task, number> {
         [role]: id,
         status,
       },
+      orderBy: {
+        createdAt: 'desc',
+      },
     });
   }
 
@@ -118,12 +121,11 @@ export class Repository implements CRUDRepository<TaskEntity, Task, number> {
    * @returns Список записей
    */
   async getRepository(query: PostQuery) {
-    const { limit, city, page, category, sorting, tag, role, roleId } = query;
+    const { limit, city, page, category, sorting, tag } = query;
     const records = await this.prisma.task.findMany({
       where: {
         status: TaskStatus.New,
         city,
-        [role]: roleId,
         categoryId: category,
         ...(tag
           ? {

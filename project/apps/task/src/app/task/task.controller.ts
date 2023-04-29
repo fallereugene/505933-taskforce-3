@@ -11,12 +11,13 @@ import {
   Query,
   ParseIntPipe,
   Req,
+  Headers,
 } from '@nestjs/common';
 import { Request } from 'express';
 import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
 import { fillObject, NoAuth, Roles } from '@project/utils/utils-core';
-import { City, Role } from '@project/contracts';
-import { PostQuery, AccountQuery, Sorting } from './validations';
+import { City, Role, TaskStatus } from '@project/contracts';
+import { PostQuery, AccountQuery, AssignedQuery, Sorting } from './validations';
 import { TaskService } from './task.service';
 import { CreateTaskDto, UpdateTaskDto } from './dto';
 import { TaskRdo } from './rdo';
@@ -113,6 +114,36 @@ export class TaskController {
     return records.map((r) => fillObject(TaskRdo, r));
   }
 
+  /**
+   * Получение списка заданий, закреплённых за пользователями.
+   * @param query Query-параметры
+   * @param request Объект запроса
+   */
+  @Get('/mylist')
+  @ApiOperation({ summary: "Getting task's list assigned to the account" })
+  @ApiQuery({
+    name: 'status',
+    enum: TaskStatus,
+    description: 'Selection by passed status.',
+    required: false,
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Unauthorized',
+  })
+  async getAssignedList(
+    @Query() query: AssignedQuery,
+    @Req() request: Request
+  ) {
+    const { user } = request;
+    return this.taskService.getAssignedList(query, user);
+  }
+
+  /**
+   * Поиск заданий в разрезе аккаунта (заказчик или исполнитель)
+   * @param query Query-параметры запроса
+   * @param request Объект запроса
+   */
   @Get('/account')
   @ApiOperation({ summary: 'Getting tasks list according account.' })
   @ApiResponse({
@@ -212,8 +243,11 @@ export class TaskController {
   /**
    * Удаление существующего задания
    * @param taskId Идентификатор задачи
+   * @param request Объект запроса
+   * @param authorization Значение, передаваемое в заголовке Authorization
    */
   @Delete(':taskId')
+  @Roles('customer')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({ summary: 'Delete existing task' })
   @ApiResponse({
@@ -230,9 +264,11 @@ export class TaskController {
   })
   async delete(
     @Param('taskId', ParseIntPipe) taskId: number,
-    @Req() request: Request
+    @Req() request: Request,
+    @Headers('authorization') authorization: string
   ): Promise<void> {
     const { user } = request;
-    await this.taskService.delete(taskId, user);
+    const token = authorization.split(' ')[1];
+    await this.taskService.delete(taskId, user, token);
   }
 }

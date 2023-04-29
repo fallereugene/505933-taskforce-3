@@ -13,7 +13,12 @@ import {
 import { TaskEntity } from './entity';
 import { Repository, AccountRepository } from './service';
 import { CreateTaskDto, UpdateTaskDto } from './dto';
-import { PostQuery, AccountQuery, validateStatus } from './validations';
+import {
+  PostQuery,
+  AccountQuery,
+  AssignedQuery,
+  validateStatus,
+} from './validations';
 import { EXCEPTION } from '../constants';
 
 @Injectable()
@@ -136,14 +141,38 @@ export class TaskService {
    * Удаление существующего задания
    * @param id Идентификатор задачи
    * @param tokenPayload Данные access-токена
+   * @param token Значение, переданное в заголовке Authorization
    */
-  async delete(id: number, tokenPayload: AccessTokenPayload): Promise<void> {
+  async delete(
+    id: number,
+    tokenPayload: AccessTokenPayload,
+    token: string
+  ): Promise<void> {
     const record = await this.findById(id);
     if (record.customer !== tokenPayload.id) {
       throw new UnauthorizedException();
     }
-    await this.repository.delete(id);
+    // await this.repository.delete(id);
     // TODO: сделать запрос к сервису комментариев
     // Удаление задания приводит к удалению всех оставленных к нему комментариев.
+  }
+
+  /**
+   * Когда список «Мои задания» запрашивает заказчик, он получает список созданных им заданий.
+   * Когда этот же список запрашивает исполнитель, он получает список заданий, в которых он является исполнителем.
+   * Для заказчика список отсортирован по дате создания (по убыванию), а для исполнителя по статусу задания (задания со статусом «новый» в начале списка).
+   * Пользователь может передавать дополнительную информацию приложению и фильтровать список «Мои задания» по статусу.
+   * Это позволяет получить задания с определённым статусом. Например, только задания со статусом «В процессе».
+   * @param query Query-параметры
+   * @param user Данные авторизованного пользователя
+   */
+  async getAssignedList(query: AssignedQuery, user: AccessTokenPayload) {
+    const { role, id } = user;
+    const { status } = query;
+    const records = await this.repository.findByAccount(role, id, status);
+
+    return role === 'customer'
+      ? records
+      : records.sort((a, b) => a.status - b.status);
   }
 }
