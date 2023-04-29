@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { CRUDRepository } from '@project/contracts';
-import { PrismaServiceReview } from '@project/services';
 import { Review } from '@project/contracts';
 import { ReviewEntity } from '../entity';
+import { PrismaService } from './prisma';
 
 @Injectable()
 export class Repository
   implements CRUDRepository<ReviewEntity, Review, number>
 {
-  constructor(private readonly prisma: PrismaServiceReview) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   /**
    * Создание записи

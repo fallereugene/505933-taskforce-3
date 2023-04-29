@@ -18,6 +18,7 @@ declare global {
       JWT_EXPIRES_IN: string;
       URL_SERVICE_ACCOUNT: string;
       URL_SERVICE_TASK: string;
+      URL_SERVICE_COMMENT: string;
     }
   }
 }

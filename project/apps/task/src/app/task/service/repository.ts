@@ -5,13 +5,13 @@ import {
   TaskStatus,
   Task,
 } from '@project/contracts';
-import { PrismaServiceTask } from '@project/services';
 import { TaskEntity } from '../entity';
 import { PostQuery } from '../validations';
+import { PrismaService } from './prisma';
 
 @Injectable()
 export class Repository implements CRUDRepository<TaskEntity, Task, number> {
-  constructor(private readonly prisma: PrismaServiceTask) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   /**
    * Создание записи Задача (Task)

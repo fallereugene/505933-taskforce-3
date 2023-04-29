@@ -1,5 +1,4 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Timezone } from '@project/services';
 import { Comment } from '@project/contracts';
 import { CommentEntity } from './entity';
 import { Repository } from './service';
@@ -9,10 +8,7 @@ import { PostQuery } from './validations';
 
 @Injectable()
 export class CommentService {
-  constructor(
-    private readonly repository: Repository,
-    private readonly tz: Timezone
-  ) {}
+  constructor(private readonly repository: Repository) {}
 
   /**
    * Создание комментария

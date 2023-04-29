@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-import { PrismaModule, ConfigModule } from '@project/services';
+import { ConfigModule } from '@project/services';
 import { TaskModule } from './task/task.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard, RoleGuard } from './task/guard';
 import { HttpModule } from '@project/services';
+import { PrismaModule } from './task/prisma.module';
 
 @Module({
   imports: [

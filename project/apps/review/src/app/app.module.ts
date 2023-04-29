@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
-import { PrismaModule, ConfigModule } from '@project/services';
+import { ConfigModule } from '@project/services';
 import { ReviewModule } from './review/review.module';
+import { PrismaModule } from './review/prisma.module';
 
 @Module({
   imports: [
