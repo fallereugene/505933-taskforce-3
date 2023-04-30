@@ -39,6 +39,14 @@ export class ReviewController {
     status: HttpStatus.UNAUTHORIZED,
     description: 'Unauthorized',
   })
+  @ApiResponse({
+    status: HttpStatus.FORBIDDEN,
+    description: 'Access Forbidden',
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Bad request',
+  })
   async create(
     @Body() dto: CreateReviewDto,
     @Headers('authorization') authorization: string,

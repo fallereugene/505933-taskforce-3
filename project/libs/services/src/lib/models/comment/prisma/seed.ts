@@ -1,10 +1,16 @@
-import { PrismaClient } from '@prisma/comment';
-// import {  } from './fixtures';
+import { PrismaClient } from '.prisma/comment';
+import { comments } from './fixtures';
 
 const prisma = new PrismaClient();
 
 const seed = async () => {
-  console.info('🚀 Database was filled');
+  for (const item of comments) {
+    await prisma.comment.create({
+      data: {
+        ...item,
+      },
+    });
+  }
 };
 
 (async () => {

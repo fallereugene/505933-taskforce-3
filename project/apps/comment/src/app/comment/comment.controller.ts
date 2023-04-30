@@ -4,18 +4,20 @@ import {
   Get,
   Body,
   Param,
+  Req,
   Delete,
   HttpCode,
   HttpStatus,
   ParseIntPipe,
   Query,
 } from '@nestjs/common';
+import { Request } from 'express';
 import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
 import { fillObject } from '@project/utils/utils-core';
 import { CommentService } from './comment.service';
 import { CreateCommentDto } from './dto';
 import { CommentRdo } from './rdo';
-import { PostQuery } from './validations';
+import { CommentQuery } from './validations';
 
 @ApiTags('Comment service')
 @Controller({
@@ -28,6 +30,7 @@ export class CommentController {
   /**
    * Создание комментария
    * @param dto Объект DTO
+   * @param request Объект запроса
    * @returns Детали созданного комментария
    */
   @Post()
@@ -41,8 +44,12 @@ export class CommentController {
     status: HttpStatus.UNAUTHORIZED,
     description: 'Unauthorized',
   })
-  async create(@Body() dto: CreateCommentDto): Promise<CommentRdo> {
-    const payload = await this.commentService.create(dto);
+  async create(
+    @Body() dto: CreateCommentDto,
+    @Req() request: Request
+  ): Promise<CommentRdo> {
+    const { user } = request;
+    const payload = await this.commentService.create(dto, user);
     return fillObject(CommentRdo, payload);
   }
 
@@ -72,7 +79,7 @@ export class CommentController {
   })
   async getList(
     @Param('taskId', ParseIntPipe) taskId: number,
-    @Query() query: PostQuery
+    @Query() query: CommentQuery
   ): Promise<CommentRdo[]> {
     const records = await this.commentService.getList(taskId, query);
     return records.map((r) => fillObject(CommentRdo, r));
@@ -81,6 +88,7 @@ export class CommentController {
   /**
    * Удаление отдельного комментария
    * @param commentId Идентификатор комментария
+   * @param request Объект запроса
    */
   @Delete(':taskId/:commentId')
   @HttpCode(HttpStatus.NO_CONTENT)
@@ -97,15 +105,22 @@ export class CommentController {
     status: HttpStatus.UNAUTHORIZED,
     description: 'Unauthorized',
   })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Bad request',
+  })
   async deleteItem(
-    @Param('commentId', ParseIntPipe) commentId: number
+    @Param('commentId', ParseIntPipe) commentId: number,
+    @Req() request: Request
   ): Promise<void> {
-    await this.commentService.deleteItem(commentId);
+    const { user } = request;
+    await this.commentService.deleteItem(commentId, user);
   }
 
   /**
    * Удаление всех комментариев в разрезе определенной задачи
    * @param taskId Идентификатор задачи
+   * @param request Объект запроса
    */
   @Delete(':taskId/')
   @HttpCode(HttpStatus.NO_CONTENT)
@@ -123,8 +138,10 @@ export class CommentController {
     description: 'Unauthorized',
   })
   async deleteList(
-    @Param('taskId', ParseIntPipe) taskId: number
+    @Param('taskId', ParseIntPipe) taskId: number,
+    @Req() request: Request
   ): Promise<void> {
-    await this.commentService.deleteList(taskId);
+    const { user } = request;
+    await this.commentService.deleteList(taskId, user);
   }
 }
