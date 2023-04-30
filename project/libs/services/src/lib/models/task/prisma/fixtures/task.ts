@@ -1,4 +1,4 @@
-import { AvailableCity, Task } from '@project/contracts';
+import { Task } from '@project/contracts';
 
 export const tasks: Task[] = [
   {
@@ -13,7 +13,7 @@ export const tasks: Task[] = [
     city: 'Vladivostok',
     status: 1,
     contractor: null,
-    customer: '',
+    customer: '64498ada0239cc6788ac2691',
     image: '',
   },
   {
@@ -28,7 +28,7 @@ export const tasks: Task[] = [
     city: 'Vladivostok',
     status: 1,
     contractor: null,
-    customer: '',
+    customer: '64498ada0239cc6788ac2691',
     image: '',
   },
   {
@@ -43,7 +43,7 @@ export const tasks: Task[] = [
     city: 'Moscow',
     status: 1,
     contractor: null,
-    customer: '',
+    customer: '64498ada0239cc6788ac2691',
     image: '',
   },
   {
@@ -58,7 +58,7 @@ export const tasks: Task[] = [
     city: 'StPetersburg',
     status: 3,
     contractor: null,
-    customer: '',
+    customer: '64498ada0239cc6788ac2691',
     image: '',
   },
   {
@@ -73,7 +73,7 @@ export const tasks: Task[] = [
     city: 'Vladivostok',
     status: 3,
     contractor: null,
-    customer: '',
+    customer: '644e1b49ba6ef7419f38913a',
     image: '',
   },
   {
@@ -88,7 +88,7 @@ export const tasks: Task[] = [
     city: 'Vladivostok',
     status: 1,
     contractor: null,
-    customer: '',
+    customer: '644e1b49ba6ef7419f38913a',
     image: '',
   },
   {
@@ -126,7 +126,7 @@ export const tasks: Task[] = [
     city: 'StPetersburg',
     status: 4,
     contractor: null,
-    customer: '',
+    customer: '644e1b49ba6ef7419f38913a',
     image: '',
   },
   {
@@ -141,7 +141,7 @@ export const tasks: Task[] = [
     city: 'StPetersburg',
     status: 1,
     contractor: null,
-    customer: '',
+    customer: '644e1b49ba6ef7419f38913a',
     image: '',
   },
   {
@@ -179,7 +179,7 @@ export const tasks: Task[] = [
     city: 'Moscow',
     status: 1,
     contractor: null,
-    customer: '',
+    customer: '644e1b49ba6ef7419f38913a',
     image: '',
   },
   {
@@ -194,7 +194,7 @@ export const tasks: Task[] = [
     city: 'Vladivostok',
     status: 1,
     contractor: null,
-    customer: '',
+    customer: '644e1b49ba6ef7419f38913a',
     image: '',
   },
 ];
