@@ -1,9 +1,9 @@
 import { Review } from '@project/contracts';
 
 export class ReviewEntity implements Review {
-  _id?: string;
   text: string;
   taskId: number;
+  customer: string;
   contractor: string;
   rating: number;
 

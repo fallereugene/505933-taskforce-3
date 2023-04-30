@@ -18,8 +18,6 @@ export class Repository
     return this.prisma.review.create({
       data: {
         ...payload,
-        // TODO: Далее идентификатор пользователя будет забираться из JWT-токена
-        customer: '6441aa5173cfe6ec7f835cba',
       },
     });
   }
@@ -32,6 +30,18 @@ export class Repository
     return this.prisma.review.findUnique({
       where: {
         id,
+      },
+    });
+  }
+
+  /**
+   * Поиск записи в разрезе заказчика
+   * @param id Уникальный идентификатор записи
+   */
+  async findByTask(id: number) {
+    return this.prisma.review.findFirst({
+      where: {
+        taskId: id,
       },
     });
   }

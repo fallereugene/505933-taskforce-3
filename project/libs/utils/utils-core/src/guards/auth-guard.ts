@@ -8,7 +8,6 @@ import { Reflector } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
 import { Http, ConfigNamespace } from '@project/services';
 import { MetadataKey } from '@project/utils/utils-core';
-import { EXCEPTION } from '../../constants';
 
 /**
  * Глобальный guard
@@ -37,7 +36,7 @@ export class AuthGuard implements CanActivate {
     const token = request.headers.authorization?.split(' ')[1];
 
     if (!token) {
-      throw new UnauthorizedException(EXCEPTION.Unauthorized);
+      throw new UnauthorizedException('Unauthorized');
     }
 
     const { urlServiceAccount } = this.configService.get(
@@ -51,7 +50,7 @@ export class AuthGuard implements CanActivate {
     });
 
     if (data === null) {
-      throw new UnauthorizedException(EXCEPTION.Unauthorized);
+      throw new UnauthorizedException('Unauthorized');
     }
 
     request.user = data;

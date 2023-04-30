@@ -6,7 +6,8 @@ export class ReviewRdo {
     description: 'Unique identifier',
     example: 4,
   })
-  id?: string;
+  @Expose()
+  id: string;
 
   @ApiProperty({
     description: 'Comment',

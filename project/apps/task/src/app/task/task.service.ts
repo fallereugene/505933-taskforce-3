@@ -19,7 +19,7 @@ import {
   AssignedQuery,
   validateStatus,
 } from './validations';
-import { EXCEPTION } from '../constants';
+import { Exception } from '../constants';
 
 @Injectable()
 export class TaskService {
@@ -75,7 +75,7 @@ export class TaskService {
   async findById(id: number): Promise<Task> {
     const record = await this.repository.findById(id);
     if (!record) {
-      throw new NotFoundException(EXCEPTION.NotFoundTask);
+      throw new NotFoundException(Exception.NotFoundTask);
     }
     return record;
   }
@@ -109,7 +109,7 @@ export class TaskService {
       ![record.customer, record.contractor].includes(userId) ||
       !isNewStatusValid
     ) {
-      throw new BadRequestException(EXCEPTION.NotValidStatusOrRole);
+      throw new BadRequestException(Exception.NotValidStatusOrRole);
     }
 
     const shouldSetContractor =
@@ -126,7 +126,7 @@ export class TaskService {
         )
       ).length;
       if (!isVacantContractor) {
-        throw new BadRequestException(EXCEPTION.NotVacantContractor);
+        throw new BadRequestException(Exception.NotVacantContractor);
       }
     }
 

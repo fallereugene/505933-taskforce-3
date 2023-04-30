@@ -1,2 +1,2 @@
-export { EXCEPTION } from './exception';
+export { Exception } from './exception';
 export { CommentSetting } from './comment-setting';

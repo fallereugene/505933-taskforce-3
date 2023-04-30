@@ -3,7 +3,7 @@ import { Comment } from '@project/contracts';
 import { CommentEntity } from './entity';
 import { Repository } from './service';
 import { CreateCommentDto } from './dto';
-import { EXCEPTION } from '../constants';
+import { Exception } from '../constants';
 import { PostQuery } from './validations';
 
 @Injectable()
@@ -38,7 +38,7 @@ export class CommentService {
   async findById(id: number): Promise<Comment> {
     const record = await this.repository.findById(id);
     if (!record) {
-      throw new NotFoundException(EXCEPTION.NotFoundComment);
+      throw new NotFoundException(Exception.NotFoundComment);
     }
     return record;
   }

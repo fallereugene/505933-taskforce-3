@@ -197,7 +197,7 @@ export class TaskController {
     status: HttpStatus.NOT_FOUND,
     description: 'Not found',
   })
-  async getItem(
+  async findById(
     @Param('taskId', ParseIntPipe) taskId: number
   ): Promise<TaskRdo> {
     const payload = await this.taskService.findById(taskId);

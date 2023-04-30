@@ -1,3 +1,3 @@
-export enum EXCEPTION {
+export enum Exception {
   NotFoundComment = 'Comment was not found',
 }
