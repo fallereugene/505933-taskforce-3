@@ -56,9 +56,9 @@ export class Http {
       .catch((response) => Http.handleError(response));
   }
 
-  async delete<T = any>(url: string, data: any, config?: IRequestConfig) {
+  async delete<T = any>(url: string, config?: IRequestConfig) {
     return this.http
-      .delete<T>(url, { data, ...config })
+      .delete<T>(url, config)
       .then((response) => Http.handleSuccess(response))
       .catch((response) => Http.handleError(response));
   }

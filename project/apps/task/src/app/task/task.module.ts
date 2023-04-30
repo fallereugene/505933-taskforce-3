@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 import { Timezone, AvailableTimezoneService } from '@project/services';
 import { TaskService } from './task.service';
 import { TaskController } from './task.controller';
-import { RepositoryMemory, Repository, AccountRepository } from './service';
+import { RepositoryMemory, Repository, CommentRepository } from './service';
 import { Http } from '@project/services';
 
 @Module({
@@ -17,7 +17,7 @@ import { Http } from '@project/services';
       provide: AvailableTimezoneService.DayJs,
       useValue: dayjs,
     },
-    AccountRepository,
+    CommentRepository,
     Http,
   ],
 })

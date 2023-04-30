@@ -3,4 +3,5 @@ export enum EnvValidationMessage {
   ApplicationPort = 'Application port is required',
   UrlServiceAccountRequired = 'Account service url is required',
   UrlServiceTaskRequired = 'Task service url is required',
+  UrlServiceCommentRequired = 'Comment service url is required',
 }

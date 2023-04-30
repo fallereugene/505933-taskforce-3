@@ -11,7 +11,7 @@ import {
   AvailableRole,
 } from '@project/contracts';
 import { TaskEntity } from './entity';
-import { Repository, AccountRepository } from './service';
+import { Repository, CommentRepository } from './service';
 import { CreateTaskDto, UpdateTaskDto } from './dto';
 import {
   PostQuery,
@@ -25,7 +25,7 @@ import { Exception } from '../constants';
 export class TaskService {
   constructor(
     private readonly repository: Repository,
-    private readonly accountRepository: AccountRepository
+    private readonly commentRepository: CommentRepository
   ) {}
 
   /**
@@ -152,9 +152,8 @@ export class TaskService {
     if (record.customer !== tokenPayload.id) {
       throw new UnauthorizedException();
     }
-    // await this.repository.delete(id);
-    // TODO: сделать запрос к сервису комментариев
-    // Удаление задания приводит к удалению всех оставленных к нему комментариев.
+    await this.repository.delete(id);
+    await this.commentRepository.removeCommentsList(token, id);
   }
 
   /**

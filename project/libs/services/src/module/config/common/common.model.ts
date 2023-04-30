@@ -24,4 +24,9 @@ export class CommonModel implements CommonConfig {
     message: EnvValidationMessage.UrlServiceTaskRequired,
   })
   urlServiceTask: string;
+
+  @IsString({
+    message: EnvValidationMessage.UrlServiceCommentRequired,
+  })
+  urlServiceComment: string;
 }
