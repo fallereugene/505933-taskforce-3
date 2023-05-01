@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CRUDRepository } from '@project/contracts';
+import { AvailableRole, CRUDRepository } from '@project/contracts';
 import { Review } from '@project/contracts';
 import { ReviewEntity } from '../entity';
 import { PrismaService } from './prisma';
@@ -71,6 +71,20 @@ export class Repository
       },
       data: {
         ...item,
+      },
+    });
+  }
+
+  /**
+   * Поиск отзывов по идентификатору пользователя в разрезе роли
+   * @param id Уникальный идентификатор пользователя
+   * @param role Роль
+   * @returns Список отзывов
+   */
+  async findByAccount(id: string, role: AvailableRole) {
+    return this.prisma.review.findMany({
+      where: {
+        [role]: id,
       },
     });
   }

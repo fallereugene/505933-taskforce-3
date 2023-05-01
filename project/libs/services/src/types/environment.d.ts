@@ -19,6 +19,7 @@ declare global {
       URL_SERVICE_ACCOUNT: string;
       URL_SERVICE_TASK: string;
       URL_SERVICE_COMMENT: string;
+      URL_SERVICE_REVIEW: string;
     }
   }
 }

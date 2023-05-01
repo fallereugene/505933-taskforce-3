@@ -157,12 +157,4 @@ export class Repository implements CRUDRepository<TaskEntity, Task, number> {
   async getCategoryList() {
     return this.prisma.category.findMany();
   }
-
-  async findBy(field: string, value: string | number) {
-    return this.prisma.task.findMany({
-      where: {
-        [field]: value,
-      },
-    });
-  }
 }

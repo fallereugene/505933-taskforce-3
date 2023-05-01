@@ -3,7 +3,7 @@ import {
   ForbiddenException,
   BadRequestException,
 } from '@nestjs/common';
-import { Review, AccessTokenPayload } from '@project/contracts';
+import { Review, AccessTokenPayload, AvailableRole } from '@project/contracts';
 import { Repository, TaskRepository } from './service';
 import { CreateReviewDto } from './dto';
 import { ReviewEntity } from './entity';
@@ -44,5 +44,15 @@ export class ReviewService {
     const entity = new ReviewEntity({ ...payload, customer: user.id });
 
     return this.repository.create(entity);
+  }
+
+  /**
+   * Поиск отзывов по идентификатору пользователя в разрезе роли
+   * @param id Уникальный идентификатор пользователя
+   * @param role Роль
+   * @returns Список отзывов
+   */
+  async findByAccount(id: string, role: AvailableRole) {
+    return this.repository.findByAccount(id, role);
   }
 }

@@ -12,7 +12,7 @@ import { JwtAuthStrategy } from './validators';
 import { AccountService } from './account.service';
 import { AccountController } from './account.controller';
 import { AccountModel, AccountSchema } from './model';
-import { Repository, TaskRepository } from './service';
+import { Repository, TaskRepository, ReviewRepository } from './service';
 import { Http } from '@project/services';
 
 @Module({
@@ -30,6 +30,7 @@ import { Http } from '@project/services';
     AccountService,
     Repository,
     TaskRepository,
+    ReviewRepository,
     Timezone,
     {
       provide: AvailableTimezoneService.DayJs,

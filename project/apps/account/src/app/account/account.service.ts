@@ -13,9 +13,10 @@ import {
   ChangeProfileDto,
 } from './dto';
 import { AccessTokenPayload, Account, TaskStatus } from '@project/contracts';
-import { Repository, TaskRepository } from './service';
+import { Repository, TaskRepository, ReviewRepository } from './service';
 import { AccountEntity } from './entity';
 import { Exception } from '../constants';
+import { calculateRating } from './utils';
 
 @Injectable()
 export class AccountService {
@@ -23,7 +24,8 @@ export class AccountService {
     private readonly repository: Repository,
     private readonly tz: Timezone,
     private readonly jwtService: JwtService,
-    private readonly taskRepository: TaskRepository
+    private readonly taskRepository: TaskRepository,
+    private readonly reviewRepository: ReviewRepository
   ) {}
 
   /**
@@ -105,6 +107,7 @@ export class AccountService {
     const { role } = this.jwtService.decode(token) as AccessTokenPayload;
     const account = await this.findById(id);
     const rawTaskRecords = await this.taskRepository.getListByAccount(token);
+    const reviewRecords = await this.reviewRepository.getList(id, role);
 
     return {
       ...account,
@@ -122,8 +125,8 @@ export class AccountService {
             failedTasksQuantity: rawTaskRecords.filter(
               ({ status }) => status === TaskStatus.Failed
             ).length,
+            rating: calculateRating(reviewRecords, rawTaskRecords),
             // TODO: сделать соответствующую миграцию
-            rating: 4.7,
             ratingPosition: 7,
           }),
     };
