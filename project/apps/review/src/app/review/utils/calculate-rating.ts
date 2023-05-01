@@ -8,7 +8,10 @@ import { Review, Task, TaskStatus } from '@project/contracts';
  * @param taskList Список заданий
  * @returns Рассчитанный рейтинг
  */
-export const calculateRating = (reviewList: Review[], taskList: Task[]) => {
+export const calculateRating = (
+  reviewList: Omit<Review, 'contractor'>[],
+  taskList: Task[]
+) => {
   const failedTasksQuantity = taskList.filter(
     (task) => task.status === TaskStatus.Failed
   ).length;

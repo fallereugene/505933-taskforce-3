@@ -3,11 +3,12 @@ import {
   ForbiddenException,
   BadRequestException,
 } from '@nestjs/common';
-import { Review, AccessTokenPayload, AvailableRole } from '@project/contracts';
+import { Review, AccessTokenPayload } from '@project/contracts';
 import { Repository, TaskRepository } from './service';
 import { CreateReviewDto } from './dto';
 import { ReviewEntity } from './entity';
 import { Exception } from '../constants';
+import { calculateRating } from './utils';
 
 @Injectable()
 export class ReviewService {
@@ -30,29 +31,45 @@ export class ReviewService {
   ): Promise<Review> {
     const { taskId, contractor } = payload;
     const { id } = user;
-    const taskRecord = await this.taskRepository.findById(taskId, token);
+    const taskRecord = await this.taskRepository.findById(taskId);
 
     if (taskRecord.customer !== id || taskRecord.contractor !== contractor) {
       throw new ForbiddenException(Exception.ForbiddenException);
     }
 
     const record = await this.repository.findByTask(taskId);
-    if (record.customer === id) {
+
+    if (record && record.customer === id) {
       throw new BadRequestException(Exception.BadRequest);
     }
 
-    const entity = new ReviewEntity({ ...payload, customer: user.id });
+    const ratingId = await this.repository.getRatingByContractor(contractor);
 
-    return this.repository.create(entity);
+    const entity = new ReviewEntity({
+      ...payload,
+      customer: user.id,
+      contractor: contractor,
+    });
+
+    const reviewRecord = await this.repository.create(entity, ratingId?.id);
+
+    const taskListByContractor = await this.taskRepository.findByContractor(
+      contractor,
+      token
+    );
+    const reviewList = await this.repository.findByContractor(
+      reviewRecord.contractorId
+    );
+
+    await this.repository.updateRating(
+      reviewRecord.contractorId,
+      calculateRating(reviewList, taskListByContractor)
+    );
+
+    return reviewRecord;
   }
 
-  /**
-   * Поиск отзывов по идентификатору пользователя в разрезе роли
-   * @param id Уникальный идентификатор пользователя
-   * @param role Роль
-   * @returns Список отзывов
-   */
-  async findByAccount(id: string, role: AvailableRole) {
-    return this.repository.findByAccount(id, role);
+  async getRatingList() {
+    return this.repository.getRatingList();
   }
 }

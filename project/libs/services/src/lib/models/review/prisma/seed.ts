@@ -3,15 +3,7 @@ import { reviews } from './fixtures';
 
 const prisma = new PrismaClient();
 
-const seed = async () => {
-  for (const item of reviews) {
-    await prisma.review.create({
-      data: {
-        ...item,
-      },
-    });
-  }
-};
+const seed = async () => {};
 
 (async () => {
   try {

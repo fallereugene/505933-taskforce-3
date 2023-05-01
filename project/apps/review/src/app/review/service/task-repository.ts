@@ -14,13 +14,28 @@ export class TaskRepository {
    * @param taskId Идентификатор задачи
    * @param token Токен авторизации
    */
-  async findById(taskId: number, token: string) {
+  async findById(taskId: number) {
     const { urlServiceTask } = this.configService.get(ConfigNamespace.Common);
-    const { data } = await this.http.get(`${urlServiceTask}/${taskId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const { data } = await this.http.get(`${urlServiceTask}/${taskId}`);
+
+    return data;
+  }
+
+  /**
+   * Поиск задач по исполнителю
+   * @param contractorId Идентификатор исполнителя
+   * @param token Токен авторизации
+   */
+  async findByContractor(contractorId: string, token) {
+    const { urlServiceTask } = this.configService.get(ConfigNamespace.Common);
+    const { data } = await this.http.get(
+      `${urlServiceTask}/account?role=contractor&id=${contractorId}`,
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
 
     return data;
   }

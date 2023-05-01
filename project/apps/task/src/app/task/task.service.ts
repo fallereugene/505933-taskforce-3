@@ -13,12 +13,7 @@ import {
 import { TaskEntity } from './entity';
 import { Repository, CommentRepository } from './service';
 import { CreateTaskDto, UpdateTaskDto } from './dto';
-import {
-  PostQuery,
-  AccountQuery,
-  AssignedQuery,
-  validateStatus,
-} from './validations';
+import { PostQuery, AssignedQuery, validateStatus } from './validations';
 import { Exception } from '../constants';
 
 @Injectable()
@@ -80,9 +75,8 @@ export class TaskService {
     return record;
   }
 
-  async findByAccount(query: AccountQuery) {
-    const { role, roleId } = query;
-    return this.repository.findByAccount(role as AvailableRole, roleId);
+  async findByAccount(role: AvailableRole, id: string, status?: TaskStatus) {
+    return this.repository.findByAccount(role, id, status);
   }
 
   /**

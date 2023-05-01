@@ -6,16 +6,13 @@ import {
   Headers,
   Get,
   HttpStatus,
-  Param,
-  Query,
 } from '@nestjs/common';
 import { Request } from 'express';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { fillObject, NoAuth, Roles } from '@project/utils/utils-core';
+import { fillObject, Roles } from '@project/utils/utils-core';
 import { ReviewService } from './review.service';
 import { CreateReviewDto } from './dto';
-import { ReviewRdo } from './rdo';
-import { ReviewQuery } from './validations';
+import { ReviewRdo, RatingListRdo } from './rdo';
 
 @ApiTags('Review service')
 @Controller({
@@ -31,7 +28,7 @@ export class ReviewController {
    * @param request Объект запроса
    * @returns Детали созданного отзыва
    */
-  @Post()
+  @Post('/')
   @Roles('customer')
   @ApiOperation({ summary: 'Creating new comment' })
   @ApiResponse({
@@ -62,22 +59,21 @@ export class ReviewController {
   }
 
   /**
-   * Поиск отзывов по идентификатору пользователя в разрезе роли
-   * @param id Уникальный идентификатор пользователя
-   * @param query Query-параметры
-   * @returns Список отзывов
+   * Получение списка рейтинга пользователей
    */
-  @Get('/:id')
-  @NoAuth()
+  @Get('/')
+  @ApiOperation({ summary: 'Creating new comment' })
   @ApiResponse({
     status: HttpStatus.OK,
-    description: 'Review list',
-    type: ReviewRdo,
+    description: 'Rating list',
+    type: RatingListRdo,
   })
-  @ApiOperation({ summary: 'Getting review list by identifier' })
-  async findByAccount(@Param('id') id: string, @Query() query: ReviewQuery) {
-    const { role = 'customer' } = query;
-    const payload = await this.reviewService.findByAccount(id, role);
-    return fillObject(ReviewRdo, payload);
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Unauthorized',
+  })
+  async getRatingList() {
+    const records = await this.reviewService.getRatingList();
+    return records.map((r) => fillObject(RatingListRdo, r));
   }
 }

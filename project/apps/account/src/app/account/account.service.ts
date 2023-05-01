@@ -16,7 +16,6 @@ import { AccessTokenPayload, Account, TaskStatus } from '@project/contracts';
 import { Repository, TaskRepository, ReviewRepository } from './service';
 import { AccountEntity } from './entity';
 import { Exception } from '../constants';
-import { calculateRating } from './utils';
 
 @Injectable()
 export class AccountService {
@@ -107,7 +106,7 @@ export class AccountService {
     const { role } = this.jwtService.decode(token) as AccessTokenPayload;
     const account = await this.findById(id);
     const rawTaskRecords = await this.taskRepository.getListByAccount(token);
-    const reviewRecords = await this.reviewRepository.getList(id, role);
+    const ratingRecords = await this.reviewRepository.getRatingList(token);
 
     return {
       ...account,
@@ -125,9 +124,10 @@ export class AccountService {
             failedTasksQuantity: rawTaskRecords.filter(
               ({ status }) => status === TaskStatus.Failed
             ).length,
-            rating: calculateRating(reviewRecords, rawTaskRecords),
-            // TODO: сделать соответствующую миграцию
-            ratingPosition: 7,
+            rating: ratingRecords.find((item) => item.contractor === id)
+              ?.totalRating,
+            ratingPosition:
+              ratingRecords.findIndex((item) => item.contractor === id) + 1,
           }),
     };
   }

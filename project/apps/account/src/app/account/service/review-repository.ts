@@ -24,4 +24,19 @@ export class ReviewRepository {
 
     return data;
   }
+
+  /**
+   * Получение списка рейтинга исполнителей
+   * @param token Токен авторизации
+   */
+  async getRatingList(token: string) {
+    const { urlServiceReview } = this.configService.get(ConfigNamespace.Common);
+    const { data } = await this.http.get(`${urlServiceReview}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return data;
+  }
 }

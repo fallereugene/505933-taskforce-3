@@ -15,7 +15,8 @@ model Review {
   id Int @id @default(autoincrement())
   text String @default("")
   customer String @map("customer_id")
-  contractor String @map("contractor_id")
+  contractor Rating @relation(fields: [contractorId], references: [id])
+  contractorId Int @map("contractor_id")
   taskId Int @map("task_id")
   rating Int @default(3)
 
@@ -23,4 +24,13 @@ model Review {
   updatedAt DateTime @updatedAt
 
   @@map("reviews")
+}
+
+model Rating {
+  id Int @id @default(autoincrement())
+  review Review[]
+  contractorId String @map("contractor_id")
+  totalRating Float @map("total_rating")
+
+  @@map("ratings")
 }

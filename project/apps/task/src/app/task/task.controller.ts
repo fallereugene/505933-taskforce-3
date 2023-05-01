@@ -16,8 +16,8 @@ import {
 import { Request } from 'express';
 import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
 import { fillObject, NoAuth, Roles } from '@project/utils/utils-core';
-import { City, TaskStatus } from '@project/contracts';
-import { PostQuery, AssignedQuery, Sorting } from './validations';
+import { City, TaskStatus, Role } from '@project/contracts';
+import { PostQuery, AssignedQuery, AccountQuery, Sorting } from './validations';
 import { TaskService } from './task.service';
 import { CreateTaskDto, UpdateTaskDto } from './dto';
 import { TaskRdo } from './rdo';
@@ -146,6 +146,17 @@ export class TaskController {
    */
   @Get('/account')
   @ApiOperation({ summary: 'Getting tasks list according account.' })
+  @ApiQuery({
+    name: 'role',
+    enum: Role,
+    description: "Account's role.",
+    required: false,
+  })
+  @ApiQuery({
+    name: 'id',
+    description: "Account's identifier.",
+    required: false,
+  })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Tasks list',
@@ -156,12 +167,9 @@ export class TaskController {
     status: HttpStatus.UNAUTHORIZED,
     description: 'Unauthorized',
   })
-  async getListByAccount(@Req() request: Request): Promise<TaskRdo[]> {
-    const { role, id } = request.user;
-    const records = await this.taskService.findByAccount({
-      role,
-      roleId: id,
-    });
+  async getListByAccount(@Query() query: AccountQuery): Promise<TaskRdo[]> {
+    const { role, id } = query;
+    const records = await this.taskService.findByAccount(role, id);
     return records.map((r) => fillObject(TaskRdo, r));
   }
 
