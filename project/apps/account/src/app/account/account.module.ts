@@ -12,8 +12,8 @@ import { JwtAuthStrategy } from './validators';
 import { AccountService } from './account.service';
 import { AccountController } from './account.controller';
 import { AccountModel, AccountSchema } from './model';
-import { Repository, TaskRepository, ReviewRepository } from './service';
-import { Http } from '@project/services';
+import { Repository, TaskRepository, ReviewRepository, Api } from './service';
+import { HttpService } from '@project/services';
 
 @Module({
   imports: [
@@ -36,8 +36,13 @@ import { Http } from '@project/services';
       provide: AvailableTimezoneService.DayJs,
       useValue: dayjs,
     },
+    {
+      provide: HttpService,
+      useFactory: () => new HttpService(),
+    },
     JwtAuthStrategy,
-    Http,
+    HttpService,
+    Api,
   ],
 })
 export class AccountModule {}

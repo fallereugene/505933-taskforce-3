@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Http, ConfigNamespace } from '@project/services';
+import { HttpService, ConfigNamespace } from '@project/services';
 
 @Injectable()
 export class CommentRepository {
   constructor(
-    private readonly http: Http,
+    private readonly http: HttpService,
     private readonly configService: ConfigService
   ) {}
 

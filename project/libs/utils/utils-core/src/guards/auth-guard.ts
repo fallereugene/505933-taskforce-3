@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
-import { Http, ConfigNamespace } from '@project/services';
+import { HttpService, ConfigNamespace } from '@project/services';
 import { MetadataKey } from '@project/utils/utils-core';
 
 /**
@@ -18,7 +18,7 @@ import { MetadataKey } from '@project/utils/utils-core';
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
-    private readonly http: Http,
+    private readonly http: HttpService,
     private readonly configService: ConfigService,
     private readonly reflector: Reflector
   ) {}

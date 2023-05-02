@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common';
 import axios, {
   AxiosError,
   AxiosInstance,
@@ -7,6 +8,7 @@ import axios, {
 
 import { ResponseSuccess, ResponseError } from './contracts';
 
+@Injectable()
 export class HttpService {
   private readonly http: AxiosInstance;
 
@@ -14,13 +16,14 @@ export class HttpService {
     this.http = axios.create({
       timeout: 10000,
     });
+    console.log(`created`, this.http.get);
   }
 
   get service() {
     return this.http;
   }
 
-  async get<TReturn>(
+  async get(
     url: string,
     config: AxiosRequestConfig = {}
   ): Promise<ResponseSuccess | ResponseError> {
@@ -30,7 +33,7 @@ export class HttpService {
       .catch((e) => HttpService.responseErrorHandler(e));
   }
 
-  async post<TReturn>(
+  async post(
     url: string,
     data: any,
     config: AxiosRequestConfig = {}
@@ -41,7 +44,7 @@ export class HttpService {
       .catch((response) => HttpService.responseErrorHandler(response));
   }
 
-  async put<TReturn>(
+  async put(
     url: string,
     data: any,
     config: AxiosRequestConfig = {}
@@ -52,7 +55,7 @@ export class HttpService {
       .catch((response) => HttpService.responseErrorHandler(response));
   }
 
-  async patch<TReturn>(
+  async patch(
     url: string,
     data: any,
     config: AxiosRequestConfig = {}
@@ -63,7 +66,7 @@ export class HttpService {
       .catch((response) => HttpService.responseErrorHandler(response));
   }
 
-  async delete<TReturn>(
+  async delete(
     url: string,
     config: AxiosRequestConfig = {}
   ): Promise<ResponseSuccess | ResponseError> {
@@ -100,6 +103,4 @@ export class HttpService {
   }
 }
 
-const httpService = new HttpService();
-
-export { httpService, ResponseError, ResponseSuccess };
+export { ResponseError, ResponseSuccess };

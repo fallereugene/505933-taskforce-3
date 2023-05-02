@@ -1,7 +1,9 @@
+import { Injectable } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
-import { HttpService } from '../http/http';
+import { HttpService } from '../http';
 import { ApiConfig, RequestResult } from './contracts';
 
+@Injectable()
 export abstract class BaseModule {
   constructor(
     private readonly httpService: HttpService,
@@ -18,7 +20,7 @@ export abstract class BaseModule {
     const xCorrelationID = BaseModule.generateUuid();
     return BaseModule.invoke(
       this.httpService.get(
-        BaseModule.sanitizeUrlString(`${this.config.baseUrl}/${url}`),
+        BaseModule.sanitizeUrlString(`${this.config.baseUrl}${url}`),
         this.getConfig(xCorrelationID)
       ),
       xCorrelationID
@@ -39,7 +41,7 @@ export abstract class BaseModule {
     const xCorrelationID = BaseModule.generateUuid();
     return BaseModule.invoke(
       this.httpService.post(
-        BaseModule.sanitizeUrlString(`${this.config.baseUrl}/${url}`),
+        BaseModule.sanitizeUrlString(`${this.config.baseUrl}${url}`),
         data,
         this.getConfig(xCorrelationID)
       ),
@@ -61,7 +63,7 @@ export abstract class BaseModule {
     const xCorrelationID = BaseModule.generateUuid();
     return BaseModule.invoke(
       this.httpService.put(
-        BaseModule.sanitizeUrlString(`${this.config.baseUrl}/${url}`),
+        BaseModule.sanitizeUrlString(`${this.config.baseUrl}${url}`),
         data,
         this.getConfig(xCorrelationID)
       ),
@@ -83,7 +85,7 @@ export abstract class BaseModule {
     const xCorrelationID = BaseModule.generateUuid();
     return BaseModule.invoke(
       this.httpService.patch(
-        BaseModule.sanitizeUrlString(`${this.config.baseUrl}/${url}`),
+        BaseModule.sanitizeUrlString(`${this.config.baseUrl}${url}`),
         data,
         this.getConfig(xCorrelationID)
       ),
@@ -103,7 +105,7 @@ export abstract class BaseModule {
     const xCorrelationID = BaseModule.generateUuid();
     return BaseModule.invoke(
       this.httpService.patch(
-        BaseModule.sanitizeUrlString(`${this.config.baseUrl}/${url}`),
+        BaseModule.sanitizeUrlString(`${this.config.baseUrl}${url}`),
         this.getConfig(xCorrelationID)
       ),
       xCorrelationID

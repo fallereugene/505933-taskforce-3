@@ -4,7 +4,7 @@ import { Timezone, AvailableTimezoneService } from '@project/services';
 import { TaskService } from './task.service';
 import { TaskController } from './task.controller';
 import { RepositoryMemory, Repository, CommentRepository } from './service';
-import { Http } from '@project/services';
+import { HttpService } from '@project/services';
 
 @Module({
   controllers: [TaskController],
@@ -18,7 +18,8 @@ import { Http } from '@project/services';
       useValue: dayjs,
     },
     CommentRepository,
-    Http,
+
+    HttpService,
   ],
 })
 export class TaskModule {}
