@@ -61,7 +61,8 @@ export class TaskController {
    * @returns Список заданий
    */
   @Get()
-  @Roles('contractor')
+  // @NoAuth()
+  // @Roles('contractor')
   @ApiOperation({ summary: 'Getting tasks list' })
   @ApiResponse({
     status: HttpStatus.OK,
