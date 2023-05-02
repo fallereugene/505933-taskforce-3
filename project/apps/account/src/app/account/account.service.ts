@@ -105,36 +105,36 @@ export class AccountService {
   async getAccountInfo(id: string, token: string): Promise<Account> {
     const { role } = this.jwtService.decode(token) as AccessTokenPayload;
     const account = await this.findById(id);
-    // const rawTaskRecords = await this.taskRepository.getListByAccount(token);
-    //const ratingRecords = await this.reviewRepository.getRatingList(token);
-    // const ratingPosition = ratingRecords.findIndex(
-    //   (item) => item.contractor === id
-    // );
+    const rawTaskRecords = await this.taskRepository.getListByAccount(token);
+    const ratingRecords = await this.reviewRepository.getRatingList(token);
+    const ratingPosition = ratingRecords.findIndex(
+      (item) => item.contractor === id
+    );
 
     return {
       ...account,
-      // ...(role === 'customer'
-      //   ? {
-      //       publishedTasks: rawTaskRecords.length,
-      //       newTasks: rawTaskRecords.filter(
-      //         (item) => item.status === TaskStatus.New
-      //       ).length,
-      //     }
-      //   : {
-      //       finishedTasksQuantity: rawTaskRecords.filter(
-      //         ({ status }) => status === TaskStatus.Done
-      //       ).length,
-      //       failedTasksQuantity: rawTaskRecords.filter(
-      //         ({ status }) => status === TaskStatus.Failed
-      //       ).length,
-      //       rating:
-      //         ratingRecords.find((item) => item.contractor === id)
-      //           ?.totalRating ?? 0,
-      //       ratingPosition:
-      //         ratingPosition !== -1
-      //           ? ratingPosition + 1
-      //           : ratingRecords.length + 1,
-      //     }),
+      ...(role === 'customer'
+        ? {
+            publishedTasks: rawTaskRecords.length,
+            newTasks: rawTaskRecords.filter(
+              (item) => item.status === TaskStatus.New
+            ).length,
+          }
+        : {
+            finishedTasksQuantity: rawTaskRecords.filter(
+              ({ status }) => status === TaskStatus.Done
+            ).length,
+            failedTasksQuantity: rawTaskRecords.filter(
+              ({ status }) => status === TaskStatus.Failed
+            ).length,
+            rating:
+              ratingRecords.find((item) => item.contractor === id)
+                ?.totalRating ?? 0,
+            ratingPosition:
+              ratingPosition !== -1
+                ? ratingPosition + 1
+                : ratingRecords.length + 1,
+          }),
     };
   }
 

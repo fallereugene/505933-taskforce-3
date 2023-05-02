@@ -127,10 +127,9 @@ export class AccountController {
    * @param authorization Значение, передаваемое в заголовке Authorization
    * @returns Возвращаемая информация зависит от роли пользователя, по которому запрашивается информация.
    */
-  //@UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @NoAuth()
   @Get(':accountId')
-  @Header('X-Correlation-Id', '6e69d78258612e14e9af6db6cae9a477')
   @ApiOperation({ summary: 'Getting detailed information' })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -145,8 +144,7 @@ export class AccountController {
     @Param('accountId', MongoIdValidationPipe) accountId: string,
     @Headers('authorization') authorization: string
   ): Promise<AccountRdo> {
-    const token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NDk4YWRhMDIzOWNjNjc4OGFjMjY5MSIsImVtYWlsIjoiam9obkBkb2UuY29tIiwicm9sZSI6ImN1c3RvbWVyIiwibGFzdG5hbWUiOiJSdXNzZWwiLCJmaXJzdG5hbWUiOiJKYWNrIiwiaWF0IjoxNjgzMDIzNTQwLCJleHAiOjE2ODMxOTYzNDB9.2mBy_VpWbAqni5gCtIf9-j4pSiCKd1Wsk2GcXcHLIyo';
+    const token = authorization.split(' ')[1];
     const payload = await this.accountService.getAccountInfo(accountId, token);
     return fillObject(AccountRdo, payload);
   }
