@@ -1,5 +1,5 @@
 import { registerAs } from '@nestjs/config';
-import { Configuration } from '../config/configuration';
+import { Configuration } from '../configuration';
 import { NotifyNamespace } from './constants';
 import { NotifyConfig } from './contracts';
 import { NotifyModel } from './notify.model';
