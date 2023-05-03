@@ -9,14 +9,13 @@ services:
       - '5080:5080'
 
   taskforce.notify.rabbitmq:
+    env_file:
+      - .env.development
     image: rabbitmq:3.11-management
     container_name: taskforce.notify.rabbitmq
     ports:
       - '1088:15672'
       - '5672:5672'
-    environment:
-      RABBITMQ_DEFAULT_USER: admin
-      RABBITMQ_DEFAULT_PASS: test
     healthcheck:
       test: rabbitmq-diagnostics -q ping
       interval: 10s
@@ -24,12 +23,10 @@ services:
       retries: 5
 
   taskforce.notify.mongodb:
+    env_file:
+      - .env.development
     image: mongo
     container_name: taskforce.notify.mongodb
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: test
-      MONGO_INITDB_DATABASE: taskforce-notify
     ports:
       - 27020:27017
     volumes:
@@ -41,15 +38,15 @@ services:
       retries: 5
 
   taskforce.notify.mongodb.ui:
+    env_file:
+      - .env.development
     image: mongo-express
     restart: always
     container_name: taskforce.notify.mongodb.ui
     ports:
       - 8086:8081
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
-      ME_CONFIG_MONGODB_ADMINPASSWORD: test
-      ME_CONFIG_MONGODB_URL: mongodb://admin:test@taskforce.notify.mongodb:27017/
+    depends_on:
+      - taskforce.notify.mongodb
 
 volumes:
   taskforce.notify.mongodb:
