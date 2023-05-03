@@ -1,10 +1,18 @@
 import dayjs from 'dayjs';
 import { Module } from '@nestjs/common';
-import { Timezone, AvailableTimezoneService } from '@project/services';
+import {
+  Timezone,
+  AvailableTimezoneService,
+  HttpService,
+} from '@project/services';
 import { TaskService } from './task.service';
 import { TaskController } from './task.controller';
-import { RepositoryMemory, Repository, CommentRepository } from './service';
-import { HttpService } from '@project/services';
+import {
+  RepositoryMemory,
+  Repository,
+  CommentRepository,
+  Api,
+} from './service';
 
 @Module({
   controllers: [TaskController],
@@ -18,8 +26,12 @@ import { HttpService } from '@project/services';
       useValue: dayjs,
     },
     CommentRepository,
-
+    {
+      provide: HttpService,
+      useFactory: () => new HttpService(),
+    },
     HttpService,
+    Api,
   ],
 })
 export class TaskModule {}

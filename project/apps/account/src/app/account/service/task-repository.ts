@@ -15,9 +15,13 @@ export class TaskRepository {
    * @param token Токен авторизации
    */
   async getListByAccount(token: string) {
-    // TODO: Передача токена автризации
     const { urlServiceTask } = this.configService.get(ConfigNamespace.Common);
     try {
+      this.api.configure({
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       const { data } = await this.api.task.getListByAccount(
         `${urlServiceTask}/account`
       );

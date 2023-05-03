@@ -16,11 +16,10 @@ import {
 import { Request } from 'express';
 import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
 import { fillObject, NoAuth, Roles } from '@project/utils/utils-core';
-import { City, TaskStatus, Role } from '@project/contracts';
+import { City, TaskStatus, Role, TaskRdo } from '@project/contracts';
 import { PostQuery, AssignedQuery, AccountQuery, Sorting } from './validations';
 import { TaskService } from './task.service';
 import { CreateTaskDto, UpdateTaskDto } from './dto';
-import { TaskRdo } from './rdo';
 
 @ApiTags('Task service')
 @Controller({

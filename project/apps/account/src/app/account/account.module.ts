@@ -7,13 +7,13 @@ import {
   Timezone,
   AvailableTimezoneService,
   getJwtOptions,
+  HttpService,
 } from '@project/services';
 import { JwtAuthStrategy } from './validators';
 import { AccountService } from './account.service';
 import { AccountController } from './account.controller';
 import { AccountModel, AccountSchema } from './model';
 import { Repository, TaskRepository, ReviewRepository, Api } from './service';
-import { HttpService } from '@project/services';
 
 @Module({
   imports: [

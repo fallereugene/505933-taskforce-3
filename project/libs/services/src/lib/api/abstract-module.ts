@@ -104,7 +104,7 @@ export abstract class BaseModule {
   ): Promise<RequestResult<TReturn>> {
     const xCorrelationID = BaseModule.generateUuid();
     return BaseModule.invoke(
-      this.httpService.patch(
+      this.httpService.delete(
         BaseModule.sanitizeUrlString(`${this.config.baseUrl}${url}`),
         this.getConfig(xCorrelationID)
       ),
@@ -124,7 +124,6 @@ export abstract class BaseModule {
         Accept: 'application/json',
         'Content-Type': 'application/json',
         'X-Requested-With': 'XMLHttpRequest',
-        CustomHeader: 123,
       },
     };
   }

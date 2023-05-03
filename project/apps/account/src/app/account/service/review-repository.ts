@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AvailableRole } from '@project/contracts';
-import { HttpService, ConfigNamespace } from '@project/services';
+import { ConfigNamespace } from '@project/services';
+import { Api } from './api';
 
 @Injectable()
 export class ReviewRepository {
   constructor(
-    private readonly http: HttpService,
+    private readonly api: Api,
     private readonly configService: ConfigService
   ) {}
 
@@ -18,11 +19,15 @@ export class ReviewRepository {
    */
   async getList(id: string, role: AvailableRole) {
     const { urlServiceReview } = this.configService.get(ConfigNamespace.Common);
-    const { data } = await this.http.get(
-      `${urlServiceReview}/${id}?role=${role}`
-    );
-
-    return data;
+    try {
+      const { data } = await this.api.review.getList(
+        `${urlServiceReview}/${id}`,
+        role
+      );
+      return data;
+    } catch {
+      return [];
+    }
   }
 
   /**
@@ -31,12 +36,18 @@ export class ReviewRepository {
    */
   async getRatingList(token: string) {
     const { urlServiceReview } = this.configService.get(ConfigNamespace.Common);
-    const { data } = await this.http.get(`${urlServiceReview}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    return data;
+    try {
+      this.api.configure({
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const { data } = await this.api.review.getRatingList(
+        `${urlServiceReview}/rating`
+      );
+      return data;
+    } catch {
+      return [];
+    }
   }
 }

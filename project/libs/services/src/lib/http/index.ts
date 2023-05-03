@@ -16,7 +16,6 @@ export class HttpService {
     this.http = axios.create({
       timeout: 10000,
     });
-    console.log(`created`, this.http.get);
   }
 
   get service() {
@@ -50,7 +49,7 @@ export class HttpService {
     config: AxiosRequestConfig = {}
   ): Promise<ResponseSuccess | ResponseError> {
     return this.http
-      .post(url, data, config)
+      .put(url, data, config)
       .then((response) => HttpService.responseSuccessHandler(response))
       .catch((response) => HttpService.responseErrorHandler(response));
   }
@@ -61,7 +60,7 @@ export class HttpService {
     config: AxiosRequestConfig = {}
   ): Promise<ResponseSuccess | ResponseError> {
     return this.http
-      .post(url, data, config)
+      .patch(url, data, config)
       .then((response) => HttpService.responseSuccessHandler(response))
       .catch((response) => HttpService.responseErrorHandler(response));
   }
@@ -71,7 +70,7 @@ export class HttpService {
     config: AxiosRequestConfig = {}
   ): Promise<ResponseSuccess | ResponseError> {
     return this.http
-      .post(url, config)
+      .delete(url, config)
       .then((response) => HttpService.responseSuccessHandler(response))
       .catch((response) => HttpService.responseErrorHandler(response));
   }

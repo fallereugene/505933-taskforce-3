@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { HttpService, ConfigNamespace } from '@project/services';
+import { ConfigNamespace } from '@project/services';
+import { Api } from './api';
 
 @Injectable()
 export class CommentRepository {
   constructor(
-    private readonly http: HttpService,
+    private readonly api: Api,
     private readonly configService: ConfigService
   ) {}
 
@@ -14,13 +15,18 @@ export class CommentRepository {
    * @param token Токен авторизации
    */
   async removeCommentsList(token: string, taskId: number) {
-    const { urlServiceComment } = this.configService.get(
-      ConfigNamespace.Common
-    );
-    await this.http.delete(`${urlServiceComment}/${taskId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    try {
+      const { urlServiceComment } = this.configService.get(
+        ConfigNamespace.Common
+      );
+      this.api.configure({
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      this.api.comment.removeCommentsList(`${urlServiceComment}/${taskId}`);
+    } catch {
+      console.log(`Service is not available.`);
+    }
   }
 }

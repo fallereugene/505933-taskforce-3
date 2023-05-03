@@ -110,6 +110,9 @@ export class AccountService {
     const ratingPosition = ratingRecords.findIndex(
       (item) => item.contractor === id
     );
+    const totalRating = ratingRecords.find(
+      (item) => item.contractor === id
+    )?.totalRating;
 
     return {
       ...account,
@@ -127,9 +130,7 @@ export class AccountService {
             failedTasksQuantity: rawTaskRecords.filter(
               ({ status }) => status === TaskStatus.Failed
             ).length,
-            rating:
-              ratingRecords.find((item) => item.contractor === id)
-                ?.totalRating ?? 0,
+            rating: totalRating ? parseInt(totalRating, 10) : 0,
             ratingPosition:
               ratingPosition !== -1
                 ? ratingPosition + 1

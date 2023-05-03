@@ -10,9 +10,9 @@ import {
 import { Request } from 'express';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { fillObject, Roles } from '@project/utils/utils-core';
+import { ReviewRdo, RatingListRdo } from '@project/contracts';
 import { ReviewService } from './review.service';
 import { CreateReviewDto } from './dto';
-import { ReviewRdo, RatingListRdo } from './rdo';
 
 @ApiTags('Review service')
 @Controller({
@@ -61,7 +61,7 @@ export class ReviewController {
   /**
    * Получение списка рейтинга пользователей
    */
-  @Get('/')
+  @Get('/rating')
   @ApiOperation({ summary: 'Creating new comment' })
   @ApiResponse({
     status: HttpStatus.OK,
