@@ -1,3 +1,3 @@
-import { CommonConfig } from '.';
+import { CommonConfig, UploaderConfig } from '.';
 
-export type ConfigModuleOptions = CommonConfig;
+export type ConfigModuleOptions = CommonConfig & UploaderConfig;

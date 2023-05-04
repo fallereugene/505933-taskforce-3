@@ -44,6 +44,8 @@ declare global {
       MAIL_USER_NAME: string;
       MAIL_USER_PASSWORD: string;
       MAIL_FROM: string;
+      // uploader сервис
+      UPLOAD_DIRECTORY: string;
     }
   }
 }

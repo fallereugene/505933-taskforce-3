@@ -10,7 +10,7 @@ export const getRabbitMqOptions = () => {
         SharedConfigNamespace.RabbitMq
       );
       const { host, password, port, user, queue, exchange } = configuration;
-      console.log(`rabbit options`, configuration);
+
       return {
         exchanges: [
           {
@@ -26,6 +26,7 @@ export const getRabbitMqOptions = () => {
         }),
         connectionInitOptions: { wait: true },
         enableControllerDiscovery: true,
+        queue,
       };
     },
     inject: [ConfigService],

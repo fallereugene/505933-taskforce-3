@@ -13,7 +13,7 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
 import { ConfigUploadNamespace, CommonUploaderConfig } from '@project/services';
-import { AppModule } from './uploader/app.module';
+import { AppModule } from './app/app.module';
 
 const setupOpenApi = (app: INestApplication) => {
   const config = new DocumentBuilder()

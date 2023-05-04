@@ -14,7 +14,7 @@ export class EmailSubscriberService {
     const existsSubscriber = await this.emailSubscriberRepository.findByEmail(
       email
     );
-    console.log(`existsSubscriber`, existsSubscriber);
+
     if (existsSubscriber) {
       return existsSubscriber;
     }
