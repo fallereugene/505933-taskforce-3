@@ -12,19 +12,20 @@ import {
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
-import { ConfigCommentNamespace, CommonCommentConfig } from '@project/services';
-import { AppModule } from './app/app.module';
+import { ConfigUploadNamespace, CommonUploaderConfig } from '@project/services';
+import { AppModule } from './uploader/app.module';
 
 const setupOpenApi = (app: INestApplication) => {
   const config = new DocumentBuilder()
-    .setTitle('Comment service')
-    .setDescription('Comment service API')
+    .setTitle('Uploader service')
+    .setDescription('Uploader service API')
     .setVersion('1.0')
-    .addTag('Comment service')
+    .addTag('uploader')
+    .addServer('/api/v1/')
     .build();
   const document = SwaggerModule.createDocument(app, config);
 
-  SwaggerModule.setup('/spec', app, document, {
+  SwaggerModule.setup('/api/spec', app, document, {
     useGlobalPrefix: true,
   });
 };
@@ -33,7 +34,7 @@ const bootstrap = async () => {
   const app = await NestFactory.create(AppModule);
   const { port } = app
     .get(ConfigService)
-    .get<CommonCommentConfig>(ConfigCommentNamespace.Common);
+    .get<CommonUploaderConfig>(ConfigUploadNamespace.Common);
 
   setupOpenApi(app);
 

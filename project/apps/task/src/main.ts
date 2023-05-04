@@ -12,7 +12,7 @@ import {
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
-import { ConfigTaskNamespace, CommonConfig } from '@project/services';
+import { ConfigTaskNamespace, CommonTaskConfig } from '@project/services';
 import { AppModule } from './app/app.module';
 
 const setupOpenApi = (app: INestApplication) => {
@@ -33,7 +33,7 @@ const bootstrap = async () => {
   const app = await NestFactory.create(AppModule);
   const { port } = app
     .get(ConfigService)
-    .get<CommonConfig>(ConfigTaskNamespace.Common);
+    .get<CommonTaskConfig>(ConfigTaskNamespace.Common);
 
   setupOpenApi(app);
 

@@ -28,3 +28,4 @@ export class ConfigCommentModule {
 }
 
 export { ConfigCommentNamespace };
+export { CommonConfig as CommonCommentConfig } from './contracts';

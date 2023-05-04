@@ -34,4 +34,5 @@ export class ConfigNotifyModule {
 }
 
 export * from './contracts';
+export { ConfigNotifyNamespace } from './constants';
 export { getMailerAsyncOptions } from './utils';

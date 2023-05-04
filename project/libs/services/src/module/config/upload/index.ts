@@ -9,10 +9,10 @@ const envFilePath = `apps/${path.basename(__dirname)}/.env.${
 }`;
 
 @Module({})
-export class ConfigReviewModule {
+export class ConfigUploadModule {
   static forRoot(options?: ConfigModuleOptions): DynamicModule {
     return {
-      module: ConfigReviewModule,
+      module: ConfigUploadModule,
       imports: [
         ConfigModuleRoot.forRoot({
           isGlobal: true,
@@ -26,5 +26,5 @@ export class ConfigReviewModule {
   }
 }
 
-export { ConfigReviewNamespace } from './constants';
-export { CommonConfig as CommonReviewConfig } from './contracts';
+export { ConfigUploadNamespace } from './constants';
+export { CommonConfig as CommonUploaderConfig } from './contracts';

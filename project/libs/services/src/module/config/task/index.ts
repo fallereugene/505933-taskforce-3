@@ -3,7 +3,6 @@ import { Module, DynamicModule } from '@nestjs/common';
 import { ConfigModule as ConfigModuleRoot } from '@nestjs/config';
 import { ConfigModuleOptions } from './contracts';
 import { commonConfig } from './common.config';
-import { ConfigTaskNamespace } from './constants';
 
 const envFilePath = `apps/${path.basename(__dirname)}/.env.${
   process.env.NODE_ENV
@@ -27,4 +26,5 @@ export class ConfigTaskModule {
   }
 }
 
-export { ConfigTaskNamespace };
+export { ConfigTaskNamespace } from './constants';
+export { CommonConfig as CommonTaskConfig } from './contracts';

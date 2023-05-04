@@ -17,8 +17,7 @@ export class EmailSubscriberController {
     routingKey: RabbitMqRouting.AddSubscriber,
     queue: 'taskforce.notify',
   })
-  public async create(subscriber: CreateSubscriberDto) {
-    console.log(`subscriber`, subscriber);
+  async create(subscriber: CreateSubscriberDto) {
     this.subscriberService.addSubscriber(subscriber);
     this.mailService.sendNotifyNewSubscriber(subscriber);
   }
