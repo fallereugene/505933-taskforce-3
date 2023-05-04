@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { ConfigNamespace } from '@project/services';
+import { ConfigAccountNamespace } from '@project/services';
 import { Api } from './api';
 
 @Injectable()
@@ -15,7 +15,9 @@ export class TaskRepository {
    * @param token Токен авторизации
    */
   async getListByAccount(token: string) {
-    const { urlServiceTask } = this.configService.get(ConfigNamespace.Common);
+    const { urlServiceTask } = this.configService.get(
+      ConfigAccountNamespace.Common
+    );
     try {
       this.api.configure({
         headers: {

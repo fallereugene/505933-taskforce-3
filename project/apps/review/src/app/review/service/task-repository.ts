@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { HttpService, ConfigNamespace } from '@project/services';
+import { HttpService, ConfigReviewNamespace } from '@project/services';
 
 @Injectable()
 export class TaskRepository {
@@ -15,7 +15,9 @@ export class TaskRepository {
    * @param token Токен авторизации
    */
   async findById(taskId: number) {
-    const { urlServiceTask } = this.configService.get(ConfigNamespace.Common);
+    const { urlServiceTask } = this.configService.get(
+      ConfigReviewNamespace.Common
+    );
     const { data } = await this.http.get(`${urlServiceTask}/${taskId}`);
 
     return data;
@@ -27,7 +29,9 @@ export class TaskRepository {
    * @param token Токен авторизации
    */
   async findByContractor(contractorId: string, token) {
-    const { urlServiceTask } = this.configService.get(ConfigNamespace.Common);
+    const { urlServiceTask } = this.configService.get(
+      ConfigReviewNamespace.Common
+    );
     const { data } = await this.http.get(
       `${urlServiceTask}/account?role=contractor&id=${contractorId}`,
       {

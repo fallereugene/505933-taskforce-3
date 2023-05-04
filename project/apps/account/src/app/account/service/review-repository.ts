@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AvailableRole } from '@project/contracts';
-import { ConfigNamespace } from '@project/services';
+import { ConfigAccountNamespace } from '@project/services';
 import { Api } from './api';
 
 @Injectable()
@@ -18,7 +18,9 @@ export class ReviewRepository {
    * @returns Список отзывов
    */
   async getList(id: string, role: AvailableRole) {
-    const { urlServiceReview } = this.configService.get(ConfigNamespace.Common);
+    const { urlServiceReview } = this.configService.get(
+      ConfigAccountNamespace.Common
+    );
     try {
       const { data } = await this.api.review.getList(
         `${urlServiceReview}/${id}`,
@@ -35,7 +37,9 @@ export class ReviewRepository {
    * @param token Токен авторизации
    */
   async getRatingList(token: string) {
-    const { urlServiceReview } = this.configService.get(ConfigNamespace.Common);
+    const { urlServiceReview } = this.configService.get(
+      ConfigAccountNamespace.Common
+    );
     try {
       this.api.configure({
         headers: {

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
-import { ConfigModule, HttpModule } from '@project/services';
+import { ConfigCommentModule, HttpModule } from '@project/services';
 import { AuthGuard, RoleGuard } from '@project/utils/utils-core';
 import { CommentModule } from './comment/comment.module';
 import { PrismaModule } from './comment/prisma.module';
@@ -9,7 +9,7 @@ import { PrismaModule } from './comment/prisma.module';
   imports: [
     PrismaModule.forRoot(),
     CommentModule,
-    ConfigModule.setModulesList(['commonConfig']).forRoot(),
+    ConfigCommentModule.forRoot(),
     HttpModule,
   ],
   controllers: [],

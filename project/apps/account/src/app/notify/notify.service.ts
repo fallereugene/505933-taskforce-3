@@ -9,7 +9,7 @@ import { RabbitMqRouting } from '@project/contracts';
 export class NotifyService {
   constructor(
     private readonly rabbitClient: AmqpConnection,
-    @Inject(rabbitConfig({} as any).KEY)
+    @Inject(rabbitConfig().KEY)
     private readonly rabbiOptions: ConfigType<typeof rabbitConfig>
   ) {}
 

@@ -4,9 +4,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { MailService } from './mail.service';
 
 @Module({
-  imports: [
-    MailerModule.forRootAsync(getMailerAsyncOptions('application.mail')),
-  ],
+  imports: [MailerModule.forRootAsync(getMailerAsyncOptions())],
   providers: [MailService],
   exports: [MailService],
 })

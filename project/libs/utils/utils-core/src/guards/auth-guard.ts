@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
-import { HttpService, ConfigNamespace } from '@project/services';
+import { HttpService, ConfigAccountNamespace } from '@project/services';
 import { MetadataKey } from '@project/utils/utils-core';
 
 /**
@@ -40,7 +40,7 @@ export class AuthGuard implements CanActivate {
     }
 
     const { urlServiceAccount } = this.configService.get(
-      ConfigNamespace.Common
+      ConfigAccountNamespace.Common
     );
 
     const { data } = await this.http.get(`${urlServiceAccount}/auth`, {

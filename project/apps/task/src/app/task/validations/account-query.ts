@@ -1,5 +1,4 @@
-import { TaskStatus, Role, AvailableRole } from '@project/contracts';
-import { Transform } from 'class-transformer';
+import { Role, AvailableRole } from '@project/contracts';
 import { IsOptional, IsEnum, IsString } from 'class-validator';
 
 export class AccountQuery {

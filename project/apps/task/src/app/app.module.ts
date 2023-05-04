@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, HttpModule } from '@project/services';
+import { HttpModule, ConfigTaskModule } from '@project/services';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard, RoleGuard } from '@project/utils/utils-core';
 import { PrismaModule } from './task/prisma.module';
@@ -9,7 +9,7 @@ import { TaskModule } from './task/task.module';
   imports: [
     PrismaModule.forRoot(),
     TaskModule,
-    ConfigModule.setModulesList(['commonConfig']).forRoot(),
+    ConfigTaskModule.forRoot(),
     HttpModule,
   ],
   controllers: [],

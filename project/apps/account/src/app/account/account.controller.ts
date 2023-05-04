@@ -13,7 +13,6 @@ import {
   UsePipes,
   UseGuards,
   Headers,
-  Header,
 } from '@nestjs/common';
 import { Express } from 'express';
 import { FileSizeValidationPipe, NoAuth } from '@project/utils/utils-core';

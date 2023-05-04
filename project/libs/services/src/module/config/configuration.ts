@@ -17,19 +17,19 @@ export class Configuration<T extends Record<string, any>> {
       enableImplicitConversion: true,
     });
 
-    // const errors = validateSync(environment, {
-    //   skipMissingProperties: false,
-    // });
+    const errors = validateSync(environment, {
+      skipMissingProperties: false,
+    });
 
-    // if (errors.length) {
-    //   const errorsMessages = [];
-    //   errors.forEach((e) => {
-    //     Object.values(e.constraints).forEach((message) =>
-    //       errorsMessages.push(message)
-    //     );
-    //   });
-    //   throw new Error(errorsMessages.toString());
-    // }
+    if (errors.length) {
+      const errorsMessages = [];
+      errors.forEach((e) => {
+        Object.values(e.constraints).forEach((message) =>
+          errorsMessages.push(message)
+        );
+      });
+      throw new Error(errorsMessages.toString());
+    }
 
     return this.configuration;
   }

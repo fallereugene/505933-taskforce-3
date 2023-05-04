@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { ConfigNamespace } from '@project/services';
+import { ConfigTaskNamespace } from '@project/services';
 import { Api } from './api';
 
 @Injectable()
@@ -17,7 +17,7 @@ export class CommentRepository {
   async removeCommentsList(token: string, taskId: number) {
     try {
       const { urlServiceComment } = this.configService.get(
-        ConfigNamespace.Common
+        ConfigTaskNamespace.Common
       );
       this.api.configure({
         headers: {

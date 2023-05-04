@@ -39,3 +39,4 @@ testem.log
 Thumbs.db
 *.http
 .env.*
+!.env.example
