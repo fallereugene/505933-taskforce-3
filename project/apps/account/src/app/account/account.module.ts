@@ -14,6 +14,7 @@ import { AccountService } from './account.service';
 import { AccountController } from './account.controller';
 import { AccountModel, AccountSchema } from './model';
 import { Repository, TaskRepository, ReviewRepository, Api } from './service';
+import { NotifyModule } from '../notify/notify.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { Repository, TaskRepository, ReviewRepository, Api } from './service';
       inject: [ConfigService],
       useFactory: getJwtOptions,
     }),
+    NotifyModule,
   ],
   controllers: [AccountController],
   providers: [

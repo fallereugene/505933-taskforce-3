@@ -5,6 +5,7 @@ import { ConfigModuleOptions } from './contracts';
 import { dbConfig } from './db';
 import { commonConfig } from './common';
 import { jwtConfig } from './jwt';
+import { rabbitConfig } from './rabbit';
 
 const envFilePath = `apps/${path.basename(__dirname)}/.env.${
   process.env.NODE_ENV
@@ -16,11 +17,12 @@ export class ConfigModule {
     dbConfig,
     commonConfig,
     jwtConfig,
+    rabbitConfig,
   };
 
   static modulesToActivate: Array<
     keyof typeof ConfigModule.availableModulesList
-  > = ['dbConfig', 'commonConfig', 'jwtConfig'];
+  > = ['dbConfig', 'commonConfig', 'jwtConfig', 'rabbitConfig'];
 
   static setModulesList(
     updatedModulesList: (typeof ConfigModule.modulesToActivate)[number][]
@@ -52,3 +54,6 @@ export * from './constants';
 export * from './db';
 export * from './common';
 export * from './jwt';
+export * from './rabbit';
+export * from './config-notify';
+export * from './utils';

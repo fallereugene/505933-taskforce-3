@@ -1,27 +1,41 @@
-import { IsNumber, IsString } from 'class-validator';
+import { IsNumber, IsString, ValidateNested } from 'class-validator';
 import { Environment } from '@project/contracts';
 import { NotifyConfig } from './contracts';
 import { EnvValidationMessage } from './constants';
 
-export class NotifyModel implements NotifyConfig {
+export class Rabbit {
   @IsString({
-    message: EnvValidationMessage.EnvironmentRequired,
+    message: EnvValidationMessage.rmqHostRequired,
   })
-  environment: Environment;
-
-  @IsNumber(
-    {},
-    {
-      message: EnvValidationMessage.ApplicationPort,
-    }
-  )
-  applicationPort: number;
+  host: string;
 
   @IsString({
-    message: EnvValidationMessage.DBNameRequired,
+    message: EnvValidationMessage.rmqPasswordRequired,
   })
-  name: string;
+  password: string;
 
+  @IsString({
+    message: EnvValidationMessage.rmqPortRequired,
+  })
+  port: number;
+
+  @IsString({
+    message: EnvValidationMessage.rmqUserRequired,
+  })
+  user: string;
+
+  @IsString({
+    message: EnvValidationMessage.rmqQueueRequired,
+  })
+  queue: string;
+
+  @IsString({
+    message: EnvValidationMessage.rmqExchangeRequired,
+  })
+  exchange: string;
+}
+
+export class Database {
   @IsString({
     message: EnvValidationMessage.DBHostRequired,
   })
@@ -30,7 +44,12 @@ export class NotifyModel implements NotifyConfig {
   @IsString({
     message: EnvValidationMessage.DBPortRequired,
   })
-  dbPort: number;
+  port: number;
+
+  @IsString({
+    message: EnvValidationMessage.DBNameRequired,
+  })
+  name: string;
 
   @IsString({
     message: EnvValidationMessage.DBUserRequired,
@@ -46,14 +65,25 @@ export class NotifyModel implements NotifyConfig {
     message: EnvValidationMessage.DBBaseAuthRequired,
   })
   authBase: string;
+}
 
+export class NotifyModel implements NotifyConfig {
   @IsString({
-    message: EnvValidationMessage.rmqPasswordRequired,
+    message: EnvValidationMessage.EnvironmentRequired,
   })
-  rmqPassword: string;
+  environment: Environment;
 
-  @IsString({
-    message: EnvValidationMessage.rmqUserRequired,
-  })
-  rmqUser: string;
+  @IsNumber(
+    {},
+    {
+      message: EnvValidationMessage.ApplicationPort,
+    }
+  )
+  port: number;
+
+  @ValidateNested()
+  rabbit: Rabbit;
+
+  @ValidateNested()
+  db: Database;
 }

@@ -30,6 +30,7 @@ import {
 import { AccountRdo, LoggedInAccountRdo, AccessTokenRdo } from './rdo';
 import { MongoIdValidationPipe } from './validators';
 import { JwtAuthGuard } from './guards';
+import { NotifyService } from '../notify/notify.service';
 
 @ApiTags('account')
 @Controller({
@@ -37,7 +38,10 @@ import { JwtAuthGuard } from './guards';
   path: 'account',
 })
 export class AccountController {
-  constructor(private readonly accountService: AccountService) {}
+  constructor(
+    private readonly accountService: AccountService,
+    private readonly notifyService: NotifyService
+  ) {}
 
   /**
    * Регистрация нового пользователя
@@ -57,6 +61,8 @@ export class AccountController {
   })
   async register(@Body() dto: CreateAccountDto): Promise<AccountRdo> {
     const payload = await this.accountService.register(dto);
+    const { email, firstname, lastname } = payload;
+    await this.notifyService.registerSubscriber({ email, firstname, lastname });
     return fillObject(AccountRdo, payload);
   }
 

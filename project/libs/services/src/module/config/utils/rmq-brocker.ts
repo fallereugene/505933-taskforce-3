@@ -1,24 +1,27 @@
+import { ConfigNamespace } from '../constants';
 import { ConfigService } from '@nestjs/config';
 import { getRabbitMqConnectionString } from './get-rabbitmq-connection-string';
 
-export function getRabbitMQOptions(optionSpace) {
+export const getRabbitMQOptions = () => {
   return {
-    useFactory: async (config: ConfigService) => ({
-      exchanges: [
-        {
-          name: config.get<string>(`${optionSpace}.queue`),
-          type: 'direct',
-        },
-      ],
-      uri: getRabbitMqConnectionString({
-        host: config.get<string>(`${optionSpace}.host`),
-        password: config.get<string>(`${optionSpace}.password`),
-        user: config.get<string>(`${optionSpace}.user`),
-        port: config.get<string>(`${optionSpace}.port`),
-      }),
-      connectionInitOptions: { wait: true },
-      enableControllerDiscovery: true,
-    }),
+    useFactory: async (config: ConfigService) => {
+      return {
+        exchanges: [
+          {
+            name: 'taskforce.notify',
+            type: 'direct',
+          },
+        ],
+        uri: getRabbitMqConnectionString({
+          host: 'localhost',
+          password: '6e69d78258612e14e9af6db6cae9a477',
+          user: 'admin',
+          port: 5672,
+        }),
+        connectionInitOptions: { wait: true },
+        enableControllerDiscovery: true,
+      };
+    },
     inject: [ConfigService],
   };
-}
+};

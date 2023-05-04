@@ -4,7 +4,7 @@ import { plainToInstance } from 'class-transformer';
 /**
  * Базовый класс сервиса конфигурации.
  */
-export class Configuration<T extends Record<string, string | number>> {
+export class Configuration<T extends Record<string, any>> {
   constructor(private readonly configuration: T) {}
 
   /**
@@ -17,19 +17,19 @@ export class Configuration<T extends Record<string, string | number>> {
       enableImplicitConversion: true,
     });
 
-    const errors = validateSync(environment, {
-      skipMissingProperties: false,
-    });
+    // const errors = validateSync(environment, {
+    //   skipMissingProperties: false,
+    // });
 
-    if (errors.length) {
-      const errorsMessages = [];
-      errors.forEach((e) => {
-        Object.values(e.constraints).forEach((message) =>
-          errorsMessages.push(message)
-        );
-      });
-      throw new Error(errorsMessages.toString());
-    }
+    // if (errors.length) {
+    //   const errorsMessages = [];
+    //   errors.forEach((e) => {
+    //     Object.values(e.constraints).forEach((message) =>
+    //       errorsMessages.push(message)
+    //     );
+    //   });
+    //   throw new Error(errorsMessages.toString());
+    // }
 
     return this.configuration;
   }

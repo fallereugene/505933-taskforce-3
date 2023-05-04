@@ -12,6 +12,11 @@ export const getMongooseOptions = (): MongooseModuleAsyncOptions => {
     useFactory: async (configService: ConfigService) => {
       const { name, host, port, user, password, authBase } =
         configService.get<DatabaseConfig>(ConfigNamespace.Database);
+
+      console.log(
+        `check db`,
+        configService.get<DatabaseConfig>(ConfigNamespace.Database)
+      );
       return {
         uri: getMongoConnectionString({
           name,
