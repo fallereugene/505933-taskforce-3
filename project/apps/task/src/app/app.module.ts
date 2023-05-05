@@ -4,6 +4,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard, RoleGuard } from '@project/utils/utils-core';
 import { PrismaModule } from './task/prisma.module';
 import { TaskModule } from './task/task.module';
+import { TaskSubscriberModule } from './task-subscriber/task-subscriber.module';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { TaskModule } from './task/task.module';
     TaskModule,
     ConfigTaskModule.forRoot(),
     HttpModule,
+    TaskSubscriberModule,
   ],
   controllers: [],
   providers: [

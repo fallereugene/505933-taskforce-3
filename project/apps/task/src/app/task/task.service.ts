@@ -12,8 +12,8 @@ import {
 } from '@project/contracts';
 import { TaskEntity } from './entity';
 import { Repository, CommentRepository } from './service';
-import { CreateTaskDto, UpdateTaskDto } from './dto';
-import { PostQuery, AssignedQuery, validateStatus } from './validations';
+import { CreateTaskDto, UpdateTaskDto, ChangeCommentsCount } from './dto';
+import { TaskQuery, AssignedQuery, validateStatus } from './validations';
 import { Exception } from '../constants';
 import { isResponseOnTask } from './utils';
 
@@ -60,19 +60,8 @@ export class TaskService {
    * Получение списка заданий
    * @returns Ненормализованный список заданий
    */
-  async getList(query: PostQuery, token: string): Promise<Task[]> {
-    const records = await this.repository.getRepository(query);
-    return await Promise.all(
-      records.map(async (i) => {
-        return {
-          ...i,
-          commentsQuantity: await this.commentRepository.getCommentsList(
-            token,
-            i.id
-          ),
-        };
-      })
-    );
+  async getList(query: TaskQuery): Promise<Task[]> {
+    return this.repository.getRepository(query);
   }
 
   /**
@@ -193,5 +182,13 @@ export class TaskService {
     return role === 'customer'
       ? records
       : records.sort((a, b) => a.status - b.status);
+  }
+
+  /**
+   * Изменение количества комментариев
+   * @param payload Объект DTO
+   */
+  async changeCommentsQuantity(payload: ChangeCommentsCount) {
+    await this.repository.changeCommentsQuantity(payload);
   }
 }

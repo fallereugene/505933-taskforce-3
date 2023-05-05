@@ -33,5 +33,6 @@ import {
     HttpService,
     Api,
   ],
+  exports: [TaskService],
 })
 export class TaskModule {}

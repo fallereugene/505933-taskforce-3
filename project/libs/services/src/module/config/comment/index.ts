@@ -4,6 +4,7 @@ import { ConfigModule as ConfigModuleRoot } from '@nestjs/config';
 import { ConfigModuleOptions } from './contracts';
 import { commonConfig } from './common.config';
 import { ConfigCommentNamespace } from './constants';
+import { rabbitConfig } from '../shared';
 
 const envFilePath = `apps/${path.basename(__dirname)}/.env.${
   process.env.NODE_ENV
@@ -18,7 +19,7 @@ export class ConfigCommentModule {
         ConfigModuleRoot.forRoot({
           isGlobal: true,
           cache: true,
-          load: [commonConfig(options)],
+          load: [commonConfig(options), rabbitConfig(options)],
           envFilePath: envFilePath,
         }),
       ],

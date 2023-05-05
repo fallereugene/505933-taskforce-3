@@ -6,8 +6,10 @@ import {
   Task,
 } from '@project/contracts';
 import { TaskEntity } from '../entity';
-import { PostQuery } from '../validations';
+import { TaskQuery } from '../validations';
 import { PrismaService } from './prisma';
+import { ChangeCommentsCount } from '../dto';
+import { mapSortType } from '../utils';
 
 @Injectable()
 export class Repository implements CRUDRepository<TaskEntity, Task, number> {
@@ -120,7 +122,7 @@ export class Repository implements CRUDRepository<TaskEntity, Task, number> {
    * @param query Фильтры, переданные в query-параметрах
    * @returns Список записей
    */
-  async getRepository(query: PostQuery) {
+  async getRepository(query: TaskQuery) {
     const { limit, city, page, category, sorting, tag } = query;
     const records = await this.prisma.task.findMany({
       where: {
@@ -143,7 +145,7 @@ export class Repository implements CRUDRepository<TaskEntity, Task, number> {
         },
       },
       orderBy: {
-        [sorting]: 'desc',
+        [mapSortType(sorting)]: 'desc',
       },
       take: limit,
       skip: page > 0 ? limit * (page - 1) : undefined,
@@ -156,5 +158,20 @@ export class Repository implements CRUDRepository<TaskEntity, Task, number> {
 
   async getCategoryList() {
     return this.prisma.category.findMany();
+  }
+
+  /**
+   * Изменение количества комментариев
+   * @param payload Объект DTO
+   */
+  async changeCommentsQuantity(payload: ChangeCommentsCount) {
+    await this.prisma.task.update({
+      data: {
+        commentsCount: payload.commentsQuantity,
+      },
+      where: {
+        id: payload.taskId,
+      },
+    });
   }
 }

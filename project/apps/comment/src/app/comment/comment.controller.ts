@@ -18,6 +18,7 @@ import { CommentService } from './comment.service';
 import { CreateCommentDto } from './dto';
 import { CommentRdo } from './rdo';
 import { CommentQuery } from './validations';
+import { NotifyService } from '../notify/notify.service';
 
 @ApiTags('Comment service')
 @Controller({
@@ -25,7 +26,10 @@ import { CommentQuery } from './validations';
   path: 'comments',
 })
 export class CommentController {
-  constructor(private readonly commentService: CommentService) {}
+  constructor(
+    private readonly commentService: CommentService,
+    private readonly notifyService: NotifyService
+  ) {}
 
   /**
    * Создание комментария
@@ -50,6 +54,11 @@ export class CommentController {
   ): Promise<CommentRdo> {
     const { user } = request;
     const payload = await this.commentService.create(dto, user);
+    const commentsQuantity = await this.getListQuantity(dto.task);
+    await this.notifyService.changeCommentCount({
+      taskId: dto.task,
+      commentsQuantity,
+    });
     return fillObject(CommentRdo, payload);
   }
 
@@ -132,10 +141,16 @@ export class CommentController {
   })
   async deleteItem(
     @Param('commentId', ParseIntPipe) commentId: number,
+    @Param('taskId', ParseIntPipe) taskId: number,
     @Req() request: Request
   ): Promise<void> {
     const { user } = request;
     await this.commentService.deleteItem(commentId, user);
+    const commentsQuantity = await this.getListQuantity(taskId);
+    await this.notifyService.changeCommentCount({
+      taskId,
+      commentsQuantity,
+    });
   }
 
   /**
@@ -164,5 +179,10 @@ export class CommentController {
   ): Promise<void> {
     const { user } = request;
     await this.commentService.deleteList(taskId, user);
+    const commentsQuantity = await this.getListQuantity(taskId);
+    await this.notifyService.changeCommentCount({
+      taskId,
+      commentsQuantity,
+    });
   }
 }

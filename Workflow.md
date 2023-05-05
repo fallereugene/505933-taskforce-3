@@ -42,27 +42,40 @@ DB_PORT=27017
 
 ### Поддерживаемые переменные окружения
 
-[Для более подробной информации см.](https://hub.docker.com/_/mongo)
-`MONGO_INITDB_ROOT_USERNAME` - рутовый пользователь базы данных `MongoDB`
-`MONGO_INITDB_ROOT_PASSWORD` - пароль к БД
-`MONGO_INITDB_DATABASE` - название БД
-`ME_CONFIG_BASICAUTH_USERNAME` - базовая аутентификация пользователя к UI-админке
-`ME_CONFIG_BASICAUTH_PASSWORD` - пароль к БД
-`ME_CONFIG_MONGODB_ADMINUSERNAME` - пользователь админ
-`ME_CONFIG_MONGODB_ADMINPASSWORD` - пароль к БД
-`ME_CONFIG_MONGODB_URL` - путь подключения к БД
+`APPLICATION_PORT` - основной порт приложения
+`URL_SERVICE_TASK` - url-адрес сервиса задач (`task`)
+`URL_SERVICE_REVIEW` - url-адрес сервиса отзывов (`review`)
+`URL_SERVICE_ACCOUNT` - url-адрес сервиса пользователей (`account`)
+`URL_SERVICE_COMMENT` - url-адрес сервиса комментариев (`comment`)
+`MONGO_INITDB_ROOT_USERNAME` -имя пользователя базы данных mongo. Используется в конфигурации docker. [Более подробная информация](https://hub.docker.com/_/mongo)
+`MONGO_INITDB_ROOT_PASSWORD` - пароль пользователя базы данных mongo
+`MONGO_INITDB_DATABASE` - имя базы данных
+`DB_AUTH_BASE` - базовая аутентификация
 `DB_HOST` - хост базы данных
-`DB_PORT` - прослушиваемый порт базы данных
-`APPLICATION_PORT` - прослушиваемый порт запускаемого приложения
-`JWT_SECRET` - JWT-секрет
-`JWT_EXPIRES_IN`- продолжительность жизни JWT-токена
-
-### Ключевые технологии проекта
-
-### Обеспечение качества и единообразия кода
-
-### Структура проекта
-
-### Сценарии
-
-### Тестирование
+`DB_PORT` -прослушиваемый порт базы данных
+`ME_CONFIG_BASICAUTH_USERNAME` - логин пользователя mongo-express
+`ME_CONFIG_BASICAUTH_PASSWORD` - пароль пользователя mongo-express
+`ME_CONFIG_MONGODB_ADMINUSERNAME` - логин администратора mongo-express
+`ME_CONFIG_MONGODB_ADMINPASSWORD` -пароль администратора mongo-express
+`ME_CONFIG_MONGODB_URL` - строка подключения к БД
+`JWT_SECRET` - jwt-секрет
+`JWT_EXPIRES_IN` -время жизни jwt-токена
+`POSTGRES_USER` - имя пользователя базы данных postgres
+`POSTGRES_PASSWORD` - пароль пользователя базы данных postgres
+`POSTGRES_DB` - имя базы данных
+`PGADMIN_DEFAULT_EMAIL` - имя пользователя СУБД
+`PGADMIN_DEFAULT_PASSWORD` - пароль пользователя СУБД
+`PGADMIN_CONFIG_SERVER_MODE`
+`RABBITMQ_DEFAULT_USER` - пользователь брокера
+`RABBITMQ_DEFAULT_PASS` - пользовательский пароль
+`RABBITMQ_HOST` - адрес хоста, на котором развернут брокер сообщений RabbitMQ
+`RABBITMQ_PORT` - прослушиваемый порт брокера сообщений
+`RABBITMQ_QUEUE` - название используемой очереди
+`RABBITMQ_EXCHANGE` - название обменника
+`MAIL_SMTP_HOST` - хост, на котором развернут SMTP-сервер
+`MAIL_SMTP_PORT` - прослушиваемый SMTP-сервером порт
+`MAIL_USER_NAME` - логин пользователя
+`MAIL_USER_PASSWORD` - пароль пользователя
+`MAIL_FROM` - от кого сообщение
+`UPLOAD_DIRECTORY` - директория хранения изображения
+`SERVE_STATIC` - путь обработки статических файлов

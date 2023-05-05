@@ -8,7 +8,7 @@ export enum Sorting {
   Discussing = 'discussing',
 }
 
-export class PostQuery {
+export class TaskQuery {
   static readonly DEFAULT_LIMIT = 25;
 
   static readonly DEFAULT_STATUS = TaskStatus.New;
@@ -18,7 +18,7 @@ export class PostQuery {
   @Transform(({ value }) => parseInt(value, 10))
   @IsNumber()
   @IsOptional()
-  limit = PostQuery.DEFAULT_LIMIT;
+  limit = TaskQuery.DEFAULT_LIMIT;
 
   @Transform(({ value }) => parseInt(value, 10))
   @IsNumber()
@@ -40,5 +40,5 @@ export class PostQuery {
 
   @IsEnum(Sorting)
   @IsOptional()
-  sorting: Sorting = PostQuery.DEFAULT_SORT;
+  sorting: Sorting = TaskQuery.DEFAULT_SORT;
 }

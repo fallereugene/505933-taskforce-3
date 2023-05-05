@@ -101,5 +101,5 @@ export class TaskRdo {
     example: 12,
   })
   @Expose()
-  commentsQuantity: number;
+  commentsCount: number;
 }

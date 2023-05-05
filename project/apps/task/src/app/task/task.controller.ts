@@ -17,7 +17,7 @@ import { Request } from 'express';
 import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
 import { fillObject, NoAuth, Roles } from '@project/utils/utils-core';
 import { City, TaskStatus, Role, TaskRdo } from '@project/contracts';
-import { PostQuery, AssignedQuery, AccountQuery, Sorting } from './validations';
+import { TaskQuery, AssignedQuery, AccountQuery, Sorting } from './validations';
 import { TaskService } from './task.service';
 import { CreateTaskDto, UpdateTaskDto } from './dto';
 
@@ -109,11 +109,11 @@ export class TaskController {
     required: false,
   })
   async getList(
-    @Query() query: PostQuery,
+    @Query() query: TaskQuery,
     @Headers('authorization') authorization: string
   ): Promise<TaskRdo[]> {
     const token = authorization.split(' ')[1];
-    const records = await this.taskService.getList(query, token);
+    const records = await this.taskService.getList(query);
     return records.map((r) => fillObject(TaskRdo, r));
   }
 

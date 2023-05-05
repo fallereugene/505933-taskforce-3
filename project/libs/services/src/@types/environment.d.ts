@@ -3,6 +3,7 @@ export {};
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
+      APPLICATION_PORT: string;
       // url адреса сервисов
       URL_SERVICE_TASK: string;
       URL_SERVICE_REVIEW: string;

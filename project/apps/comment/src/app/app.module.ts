@@ -4,6 +4,7 @@ import { ConfigCommentModule, HttpModule } from '@project/services';
 import { AuthGuard, RoleGuard } from '@project/utils/utils-core';
 import { CommentModule } from './comment/comment.module';
 import { PrismaModule } from './comment/prisma.module';
+import { NotifyModule } from './notify/notify.module';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { PrismaModule } from './comment/prisma.module';
     CommentModule,
     ConfigCommentModule.forRoot(),
     HttpModule,
+    NotifyModule,
   ],
   controllers: [],
   providers: [
