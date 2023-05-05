@@ -58,6 +58,12 @@ export class TaskRdo {
   @Expose()
   tags: string[];
   @ApiProperty({
+    description: 'Responses list',
+    example: ['644d0705616bbce0e37ee7d9', '6453fd464903c390c4803ab6'],
+  })
+  @Expose()
+  responses: string[];
+  @ApiProperty({
     description: "User's city",
     example: 'Moscow',
   })

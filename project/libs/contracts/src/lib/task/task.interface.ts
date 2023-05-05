@@ -11,6 +11,7 @@ export interface Task {
   image: string;
   address: string;
   tags: string[];
+  responses: string[];
   city: AvailableCity;
   status: TaskStatus;
   customer: string;

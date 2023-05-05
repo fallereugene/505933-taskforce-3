@@ -26,6 +26,7 @@ model Task {
   status Int
   customer String?
   contractor String?
+  responses String[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

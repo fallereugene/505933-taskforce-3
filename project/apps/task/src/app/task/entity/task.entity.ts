@@ -9,6 +9,7 @@ export class TaskEntity implements Task {
   image: string;
   address: string;
   tags: string[];
+  responses: string[];
   city: AvailableCity;
   status: TaskStatus;
   contractor: string | null;

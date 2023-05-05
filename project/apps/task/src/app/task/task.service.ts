@@ -15,6 +15,7 @@ import { Repository, CommentRepository } from './service';
 import { CreateTaskDto, UpdateTaskDto } from './dto';
 import { PostQuery, AssignedQuery, validateStatus } from './validations';
 import { Exception } from '../constants';
+import { isResponseOnTask } from './utils';
 
 @Injectable()
 export class TaskService {
@@ -44,6 +45,7 @@ export class TaskService {
       tags: payload.tags ?? [],
       status: TaskStatus.New,
       contractor: null,
+      responses: [],
       customer: id,
     };
     const record = new TaskEntity(task);
@@ -93,6 +95,19 @@ export class TaskService {
   ): Promise<Task> {
     const record = await this.findById(id);
     const { id: userId, role } = tokenPayload;
+    const isResponse = isResponseOnTask(role, payload, record);
+
+    if (isResponse) {
+      const { responses } = record;
+      if (responses.includes(userId)) {
+        throw new BadRequestException();
+      }
+      return this.repository.update(id, {
+        ...record,
+        responses: [...responses, userId],
+      });
+    }
+
     const isNewStatusValid = validateStatus(
       record.status,
       payload.status,

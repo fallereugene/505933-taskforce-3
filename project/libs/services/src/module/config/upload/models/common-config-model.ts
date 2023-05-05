@@ -16,4 +16,9 @@ export class CommonConfigModel implements CommonConfig {
     }
   )
   port: number;
+
+  @IsString({
+    message: ValidationMessage.UrlServiceAccountRequired,
+  })
+  urlServiceAccount: string;
 }
