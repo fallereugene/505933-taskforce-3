@@ -58,7 +58,7 @@ export class CommentController {
    * @returns Список комментариев
    */
   @Get(':taskId')
-  @ApiOperation({ summary: 'Getting tasks list' })
+  @ApiOperation({ summary: 'Getting comments list' })
   @ApiQuery({
     name: 'page',
     type: Number,
@@ -83,6 +83,27 @@ export class CommentController {
   ): Promise<CommentRdo[]> {
     const records = await this.commentService.getList(taskId, query);
     return records.map((r) => fillObject(CommentRdo, r));
+  }
+
+  /**
+   * Получение общего числа комментариев в разрезе задачи
+   * @returns Количество комментариев
+   */
+  @Get(':taskId/count')
+  @ApiOperation({ summary: 'Getting comments quantity' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Comments quantity',
+    type: Number,
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Unauthorized',
+  })
+  async getListQuantity(
+    @Param('taskId', ParseIntPipe) taskId: number
+  ): Promise<number> {
+    return this.commentService.getQuantity(taskId);
   }
 
   /**

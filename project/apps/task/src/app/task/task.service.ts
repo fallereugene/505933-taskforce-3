@@ -60,8 +60,19 @@ export class TaskService {
    * Получение списка заданий
    * @returns Ненормализованный список заданий
    */
-  async getList(query: PostQuery): Promise<Task[]> {
-    return this.repository.getRepository(query);
+  async getList(query: PostQuery, token: string): Promise<Task[]> {
+    const records = await this.repository.getRepository(query);
+    return await Promise.all(
+      records.map(async (i) => {
+        return {
+          ...i,
+          commentsQuantity: await this.commentRepository.getCommentsList(
+            token,
+            i.id
+          ),
+        };
+      })
+    );
   }
 
   /**

@@ -94,4 +94,16 @@ export class Repository
       skip: page > 0 ? limit * (page - 1) : undefined,
     });
   }
+
+  /**
+   * Получение общего числа комментариев в разрезе задачи
+   * @returns Количество комментариев
+   */
+  async getQuantity(taskId: number) {
+    return this.prisma.comment.count({
+      where: {
+        task: taskId,
+      },
+    });
+  }
 }

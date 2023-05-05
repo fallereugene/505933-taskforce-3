@@ -81,10 +81,25 @@ export class TaskRdo {
   })
   @Expose()
   customer: string;
+
   @ApiProperty({
     description: 'Contructor id',
     example: '7bc6e921-36c4-4f80-ae41-919c06c0c5c3',
   })
   @Expose()
   contractor: string;
+
+  @ApiProperty({
+    description: 'Creation date.',
+    example: '2023-04-30T08:07:13.499Z',
+  })
+  @Expose()
+  createdAt: string;
+
+  @ApiProperty({
+    description: 'Comments quantity according task.',
+    example: 12,
+  })
+  @Expose()
+  commentsQuantity: number;
 }

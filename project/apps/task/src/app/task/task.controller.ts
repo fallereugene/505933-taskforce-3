@@ -60,7 +60,6 @@ export class TaskController {
    * @returns Список заданий
    */
   @Get()
-  @NoAuth()
   @Roles('contractor')
   @ApiOperation({ summary: 'Getting tasks list' })
   @ApiResponse({
@@ -109,8 +108,12 @@ export class TaskController {
     description: 'Selection by passed sort.',
     required: false,
   })
-  async getList(@Query() query: PostQuery): Promise<TaskRdo[]> {
-    const records = await this.taskService.getList(query);
+  async getList(
+    @Query() query: PostQuery,
+    @Headers('authorization') authorization: string
+  ): Promise<TaskRdo[]> {
+    const token = authorization.split(' ')[1];
+    const records = await this.taskService.getList(query, token);
     return records.map((r) => fillObject(TaskRdo, r));
   }
 

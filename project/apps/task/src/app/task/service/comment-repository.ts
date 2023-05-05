@@ -29,4 +29,29 @@ export class CommentRepository {
       console.log(`Service is not available.`);
     }
   }
+
+  /**
+   * Получение списка комментариев в разрезе задачи
+   * @param token Токен авторизации
+   * @param taskId Идентификатор задачи
+   */
+  async getCommentsList(token: string, taskId: number) {
+    try {
+      const { urlServiceComment } = this.configService.get(
+        ConfigTaskNamespace.Common
+      );
+      this.api.configure({
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const { data } = await this.api.comment.getCommentsList(
+        `${urlServiceComment}/${taskId}/count`
+      );
+      return data;
+    } catch {
+      console.log(`Service is not available.`);
+      return [];
+    }
+  }
 }

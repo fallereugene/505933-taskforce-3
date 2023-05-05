@@ -35,7 +35,7 @@ export class CommentService {
    * Получение списка комментариев
    */
   async getList(taskId: number, query: CommentQuery): Promise<Comment[]> {
-    return await this.repository.getList(taskId, query);
+    return this.repository.getList(taskId, query);
   }
 
   /**
@@ -70,5 +70,13 @@ export class CommentService {
    */
   async deleteList(taskId: number, user: AccessTokenPayload): Promise<void> {
     await this.repository.deleteCommentsList(taskId, user.id);
+  }
+
+  /**
+   * Получение общего числа комментариев в разрезе задачи
+   * @returns Количество комментариев
+   */
+  async getQuantity(taskId: number) {
+    return this.repository.getQuantity(taskId);
   }
 }
