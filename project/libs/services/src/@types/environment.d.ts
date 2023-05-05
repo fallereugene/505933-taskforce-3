@@ -46,6 +46,7 @@ declare global {
       MAIL_FROM: string;
       // uploader сервис
       UPLOAD_DIRECTORY: string;
+      SERVE_STATIC: string;
     }
   }
 }

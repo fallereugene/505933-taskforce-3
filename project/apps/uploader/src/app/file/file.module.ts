@@ -1,35 +1,15 @@
 import { Module } from '@nestjs/common';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { MongooseModule } from '@nestjs/mongoose';
+import { getServeStaticOptions } from '@project/services';
 import { FileService } from './file.service';
 import { FileController } from './file.controller';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { ConfigService } from '@nestjs/config';
-import { FileRepository } from './service';
-import { MongooseModule } from '@nestjs/mongoose';
 import { FileModel, FileSchema } from './models';
-import { ConfigUploadNamespace } from '@project/services';
+import { FileRepository } from './service';
 
 @Module({
   imports: [
-    // ServeStaticModule.forRootAsync({
-    //   inject: [ConfigService],
-    //   useFactory: (configService: ConfigService) => {
-    //     const {} = configService.get(ConfigUploadNamespace.Uploader);
-    //     const rootPath = configService.get<string>(
-    //       'application.uploadDirectory'
-    //     );
-    //     const serveRoot = configService.get<string>('application.serveRoot');
-    //     return [
-    //       {
-    //         rootPath,
-    //         serveRoot,
-    //         serveStaticOptions: {
-    //           fallthrough: true,
-    //           etag: true,
-    //         },
-    //       },
-    //     ];
-    //   },
-    // }),
+    ServeStaticModule.forRootAsync(getServeStaticOptions()),
     MongooseModule.forFeature([{ name: FileModel.name, schema: FileSchema }]),
   ],
   providers: [FileService, FileRepository],

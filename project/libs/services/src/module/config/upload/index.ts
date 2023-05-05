@@ -2,6 +2,7 @@ import path from 'path';
 import { Module, DynamicModule } from '@nestjs/common';
 import { ConfigModule as ConfigModuleRoot } from '@nestjs/config';
 import { ConfigModuleOptions } from './contracts';
+import { dbConfig } from '../shared';
 import { commonConfig } from './common.config';
 import { uploaderConfig } from './uploader.config';
 
@@ -18,7 +19,11 @@ export class ConfigUploadModule {
         ConfigModuleRoot.forRoot({
           isGlobal: true,
           cache: true,
-          load: [commonConfig(options), uploaderConfig(options)],
+          load: [
+            commonConfig(options),
+            uploaderConfig(options),
+            dbConfig(options),
+          ],
           envFilePath: envFilePath,
         }),
       ],
@@ -28,5 +33,9 @@ export class ConfigUploadModule {
 }
 
 export { ConfigUploadNamespace } from './constants';
-export { CommonConfig as CommonUploaderConfig } from './contracts';
+export {
+  CommonConfig as CommonUploaderConfig,
+  UploaderConfig,
+} from './contracts';
 export { uploaderConfig };
+export { getServeStaticOptions } from './utils';

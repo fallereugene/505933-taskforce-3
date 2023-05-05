@@ -10,27 +10,27 @@ export class FileModel extends Document implements File {
   @Prop({
     required: true,
   })
-  public originalName: string;
+  originalName: string;
 
   @Prop({
     required: true,
   })
-  public hashName: string;
+  hashName: string;
 
   @Prop({
     required: true,
   })
-  public mimetype: string;
+  mimetype: string;
 
   @Prop({
     required: true,
   })
-  public path: string;
+  path: string;
 
   @Prop({
     required: true,
   })
-  public size: number;
+  size: number;
 }
 
 export const FileSchema = SchemaFactory.createForClass(FileModel);

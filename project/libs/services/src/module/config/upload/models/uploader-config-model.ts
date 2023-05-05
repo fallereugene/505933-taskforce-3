@@ -7,4 +7,9 @@ export class UploaderConfigModel implements UploaderConfig {
     message: ValidationMessage.UploadDirectoryIsRequired,
   })
   uploadDirectory: string;
+
+  @IsString({
+    message: ValidationMessage.ServeStaticIsRequired,
+  })
+  serveStatic: string;
 }
