@@ -25,6 +25,8 @@ declare global {
       // JWT-токенизация
       JWT_SECRET: string;
       JWT_EXPIRES_IN: string;
+      REFRESH_SECRET_JWT: string;
+      REFRESH_JWT_EXPIRES_IN: string;
       // POSTGRES
       POSTGRES_USER: string;
       POSTGRES_PASSWORD: string;

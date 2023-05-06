@@ -1,11 +1,13 @@
+import * as crypto from 'node:crypto';
 import {
   Injectable,
   ConflictException,
   UnauthorizedException,
   NotFoundException,
+  Inject,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { Timezone } from '@project/services';
+import { Timezone, jwtConfig, JwtConfig } from '@project/services';
 import {
   CreateAccountDto,
   LoginAccountDto,
@@ -16,15 +18,18 @@ import { AccessTokenPayload, Account, TaskStatus } from '@project/contracts';
 import { Repository, TaskRepository, ReviewRepository } from './service';
 import { AccountEntity } from './entity';
 import { Exception } from '../constants';
+import { RefreshTokenService } from '../refresh-token/refresh-token.service';
 
 @Injectable()
 export class AccountService {
   constructor(
+    @Inject(jwtConfig().KEY) private readonly jwtOptions: JwtConfig,
     private readonly repository: Repository,
     private readonly tz: Timezone,
     private readonly jwtService: JwtService,
     private readonly taskRepository: TaskRepository,
-    private readonly reviewRepository: ReviewRepository
+    private readonly reviewRepository: ReviewRepository,
+    private readonly refreshTokenService: RefreshTokenService
   ) {}
 
   /**
@@ -192,8 +197,15 @@ export class AccountService {
       lastname,
       firstname,
     };
+    const refreshTokenPayload = { ...payload, tokenId: crypto.randomUUID() };
+    await this.refreshTokenService.createRefreshSession(refreshTokenPayload);
+
     return {
       accessToken: await this.jwtService.signAsync(payload),
+      refreshToken: await this.jwtService.signAsync(payload, {
+        secret: this.jwtOptions.refreshTokenSecret,
+        expiresIn: this.jwtOptions.refreshTokenExpiresIn,
+      }),
     };
   }
 

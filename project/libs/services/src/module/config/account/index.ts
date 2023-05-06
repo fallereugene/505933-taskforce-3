@@ -35,6 +35,6 @@ export class ConfigAccountModule {
   }
 }
 
-export { ConfigAccountNamespace };
+export { ConfigAccountNamespace, jwtConfig };
 export * from './contracts';
 export * from './utils';

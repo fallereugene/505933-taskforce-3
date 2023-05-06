@@ -4,6 +4,7 @@ import { ConfigAccountModule } from '@project/services';
 import { MongooseModule } from '@nestjs/mongoose';
 import { getMongooseOptions } from '@project/services';
 import { NotifyModule } from './notify/notify.module';
+import { RefreshTokenModule } from './refresh-token/refresh-token.module';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { NotifyModule } from './notify/notify.module';
     AccountModule,
     ConfigAccountModule.forRoot(),
     MongooseModule.forRootAsync(getMongooseOptions()),
+    RefreshTokenModule,
   ],
   controllers: [],
   providers: [],

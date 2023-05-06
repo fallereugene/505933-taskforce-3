@@ -9,12 +9,13 @@ import {
   getJwtOptions,
   HttpService,
 } from '@project/services';
-import { JwtAuthStrategy } from './validators';
+import { JwtAuthStrategy, JwtRefreshStrategy } from './validators';
 import { AccountService } from './account.service';
 import { AccountController } from './account.controller';
 import { AccountModel, AccountSchema } from './model';
 import { Repository, TaskRepository, ReviewRepository, Api } from './service';
 import { NotifyModule } from '../notify/notify.module';
+import { RefreshTokenModule } from '../refresh-token/refresh-token.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { NotifyModule } from '../notify/notify.module';
       useFactory: getJwtOptions,
     }),
     NotifyModule,
+    RefreshTokenModule,
   ],
   controllers: [AccountController],
   providers: [
@@ -43,6 +45,7 @@ import { NotifyModule } from '../notify/notify.module';
       useFactory: () => new HttpService(),
     },
     JwtAuthStrategy,
+    JwtRefreshStrategy,
     HttpService,
     Api,
   ],

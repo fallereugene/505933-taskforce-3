@@ -7,3 +7,5 @@ export type { AccountContractor } from './account-contractor.interface';
 export type { AccountCustomer } from './account-customer.interface';
 export type { Account } from './account.interface';
 export type { AccessTokenPayload } from './access-token.payload';
+export type { RefreshTokenPayload } from './refresh-token.payload';
+export type { Token } from './token';

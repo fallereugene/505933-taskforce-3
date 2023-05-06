@@ -58,8 +58,10 @@ DB_PORT=27017
 `ME_CONFIG_MONGODB_ADMINUSERNAME` - логин администратора mongo-express
 `ME_CONFIG_MONGODB_ADMINPASSWORD` -пароль администратора mongo-express
 `ME_CONFIG_MONGODB_URL` - строка подключения к БД
-`JWT_SECRET` - jwt-секрет
-`JWT_EXPIRES_IN` -время жизни jwt-токена
+`JWT_SECRET` - jwt-секрет для access токена
+`JWT_EXPIRES_IN` -время жизни access токена
+`REFRESH_SECRET_JWT` - секрет refresh токена
+`REFRESH_JWT_EXPIRES_IN` - время жизни refresh токена
 `POSTGRES_USER` - имя пользователя базы данных postgres
 `POSTGRES_PASSWORD` - пароль пользователя базы данных postgres
 `POSTGRES_DB` - имя базы данных

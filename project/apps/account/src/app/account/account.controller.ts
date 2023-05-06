@@ -10,6 +10,7 @@ import {
   HttpStatus,
   UseGuards,
   Headers,
+  Req,
 } from '@nestjs/common';
 import { NoAuth } from '@project/utils/utils-core';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -23,7 +24,7 @@ import {
 } from './dto';
 import { AccountRdo, LoggedInAccountRdo, AccessTokenRdo } from './rdo';
 import { MongoIdValidationPipe } from './validators';
-import { JwtAuthGuard } from './guards';
+import { JwtAuthGuard, JwtRefreshGuard } from './guards';
 import { NotifyService } from '../notify/notify.service';
 
 @ApiTags('account')
@@ -61,6 +62,20 @@ export class AccountController {
   }
 
   /**
+   * Обновление refresh-токена
+   * @returns
+   */
+  @Post('refresh')
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Get a new access/refresh tokens',
+  })
+  async refreshToken(@Req() { user }: any) {
+    return this.accountService.createToken(user);
+  }
+
+  /**
    * Авторизация пользователей построена на основе JWT.
    * После успешной проверки логина и пароля, приложение возвращает JWT токен.
    * @param dto Объект DTO
@@ -84,7 +99,10 @@ export class AccountController {
   async login(@Body() dto: LoginAccountDto): Promise<LoggedInAccountRdo> {
     const user = await this.accountService.verifyAccount(dto);
     const { accessToken } = await this.accountService.createToken(user);
-    return fillObject(LoggedInAccountRdo, { ...user, accessToken });
+    return fillObject(LoggedInAccountRdo, {
+      ...user,
+      accessToken,
+    });
   }
 
   /**
