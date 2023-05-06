@@ -2,7 +2,18 @@
   "name": "project",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "engines": {
+    "node": "18.12.1"
+  },
+  "scripts": {
+    "application:up": "npm run service:account:up && npm run service:comment:up && npm run service:notify:up && npm run service:review:up && npm run service:task:up && npm run service:uploader:up",
+    "service:account:up": "npx nx run account:service:up",
+    "service:comment:up": "npx nx run comment:service:up",
+    "service:notify:up": "npx nx run notify:service:up",
+    "service:review:up": "npx nx run review:service:up",
+    "service:task:up": "npx nx run task:service:up",
+    "service:uploader:up": "npx nx run uploader:service:up"
+  },
   "private": true,
   "dependencies": {
     "@golevelup/nestjs-rabbitmq": "^3.6.0",
