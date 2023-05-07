@@ -1,27 +1,38 @@
 import { Injectable } from '@nestjs/common';
-import { CRUDRepository } from '@project/contracts';
-import { PrismaService } from '@project/services';
 import { Review } from '@project/contracts';
 import { ReviewEntity } from '../entity';
+import { PrismaService } from './prisma';
 
 @Injectable()
-export class Repository
-  implements CRUDRepository<ReviewEntity, Review, number>
-{
+export class Repository {
   constructor(private readonly prisma: PrismaService) {}
 
   /**
    * Создание записи
    * @param payload Сущность записи
+   * @param existingRatingId Идентификатор существующей записи
    */
-  async create(payload: ReviewEntity) {
-    return this.prisma.review.create({
+  async create(payload: ReviewEntity, existingRatingId: number) {
+    const { contractor, ...rest } = payload;
+    const record = await this.prisma.review.create({
       data: {
-        ...payload,
-        // TODO: Далее идентификатор пользователя будет забираться из JWT-токена
-        customer: '6441aa5173cfe6ec7f835cba',
+        ...rest,
+        ...(existingRatingId
+          ? { contractorId: existingRatingId }
+          : {
+              contractor: {
+                create: {
+                  contractorId: contractor,
+                  totalRating: payload.rating,
+                },
+              },
+            }),
       },
     });
+    return {
+      ...record,
+      contractor,
+    };
   }
 
   /**
@@ -37,13 +48,38 @@ export class Repository
   }
 
   /**
-   * Удаление записи
-   * @param id Идентификатор записи
+   * Поиск записи в разрезе заказчика
+   * @param id Уникальный идентификатор записи
    */
-  async delete(id: number) {
-    await this.prisma.review.delete({
+  async findByTask(id: number) {
+    return this.prisma.review.findFirst({
       where: {
-        id: id,
+        taskId: id,
+      },
+    });
+  }
+
+  /**
+   * Поиск отзывов по идентификатору пользователя в разрезе роли
+   * @param id Уникальный идентификатор пользователя
+   * @returns Список отзывов
+   */
+  async findByContractor(contractorId: number) {
+    return this.prisma.review.findMany({
+      where: {
+        contractorId,
+      },
+    });
+  }
+
+  /**
+   * Поиск записи по идентификатору исполнителя в таблице рейтинга
+   * @param contractorId Идентификатор аккаунта
+   */
+  async getRatingByContractor(contractorId: string) {
+    return this.prisma.rating.findFirst({
+      where: {
+        contractorId,
       },
     });
   }
@@ -51,16 +87,26 @@ export class Repository
   /**
    * Обновление записи
    * @param id Идентификатор записи
-   * @param item Полезная нагрузка
-   * @returns Обновленная запись
+   * @param rating Обновленный рейтинг
    */
-  async update(id: number, item: Review) {
-    return this.prisma.review.update({
+  async updateRating(id: number, rating: number) {
+    return this.prisma.rating.update({
+      data: {
+        totalRating: rating,
+      },
       where: {
         id,
       },
-      data: {
-        ...item,
+    });
+  }
+
+  /**
+   * Получение всех записей из таблицы ratings
+   */
+  async getRatingList() {
+    return this.prisma.rating.findMany({
+      orderBy: {
+        totalRating: 'desc',
       },
     });
   }

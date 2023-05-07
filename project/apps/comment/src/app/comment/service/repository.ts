@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { CRUDRepository } from '@project/contracts';
-import { PrismaService } from '@project/services';
 import { Comment } from '@project/contracts';
 import { CommentEntity } from '../entity';
-import { PostQuery } from '../validations';
+import { CommentQuery } from '../validations';
+import { PrismaService } from './prisma';
 
 @Injectable()
 export class Repository
@@ -50,11 +50,13 @@ export class Repository
   /**
    * Удаления списка комментариев в разрезе фильма
    * @param taskId Идентификатор задачи
+   * @param authorId Автор комментария
    */
-  async deleteCommentsList(taskId: number) {
+  async deleteCommentsList(taskId: number, authorId: string) {
     return this.prisma.comment.deleteMany({
       where: {
         task: taskId,
+        author: authorId,
       },
     });
   }
@@ -82,17 +84,26 @@ export class Repository
    * @param query Фильтры, переданные в query-параметрах
    * @returns Список записей
    */
-  async getList(taskId: number, query: PostQuery) {
+  async getList(taskId: number, query: CommentQuery) {
     const { limit, page } = query;
     return this.prisma.comment.findMany({
       where: {
         task: taskId,
       },
-      // orderBy: {
-      //   createdAt: 'desc',
-      // },
       take: limit,
       skip: page > 0 ? limit * (page - 1) : undefined,
+    });
+  }
+
+  /**
+   * Получение общего числа комментариев в разрезе задачи
+   * @returns Количество комментариев
+   */
+  async getQuantity(taskId: number) {
+    return this.prisma.comment.count({
+      where: {
+        task: taskId,
+      },
     });
   }
 }

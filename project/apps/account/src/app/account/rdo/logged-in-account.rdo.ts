@@ -30,4 +30,12 @@ export class LoggedInAccountRdo {
   })
   @Expose()
   accessToken: string;
+
+  @ApiProperty({
+    description: 'JWT refresh token',
+    example:
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.PcmVIPbcZl9j7qFzXRAeSyhtuBnHQNMuLHsaG5l804A',
+  })
+  @Expose()
+  refreshToken: string;
 }

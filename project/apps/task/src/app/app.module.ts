@@ -1,14 +1,29 @@
 import { Module } from '@nestjs/common';
-import { PrismaModule, ConfigModule } from '@project/services';
+import { HttpModule, ConfigTaskModule } from '@project/services';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard, RoleGuard } from '@project/utils/utils-core';
+import { PrismaModule } from './task/prisma.module';
 import { TaskModule } from './task/task.module';
+import { TaskSubscriberModule } from './task-subscriber/task-subscriber.module';
 
 @Module({
   imports: [
     PrismaModule.forRoot(),
     TaskModule,
-    ConfigModule.setModulesList(['commonConfig']).forRoot(),
+    ConfigTaskModule.forRoot(),
+    HttpModule,
+    TaskSubscriberModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RoleGuard,
+    },
+  ],
 })
 export class AppModule {}

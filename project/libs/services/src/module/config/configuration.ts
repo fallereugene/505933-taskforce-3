@@ -4,7 +4,7 @@ import { plainToInstance } from 'class-transformer';
 /**
  * Базовый класс сервиса конфигурации.
  */
-export class Configuration<T extends Record<string, string | number>> {
+export class Configuration<T extends Record<string, any>> {
   constructor(private readonly configuration: T) {}
 
   /**

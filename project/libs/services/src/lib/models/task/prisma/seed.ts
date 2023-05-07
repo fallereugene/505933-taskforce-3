@@ -1,23 +1,30 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '.prisma/task';
 import { tasks } from './fixtures';
 
 const prisma = new PrismaClient();
 
 const fillTasks = async () => {
-  const categoryList = {};
   for (const item of tasks) {
     const { category, ...rest } = item;
+    const existingCategory = await prisma.category.findFirst({
+      where: {
+        name: category,
+      },
+    });
     await prisma.task.create({
       data: {
         ...rest,
-        ...(categoryList[category]
-          ? { categoryId: categoryList[category] }
-          : { category: { create: { name: category } } }),
-      },
+        ...(existingCategory
+          ? { categoryId: existingCategory.id }
+          : {
+              category: {
+                create: {
+                  name: category,
+                },
+              },
+            }),
+      } as any,
     });
-    if (!categoryList[category]) {
-      categoryList[category] = Object.keys(categoryList).length + 1;
-    }
   }
 };
 

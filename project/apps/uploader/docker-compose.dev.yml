@@ -1,0 +1,33 @@
+version: '3.5'
+
+services:
+  taskforce.uploader.mongo:
+    env_file:
+      - .env.development
+    image: mongo
+    restart: always
+    container_name: taskforce.uploader.mongo
+    ports:
+      - 27022:27017
+    volumes:
+      - taskforce.uploader.mongo:/data/db
+
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/taskforce-uploader --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+  taskforce.uploader.mongo.admin:
+    env_file:
+      - .env.development
+    image: mongo-express
+    restart: always
+    container_name: taskforce.uploader.mongo.admin
+    ports:
+      - 8085:8081
+    depends_on:
+      - taskforce.uploader.mongo
+
+volumes:
+  taskforce.uploader.mongo:

@@ -4,8 +4,10 @@ import { Timezone, AvailableTimezoneService } from '@project/services';
 import { CommentService } from './comment.service';
 import { CommentController } from './comment.controller';
 import { RepositoryMemory, Repository } from './service';
+import { NotifyModule } from '../notify/notify.module';
 
 @Module({
+  imports: [NotifyModule],
   controllers: [CommentController],
   providers: [
     CommentService,

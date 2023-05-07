@@ -26,11 +26,12 @@ export class AccountRdo {
   lastname: string;
 
   @ApiProperty({
-    description: "User's unique email address",
-    example: 'john.doe@yahoo.com',
+    description: 'Registration date',
+    example: '2023-04-26T20:34:34.300Z',
   })
+  @Transform(({ obj }) => obj.createdAt)
   @Expose()
-  email: string;
+  created: string;
 
   @ApiProperty({
     description: "User's city",
@@ -40,6 +41,13 @@ export class AccountRdo {
   city: AvailableCity;
 
   @ApiProperty({
+    description: "User's unique email address",
+    example: 'john.doe@yahoo.com',
+  })
+  @Expose()
+  email: string;
+
+  @ApiProperty({
     description: "User's role",
     example: 'Customer',
   })
@@ -47,18 +55,18 @@ export class AccountRdo {
   role: AvailableRole;
 
   @ApiProperty({
-    description: "User's city",
-    example: '1977-29-10',
+    description: "User's information",
+    example: 'Extended information about account',
   })
   @Expose()
-  birthDate: string;
+  info: string;
 
   @ApiProperty({
-    description: "User's avatar",
-    example: 'avatar.png',
+    description: "User's age",
+    example: 30,
   })
   @Expose()
-  avatar?: string;
+  age?: number;
 
   @ApiProperty({
     description: "Contractor's specialization",
@@ -66,4 +74,46 @@ export class AccountRdo {
   })
   @Expose()
   specialization?: string;
+
+  @ApiProperty({
+    description: 'Tasks quantity published by customer',
+    example: 12,
+  })
+  @Expose()
+  publishedTasks?: number;
+
+  @ApiProperty({
+    description: 'Tasks quantity with status New published by customer',
+    example: 4,
+  })
+  @Expose()
+  newTasks?: number;
+
+  @ApiProperty({
+    description: 'Tasks quantity with status Finished.',
+    example: 12,
+  })
+  @Expose()
+  finishedTasksQuantity?: number;
+
+  @ApiProperty({
+    description: 'Tasks quantity with status Failed.',
+    example: 12,
+  })
+  @Expose()
+  failedTasksQuantity?: number;
+
+  @ApiProperty({
+    description: "Contractor's rating.",
+    example: 12,
+  })
+  @Expose()
+  rating?: 4.7;
+
+  @ApiProperty({
+    description: "Contractor's rating position.",
+    example: 12,
+  })
+  @Expose()
+  ratingPosition: 7;
 }

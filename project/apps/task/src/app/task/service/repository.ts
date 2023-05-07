@@ -1,12 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { CRUDRepository } from '@project/contracts';
-import { PrismaService } from '@project/services';
-import { Task, TaskStatus } from '@project/contracts';
+import {
+  AvailableRole,
+  CRUDRepository,
+  TaskStatus,
+  Task,
+} from '@project/contracts';
 import { TaskEntity } from '../entity';
-import { PostQuery } from '../validations';
+import { TaskQuery } from '../validations';
+import { PrismaService } from './prisma';
+import { ChangeCommentsCount } from '../dto';
+import { mapSortType } from '../utils';
 
 @Injectable()
-export class Repository implements CRUDRepository<TaskEntity, Task> {
+export class Repository implements CRUDRepository<TaskEntity, Task, number> {
   constructor(private readonly prisma: PrismaService) {}
 
   /**
@@ -42,10 +48,10 @@ export class Repository implements CRUDRepository<TaskEntity, Task> {
    * Поиск записи
    * @param id Уникальный идентификатор
    */
-  async findById(id: string) {
+  async findById(id: number) {
     const record = await this.prisma.task.findUnique({
       where: {
-        id: parseInt(id, 10),
+        id,
       },
       include: {
         category: {
@@ -65,10 +71,10 @@ export class Repository implements CRUDRepository<TaskEntity, Task> {
    * Удаление записи
    * @param id Идентификатор записи
    */
-  async delete(id: string) {
+  async delete(id: number) {
     await this.prisma.task.delete({
       where: {
-        id: parseInt(id, 10),
+        id,
       },
     });
   }
@@ -79,11 +85,11 @@ export class Repository implements CRUDRepository<TaskEntity, Task> {
    * @param item Полезная нагрузка
    * @returns Обновленная запись
    */
-  async update(id: string, item: Task) {
+  async update(id: number, item: Task) {
     const { category, ...rest } = item;
     const record = await this.prisma.task.update({
       where: {
-        id: parseInt(id, 10),
+        id,
       },
       data: {
         ...rest,
@@ -96,20 +102,40 @@ export class Repository implements CRUDRepository<TaskEntity, Task> {
   }
 
   /**
+   * Поиск задач в разрезе исполнителя
+   * @param contractor Идентификатор исполнителя
+   */
+  async findByAccount(role: AvailableRole, id: string, status?: TaskStatus) {
+    return this.prisma.task.findMany({
+      where: {
+        [role]: id,
+        status,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+  }
+
+  /**
    * Выборка всех записей по таблице tasks  с учетом фильтрации
    * @param query Фильтры, переданные в query-параметрах
    * @returns Список записей
    */
-  async getRepository(query: PostQuery) {
+  async getRepository(query: TaskQuery) {
     const { limit, city, page, category, sorting, tag } = query;
     const records = await this.prisma.task.findMany({
       where: {
         status: TaskStatus.New,
         city,
         categoryId: category,
-        tags: {
-          hasSome: tag,
-        },
+        ...(tag
+          ? {
+              tags: {
+                has: tag,
+              },
+            }
+          : {}),
       },
       include: {
         category: {
@@ -119,7 +145,7 @@ export class Repository implements CRUDRepository<TaskEntity, Task> {
         },
       },
       orderBy: {
-        [sorting]: 'desc',
+        [mapSortType(sorting)]: 'desc',
       },
       take: limit,
       skip: page > 0 ? limit * (page - 1) : undefined,
@@ -132,5 +158,20 @@ export class Repository implements CRUDRepository<TaskEntity, Task> {
 
   async getCategoryList() {
     return this.prisma.category.findMany();
+  }
+
+  /**
+   * Изменение количества комментариев
+   * @param payload Объект DTO
+   */
+  async changeCommentsQuantity(payload: ChangeCommentsCount) {
+    await this.prisma.task.update({
+      data: {
+        commentsCount: payload.commentsQuantity,
+      },
+      where: {
+        id: payload.taskId,
+      },
+    });
   }
 }

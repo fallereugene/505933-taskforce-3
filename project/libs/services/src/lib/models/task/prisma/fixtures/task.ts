@@ -1,4 +1,4 @@
-import { AvailableCity, Task } from '@project/contracts';
+import { Task } from '@project/contracts';
 
 export const tasks: Task[] = [
   {
@@ -13,8 +13,9 @@ export const tasks: Task[] = [
     city: 'Vladivostok',
     status: 1,
     contractor: null,
-    customer: '',
+    customer: '64498ada0239cc6788ac2691',
     image: '',
+    responses: [],
   },
   {
     title: 'Task title 2 should contain more than 20 symbols',
@@ -28,8 +29,9 @@ export const tasks: Task[] = [
     city: 'Vladivostok',
     status: 1,
     contractor: null,
-    customer: '',
+    customer: '64498ada0239cc6788ac2691',
     image: '',
+    responses: [],
   },
   {
     title: 'Task title 3 should contain more than 20 symbols',
@@ -43,8 +45,9 @@ export const tasks: Task[] = [
     city: 'Moscow',
     status: 1,
     contractor: null,
-    customer: '',
+    customer: '64498ada0239cc6788ac2691',
     image: '',
+    responses: [],
   },
   {
     title: 'Task title 4 should contain more than 20 symbols',
@@ -58,8 +61,9 @@ export const tasks: Task[] = [
     city: 'StPetersburg',
     status: 3,
     contractor: null,
-    customer: '',
+    customer: '64498ada0239cc6788ac2691',
     image: '',
+    responses: [],
   },
   {
     title: 'Task title 5 should contain more than 20 symbols',
@@ -73,8 +77,9 @@ export const tasks: Task[] = [
     city: 'Vladivostok',
     status: 3,
     contractor: null,
-    customer: '',
+    customer: '644e1b49ba6ef7419f38913a',
     image: '',
+    responses: [],
   },
   {
     title: 'Task title 6 should contain more than 20 symbols',
@@ -88,8 +93,9 @@ export const tasks: Task[] = [
     city: 'Vladivostok',
     status: 1,
     contractor: null,
-    customer: '',
+    customer: '644e1b49ba6ef7419f38913a',
     image: '',
+    responses: [],
   },
   {
     title: 'Task title 7 should contain more than 20 symbols',
@@ -105,6 +111,7 @@ export const tasks: Task[] = [
     contractor: null,
     customer: '',
     image: '',
+    responses: [],
   },
   {
     title: 'Task title 8 should contain more than 20 symbols',
@@ -126,8 +133,9 @@ export const tasks: Task[] = [
     city: 'StPetersburg',
     status: 4,
     contractor: null,
-    customer: '',
+    customer: '644e1b49ba6ef7419f38913a',
     image: '',
+    responses: [],
   },
   {
     title: 'Task title 9 should contain more than 20 symbols',
@@ -141,8 +149,9 @@ export const tasks: Task[] = [
     city: 'StPetersburg',
     status: 1,
     contractor: null,
-    customer: '',
+    customer: '644e1b49ba6ef7419f38913a',
     image: '',
+    responses: [],
   },
   {
     title: 'Task title 10 should contain more than 20 symbols',
@@ -166,6 +175,7 @@ export const tasks: Task[] = [
     contractor: null,
     customer: '',
     image: '',
+    responses: [],
   },
   {
     title: 'Task title 11 should contain more than 20 symbols',
@@ -179,8 +189,9 @@ export const tasks: Task[] = [
     city: 'Moscow',
     status: 1,
     contractor: null,
-    customer: '',
+    customer: '644e1b49ba6ef7419f38913a',
     image: '',
+    responses: [],
   },
   {
     title: 'Task title 12 should contain more than 20 symbols',
@@ -194,7 +205,8 @@ export const tasks: Task[] = [
     city: 'Vladivostok',
     status: 1,
     contractor: null,
-    customer: '',
+    customer: '644e1b49ba6ef7419f38913a',
     image: '',
+    responses: [],
   },
 ];

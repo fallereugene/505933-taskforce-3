@@ -1,29 +1,32 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { Timezone } from '@project/services';
-import { Comment } from '@project/contracts';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
+import { Comment, AccessTokenPayload } from '@project/contracts';
 import { CommentEntity } from './entity';
 import { Repository } from './service';
 import { CreateCommentDto } from './dto';
-import { EXCEPTION } from '../constants';
-import { PostQuery } from './validations';
+import { Exception } from '../constants';
+import { CommentQuery } from './validations';
 
 @Injectable()
 export class CommentService {
-  constructor(
-    private readonly repository: Repository,
-    private readonly tz: Timezone
-  ) {}
+  constructor(private readonly repository: Repository) {}
 
   /**
    * Создание комментария
    * @param payload Объект DTO
+   * @param user Данные access-токена
    * @returns Детали созданного комментария
    */
-  async create(payload: CreateCommentDto): Promise<Comment> {
+  async create(
+    payload: CreateCommentDto,
+    user: AccessTokenPayload
+  ): Promise<Comment> {
     const entity = new CommentEntity({
       ...payload,
-      // TODO: идентификатор авторизованного пользователя
-      author: '833a6872-29dd-4869-af2e-7df28a82aa6c',
+      author: user.id,
     });
     return this.repository.create(entity);
   }
@@ -31,8 +34,8 @@ export class CommentService {
   /**
    * Получение списка комментариев
    */
-  async getList(taskId: number, query: PostQuery): Promise<Comment[]> {
-    return await this.repository.getList(taskId, query);
+  async getList(taskId: number, query: CommentQuery): Promise<Comment[]> {
+    return this.repository.getList(taskId, query);
   }
 
   /**
@@ -42,7 +45,7 @@ export class CommentService {
   async findById(id: number): Promise<Comment> {
     const record = await this.repository.findById(id);
     if (!record) {
-      throw new NotFoundException(EXCEPTION.NotFoundComment);
+      throw new NotFoundException(Exception.NotFoundComment);
     }
     return record;
   }
@@ -50,17 +53,30 @@ export class CommentService {
   /**
    * Удаление существующего комментария
    * @param commentId Идентификатор задачи
+   * @param user Данные access-токена
    */
-  async deleteItem(commentId: number): Promise<void> {
-    await this.findById(commentId);
+  async deleteItem(commentId: number, user: AccessTokenPayload): Promise<void> {
+    const record = await this.findById(commentId);
+    if (record.author !== user.id) {
+      throw new BadRequestException(Exception.BadRequest);
+    }
     await this.repository.delete(commentId);
   }
 
   /**
    * Удаление всех комментариев в разрезе определенной задачи
    * @param taskId Идентификатор задачи
+   * @param user Данные access-токена
    */
-  async deleteList(taskId: number): Promise<void> {
-    await this.repository.deleteCommentsList(taskId);
+  async deleteList(taskId: number, user: AccessTokenPayload): Promise<void> {
+    await this.repository.deleteCommentsList(taskId, user.id);
+  }
+
+  /**
+   * Получение общего числа комментариев в разрезе задачи
+   * @returns Количество комментариев
+   */
+  async getQuantity(taskId: number) {
+    return this.repository.getQuantity(taskId);
   }
 }

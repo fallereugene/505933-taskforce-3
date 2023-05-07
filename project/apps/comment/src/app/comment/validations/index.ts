@@ -1,1 +1,1 @@
-export { PostQuery } from './post-query';
+export { CommentQuery } from './comment-query';

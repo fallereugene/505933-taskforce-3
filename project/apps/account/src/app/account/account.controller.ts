@@ -8,14 +8,11 @@ import {
   Param,
   HttpCode,
   HttpStatus,
-  UploadedFile,
-  UseInterceptors,
-  UsePipes,
   UseGuards,
+  Headers,
+  Req,
 } from '@nestjs/common';
-import { Express } from 'express';
-import { FileSizeValidationPipe } from '@project/utils/utils-core';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { NoAuth } from '@project/utils/utils-core';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { fillObject } from '@project/utils/utils-core';
 import { AccountService } from './account.service';
@@ -25,9 +22,10 @@ import {
   ChangePasswordDto,
   ChangeProfileDto,
 } from './dto';
-import { AccountRdo, LoggedInAccountRdo } from './rdo';
+import { AccountRdo, LoggedInAccountRdo, AccessTokenRdo } from './rdo';
 import { MongoIdValidationPipe } from './validators';
-import { JwtAuthGuard } from './guards';
+import { JwtAuthGuard, JwtRefreshGuard } from './guards';
+import { NotifyService } from '../notify/notify.service';
 
 @ApiTags('account')
 @Controller({
@@ -35,7 +33,10 @@ import { JwtAuthGuard } from './guards';
   path: 'account',
 })
 export class AccountController {
-  constructor(private readonly accountService: AccountService) {}
+  constructor(
+    private readonly accountService: AccountService,
+    private readonly notifyService: NotifyService
+  ) {}
 
   /**
    * Регистрация нового пользователя
@@ -55,7 +56,25 @@ export class AccountController {
   })
   async register(@Body() dto: CreateAccountDto): Promise<AccountRdo> {
     const payload = await this.accountService.register(dto);
+    const { email, firstname, lastname } = payload;
+    await this.notifyService.registerSubscriber({ email, firstname, lastname });
     return fillObject(AccountRdo, payload);
+  }
+
+  /**
+   * Обновление refresh-токена
+   * @returns
+   */
+  @UseGuards(JwtRefreshGuard)
+  @Post('refresh')
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Get a new access/refresh token pair',
+  })
+  async refreshToken(@Headers('authorization') authorization: string) {
+    const token = authorization?.split(' ')[1];
+    return this.accountService.refreshToken(token);
   }
 
   /**
@@ -81,8 +100,21 @@ export class AccountController {
   })
   async login(@Body() dto: LoginAccountDto): Promise<LoggedInAccountRdo> {
     const user = await this.accountService.verifyAccount(dto);
-    const { accessToken } = await this.accountService.createToken(user);
-    return fillObject(LoggedInAccountRdo, { ...user, accessToken });
+    const { _id, email, role, lastname, firstname } = user;
+    const { accessToken, refreshToken } = await this.accountService.createToken(
+      {
+        id: _id,
+        email,
+        role,
+        lastname,
+        firstname,
+      }
+    );
+    return fillObject(LoggedInAccountRdo, {
+      ...user,
+      accessToken,
+      refreshToken,
+    });
   }
 
   /**
@@ -100,11 +132,33 @@ export class AccountController {
   }
 
   /**
+   * Проверка аутентификации пользователя
+   * @param authorization Параметр авторизации, переданный в заголовке
+   */
+  @Get('/auth')
+  @ApiOperation({ summary: "Check user's auth state." })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Unauthorized',
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Access token information',
+    type: AccessTokenRdo,
+  })
+  async isAuthenticated(@Headers('authorization') authorization: string) {
+    const token = authorization?.split(' ')[1];
+    return this.accountService.isAuthenticated(token);
+  }
+
+  /**
    * Получение детальной информации по определенному пользователю. Информация запрашивается по идентификатору пользователя.
    * @param accountId Уникальный идентификатор пользователя
+   * @param authorization Значение, передаваемое в заголовке Authorization
    * @returns Возвращаемая информация зависит от роли пользователя, по которому запрашивается информация.
    */
   @UseGuards(JwtAuthGuard)
+  @NoAuth()
   @Get(':accountId')
   @ApiOperation({ summary: 'Getting detailed information' })
   @ApiResponse({
@@ -117,9 +171,11 @@ export class AccountController {
     description: 'Not found',
   })
   async getAccount(
-    @Param('accountId', MongoIdValidationPipe) accountId: string
+    @Param('accountId', MongoIdValidationPipe) accountId: string,
+    @Headers('authorization') authorization: string
   ): Promise<AccountRdo> {
-    const payload = await this.accountService.findById(accountId);
+    const token = authorization.split(' ')[1];
+    const payload = await this.accountService.getAccountInfo(accountId, token);
     return fillObject(AccountRdo, payload);
   }
 
@@ -175,15 +231,5 @@ export class AccountController {
   ): Promise<AccountRdo> {
     const payload = await this.accountService.changeProfile(accountId, dto);
     return fillObject(AccountRdo, payload);
-  }
-
-  @Post('/upload')
-  @UseInterceptors(FileInterceptor('file'))
-  @UsePipes(new FileSizeValidationPipe({ maxSize: 500 }))
-  async upload(
-    @UploadedFile()
-    file: Express.Multer.File
-  ) {
-    //  TODO: Need to implement
   }
 }

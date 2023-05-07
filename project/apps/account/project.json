@@ -58,6 +58,13 @@
           "codeCoverage": true
         }
       }
+    },
+    "service:up": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docker compose --file ./docker-compose.dev.yml up -d",
+        "cwd": "apps/account"
+      }
     }
   },
   "tags": []

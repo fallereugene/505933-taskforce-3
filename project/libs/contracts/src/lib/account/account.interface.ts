@@ -9,5 +9,15 @@ export interface Account {
   city: AvailableCity;
   role: AvailableRole;
   avatar?: string;
-  birthDate: string;
+  birthDate?: string;
+  info?: string;
+  specialization?: string[];
+  created?: string;
+  age?: number;
+  publishedTasks?: number;
+  newTasks?: number;
+  finishedTasksQuantity?: number;
+  failedTasksQuantity?: number;
+  rating?: number;
+  ratingPosition?: number;
 }

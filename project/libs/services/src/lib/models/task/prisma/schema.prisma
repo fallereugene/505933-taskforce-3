@@ -3,7 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output = "../../../../../../../node_modules/.prisma/client"
+  output = "../../../../../../../node_modules/.prisma/task"
 }
 
 datasource db {
@@ -26,6 +26,8 @@ model Task {
   status Int
   customer String?
   contractor String?
+  responses String[]
+  commentsCount Int @default(0) @map("comments_count")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

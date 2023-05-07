@@ -1,7 +1,6 @@
 import { Task, AvailableCity, TaskStatus } from '@project/contracts';
 
 export class TaskEntity implements Task {
-  _id?: string;
   title: string;
   description: string;
   category: string;
@@ -10,6 +9,7 @@ export class TaskEntity implements Task {
   image: string;
   address: string;
   tags: string[];
+  responses: string[];
   city: AvailableCity;
   status: TaskStatus;
   contractor: string | null;

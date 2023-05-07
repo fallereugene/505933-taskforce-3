@@ -7,12 +7,15 @@ import {
   Timezone,
   AvailableTimezoneService,
   getJwtOptions,
+  HttpService,
 } from '@project/services';
+import { JwtAuthStrategy, JwtRefreshStrategy } from './validators';
 import { AccountService } from './account.service';
 import { AccountController } from './account.controller';
 import { AccountModel, AccountSchema } from './model';
-import { Repository } from './service';
-import { JwtAuthStrategy } from './validators';
+import { Repository, TaskRepository, ReviewRepository, Api } from './service';
+import { NotifyModule } from '../notify/notify.module';
+import { RefreshTokenModule } from '../refresh-token/refresh-token.module';
 
 @Module({
   imports: [
@@ -23,17 +26,28 @@ import { JwtAuthStrategy } from './validators';
       inject: [ConfigService],
       useFactory: getJwtOptions,
     }),
+    NotifyModule,
+    RefreshTokenModule,
   ],
   controllers: [AccountController],
   providers: [
     AccountService,
     Repository,
+    TaskRepository,
+    ReviewRepository,
     Timezone,
     {
       provide: AvailableTimezoneService.DayJs,
       useValue: dayjs,
     },
+    {
+      provide: HttpService,
+      useFactory: () => new HttpService(),
+    },
     JwtAuthStrategy,
+    JwtRefreshStrategy,
+    HttpService,
+    Api,
   ],
 })
 export class AccountModule {}

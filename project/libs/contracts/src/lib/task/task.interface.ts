@@ -2,7 +2,7 @@ import { AvailableCity } from '../account';
 import { TaskStatus } from '.';
 
 export interface Task {
-  _id?: string;
+  id?: number;
   title: string;
   description: string;
   category: string;
@@ -11,6 +11,7 @@ export interface Task {
   image: string;
   address: string;
   tags: string[];
+  responses: string[];
   city: AvailableCity;
   status: TaskStatus;
   customer: string;

@@ -1,1 +1,1 @@
-export { ConfigNamespace } from './config-namespace';
+export { SharedConfigNamespace } from './shared-config-namespace';
