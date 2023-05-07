@@ -14,7 +14,12 @@ import {
   ChangePasswordDto,
   ChangeProfileDto,
 } from './dto';
-import { AccessTokenPayload, Account, TaskStatus } from '@project/contracts';
+import {
+  AccessTokenPayload,
+  Account,
+  RefreshTokenPayload,
+  TaskStatus,
+} from '@project/contracts';
 import { Repository, TaskRepository, ReviewRepository } from './service';
 import { AccountEntity } from './entity';
 import { Exception } from '../constants';
@@ -188,10 +193,10 @@ export class AccountService {
    * Создание JWT-токена
    * @param user Пользовательские данные, на основе которых создается токен
    */
-  async createToken(user: AccountEntity) {
-    const { _id, email, role, lastname, firstname } = user;
+  async createToken(tokenPayload: AccessTokenPayload) {
+    const { id, email, role, lastname, firstname } = tokenPayload;
     const payload: AccessTokenPayload = {
-      id: _id,
+      id,
       email,
       role,
       lastname,
@@ -202,11 +207,20 @@ export class AccountService {
 
     return {
       accessToken: await this.jwtService.signAsync(payload),
-      refreshToken: await this.jwtService.signAsync(payload, {
+      refreshToken: await this.jwtService.signAsync(refreshTokenPayload, {
         secret: this.jwtOptions.refreshTokenSecret,
         expiresIn: this.jwtOptions.refreshTokenExpiresIn,
       }),
     };
+  }
+
+  /**
+   * Обновление refresh-токена
+   * @param token Токен
+   */
+  async refreshToken(token: string) {
+    const decode = this.jwtService.decode(token) as RefreshTokenPayload;
+    return this.createToken(decode);
   }
 
   /**

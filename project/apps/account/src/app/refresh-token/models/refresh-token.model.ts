@@ -8,16 +8,13 @@ import { Token } from '@project/contracts';
 })
 export class RefreshTokenModel extends Document implements Token {
   @Prop()
-  public createdAt: Date;
+  createdAt: Date;
 
   @Prop({ required: true })
-  public tokenId: string;
+  tokenId: string;
 
   @Prop({ required: true })
-  public userId: string;
-
-  @Prop({ required: true })
-  public expiresIn: Date;
+  expiresIn: Date;
 }
 
 export const RefreshTokenSchema =

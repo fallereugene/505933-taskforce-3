@@ -1,7 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { ConfigType } from '@nestjs/config';
 import { jwtConfig, JwtConfig } from '@project/services';
 import { RefreshTokenPayload } from '@project/contracts';
 import { AccountService } from '../account.service';
@@ -26,7 +25,6 @@ export class JwtRefreshStrategy extends PassportStrategy(
   }
 
   async validate(payload: RefreshTokenPayload) {
-    console.log(`payload`, payload);
     if (!(await this.refreshTokenService.isExists(payload.tokenId))) {
       throw new TokenNotExistsException(payload.tokenId);
     }

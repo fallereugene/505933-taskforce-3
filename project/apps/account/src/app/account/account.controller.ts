@@ -65,14 +65,16 @@ export class AccountController {
    * Обновление refresh-токена
    * @returns
    */
+  @UseGuards(JwtRefreshGuard)
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
   @ApiResponse({
     status: HttpStatus.OK,
-    description: 'Get a new access/refresh tokens',
+    description: 'Get a new access/refresh token pair',
   })
-  async refreshToken(@Req() { user }: any) {
-    return this.accountService.createToken(user);
+  async refreshToken(@Headers('authorization') authorization: string) {
+    const token = authorization?.split(' ')[1];
+    return this.accountService.refreshToken(token);
   }
 
   /**
@@ -98,10 +100,20 @@ export class AccountController {
   })
   async login(@Body() dto: LoginAccountDto): Promise<LoggedInAccountRdo> {
     const user = await this.accountService.verifyAccount(dto);
-    const { accessToken } = await this.accountService.createToken(user);
+    const { _id, email, role, lastname, firstname } = user;
+    const { accessToken, refreshToken } = await this.accountService.createToken(
+      {
+        id: _id,
+        email,
+        role,
+        lastname,
+        firstname,
+      }
+    );
     return fillObject(LoggedInAccountRdo, {
       ...user,
       accessToken,
+      refreshToken,
     });
   }
 
