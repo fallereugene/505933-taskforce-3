@@ -97,7 +97,7 @@
     "service:up": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "docker compose --file ./docker-compose.dev.yml up -d && npx nx run task:db:generate",
+        "command": "docker compose --file ./docker-compose.dev.yml up -d && npx nx run task:db:generate && npx nx run task:db:migrate",
         "cwd": "apps/task"
       }
     }

@@ -7,7 +7,6 @@
   },
   "scripts": {
     "application:up": "npm run service:account:up && npm run service:comment:up && npm run service:notify:up && npm run service:review:up && npm run service:task:up && npm run service:uploader:up",
-    "application:db:migrate": "npx nx run comment:db:migrate && npx nx run review:db:migrate && npx nx run task:db:migrate",
     "service:account:up": "npx nx run account:service:up",
     "service:comment:up": "npx nx run comment:service:up",
     "service:notify:up": "npx nx run notify:service:up",
